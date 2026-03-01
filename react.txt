@@ -1,0 +1,451 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  User, Heart, Layers, Droplets, MessageCircle, X, Activity, Zap, Microscope, ClipboardList, PlusCircle
+} from 'lucide-react';
+
+const App = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({
+    // DATOS DE LA PACIENTE
+    nombre: '', edad: '', ci: '', grupoSanguineo: 'O+',
+    fecha: new Date().toISOString().split('T')[0],
+    fur: '', gesta: '', para: '', cesarea: '', abortos: '', otrosGesta: '',
+    mc: '', referencia: '',
+    patronRegla: 'Normal', // Regular, Excesiva, Normal, Escasa
+
+    // DATOS DEL ESTUDIO
+    tipoEstudio: 'Ecosonograma Pélvico', // Transvaginal, Transrectal
+    equipoInfo: 'Equipo de Ultrasonido Mindray Alta Resolución, se practica el estudio.',
+
+    // VEJIGA
+    vejigaSuperficie: 'Regular',
+    vejigaParedGrosor: '',
+
+    // UTERO
+    uteroL: '', uteroAP: '', uteroT: '', uteroVol: 0,
+    uteroPosicion: 'AVF', // AVF, RVF
+    uteroUbicacion: 'Central', // Central, Derecha, Izquierda
+    uteroSuperficie: 'Regular',
+    miometrioEco: 'Homogeneo', // Homogeneo, Heterogeneo
+    endometrioPatron: 'Proliferativo', // Menstrual, Proliferativo, Secretor, Atrofico
+    endometrioGrosor: '',
+    
+    // NODULOS
+    tieneNodulos: 'No',
+    noduloUbicacion: 'Pared Anterior', // Fondo, Pared Anterior, Pared Posterior, Lateral, Otros
+    noduloL: '', noduloAP: '', noduloT: '', noduloVol: 0,
+    noduloDetalles: '',
+
+    // OVARIO DERECHO
+    ovDerTipo: 'Normales', // Normal o Poliquistico
+    ovDerAP: '', ovDerT: '', ovDerL: '', ovDerVol: 0, ovDerOtros: '',
+
+    // OVARIO IZQUIERDO
+    ovIzqTipo: 'Normales',
+    ovIzqAP: '', ovIzqT: '', ovIzqL: '', ovIzqVol: 0, ovIzqOtros: '',
+
+    // OTROS HALLAZGOS
+    douglas: 'Libre', // Ocupado por
+    douglasOcupado: '',
+    vagina: 'Normal',
+    vaginaOtros: '',
+    cuello: 'Normal',
+    cuelloOtros: '',
+
+    // CONCLUSION (SUGESTIVO DE)
+    sugestivoUtero: 'Normal', // Normal, Fibroso, Miomatoso, Adenomiotico, Fibroadenomiomatoso
+    sugestivoOvarios: 'Normales',
+    sugestivoOvariosOtros: '',
+    conclusionLibre: ''
+  });
+
+  // Cálculo automático de volúmenes (Fórmula Elipsoide: L * AP * T * 0.523)
+  useEffect(() => {
+    const calcVol = (ap, t, l) => (ap && t && l) ? (parseFloat(ap) * parseFloat(t) * parseFloat(l) * 0.523).toFixed(2) : 0;
+    
+    setFormData(prev => ({
+      ...prev,
+      uteroVol: calcVol(prev.uteroAP, prev.uteroT, prev.uteroL),
+      noduloVol: calcVol(prev.noduloAP, prev.noduloT, prev.noduloL),
+      ovDerVol: calcVol(prev.ovDerAP, prev.ovDerT, prev.ovDerL),
+      ovIzqVol: calcVol(prev.ovIzqAP, prev.ovIzqT, prev.ovIzqL)
+    }));
+  }, [
+    formData.uteroL, formData.uteroAP, formData.uteroT,
+    formData.noduloL, formData.noduloAP, formData.noduloT,
+    formData.ovDerAP, formData.ovDerT, formData.ovDerL,
+    formData.ovIzqAP, formData.ovIzqT, formData.ovIzqL
+  ]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const toggleBtn = (field, value) => setFormData(prev => ({ ...prev, [field]: value }));
+
+  const handleShareWhatsApp = () => {
+    const message = `*REPORTE ECOSONOGRÁFICO*\n*Dra. Gisemar Gutiérrez*\n\n*Paciente:* ${formData.nombre}\n*Utero:* ${formData.sugestivoUtero}\n*Conclusión:* ${formData.conclusionLibre}`;
+    const encoded = encodeURIComponent(message);
+    window.open(`https://wa.me/?text=${encoded}`, '_blank');
+    setShowModal(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#f8f9fa] p-4 md:p-8 font-sans text-slate-800 selection:bg-[#e2c2c6]">
+      <div className="max-w-6xl mx-auto space-y-8">
+        
+        {/* ENCABEZADO PROFESIONAL */}
+        <header className="bg-white rounded-3xl shadow-sm border-b-4 border-[#b57a84] p-6 flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-4">
+          <div>
+            <h1 className="text-2xl font-black text-slate-900 tracking-tighter uppercase italic">Dra. Gisemar Gutiérrez González</h1>
+            <p className="text-[#b57a84] font-bold text-xs flex items-center justify-center md:justify-start gap-2 mt-1 uppercase">
+              <Heart size={14} fill="currentColor" /> Ginecología y Obstetricia
+            </p>
+          </div>
+          <div className="text-[10px] text-slate-400 font-mono leading-tight md:text-right">
+            MATERNIDAD PRIVADA GONZÁLEZ MENDOZA<br/>
+            MPPS 51273 • CM 1975 • C.I. 9835497
+          </div>
+        </header>
+
+        {/* SECCIÓN 1: DATOS PACIENTE */}
+        <section className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+          <div className="flex items-center gap-2 mb-6 text-[#b57a84] font-black text-xs uppercase tracking-widest border-b pb-2">
+            <User size={16} /> Identificación de la Paciente
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="md:col-span-2">
+              <label className="text-[10px] font-bold text-slate-400 uppercase block mb-1 ml-1">Nombres y Apellidos</label>
+              <input name="nombre" value={formData.nombre} onChange={handleInputChange} className="w-full p-3 bg-slate-50 rounded-xl border-none font-semibold focus:ring-2 focus:ring-[#e2c2c6] outline-none" />
+            </div>
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase block mb-1 ml-1">C.I.</label>
+              <input name="ci" value={formData.ci} onChange={handleInputChange} className="w-full p-3 bg-slate-50 rounded-xl border-none font-semibold focus:ring-2 focus:ring-[#e2c2c6] outline-none" />
+            </div>
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase block mb-1 ml-1">Edad</label>
+              <input name="edad" type="number" value={formData.edad} onChange={handleInputChange} className="w-full p-3 bg-slate-50 rounded-xl border-none font-semibold focus:ring-2 focus:ring-[#e2c2c6] outline-none text-center" />
+            </div>
+            
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase block mb-1 ml-1">Grupo Sanguíneo</label>
+              <select name="grupoSanguineo" value={formData.grupoSanguineo} onChange={handleInputChange} className="w-full p-3 bg-slate-50 rounded-xl border-none font-semibold focus:ring-2 focus:ring-[#e2c2c6] outline-none">
+                {['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'].map(g => <option key={g} value={g}>{g}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase block mb-1 ml-1">FUR</label>
+              <input name="fur" type="date" value={formData.fur} onChange={handleInputChange} className="w-full p-3 bg-slate-50 rounded-xl border-none font-semibold outline-none" />
+            </div>
+            <div className="md:col-span-2">
+              <label className="text-[10px] font-bold text-slate-400 uppercase block mb-1 ml-1">Patrón de Regla</label>
+              <div className="flex gap-1">
+                {['Regular', 'Excesiva', 'Normal', 'Escasa'].map(v => (
+                  <button key={v} onClick={() => toggleBtn('patronRegla', v)} className={`flex-1 py-2 text-[9px] font-bold rounded-lg border transition-all ${formData.patronRegla === v ? 'bg-[#4a3a3d] text-white border-slate-800' : 'bg-slate-50 text-slate-400 border-slate-100'}`}>{v.toUpperCase()}</button>
+                ))}
+              </div>
+            </div>
+
+            {/* Bloque Gesta */}
+            {['GESTA', 'PARA', 'CESAREA', 'ABORTOS'].map(field => (
+              <div key={field}>
+                <label className="text-[10px] font-bold text-slate-400 uppercase block mb-1 ml-1">{field}</label>
+                <input name={field.toLowerCase()} type="number" value={formData[field.toLowerCase()]} onChange={handleInputChange} className="w-full p-3 bg-slate-50 rounded-xl border-none text-center font-bold outline-none" />
+              </div>
+            ))}
+            <div className="md:col-span-2">
+              <label className="text-[10px] font-bold text-slate-400 uppercase block mb-1 ml-1">Referencia</label>
+              <input name="referencia" value={formData.referencia} onChange={handleInputChange} className="w-full p-3 bg-slate-50 rounded-xl border-none font-semibold outline-none" />
+            </div>
+            <div className="md:col-span-2">
+              <label className="text-[10px] font-bold text-slate-400 uppercase block mb-1 ml-1">M.C. (Motivo de Consulta)</label>
+              <input name="mc" value={formData.mc} onChange={handleInputChange} className="w-full p-3 bg-slate-50 rounded-xl border-none font-semibold outline-none" />
+            </div>
+          </div>
+        </section>
+
+        {/* SECCIÓN 2: ESTUDIO Y EQUIPO */}
+        <section className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+          <div className="flex items-center gap-2 mb-4 text-[#b57a84] font-black text-xs uppercase tracking-widest border-b pb-2">
+            <Microscope size={16} /> Protocolo de Estudio
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase block mb-2 underline decoration-[#b57a84] decoration-2 underline-offset-4">Tipo de Estudio</label>
+              <div className="flex gap-1">
+                {['Ecosonograma Pélvico', 'Transvaginal', 'Transrectal'].map(v => (
+                  <button key={v} onClick={() => toggleBtn('tipoEstudio', v)} className={`flex-1 py-2 text-[9px] font-bold rounded-lg border transition-all ${formData.tipoEstudio === v ? 'bg-[#b57a84] text-white border-[#b57a84]' : 'bg-slate-50 text-slate-400 border-slate-100'}`}>{v.toUpperCase()}</button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase block mb-1 ml-1">Datos del Equipo</label>
+              <input name="equipoInfo" value={formData.equipoInfo} onChange={handleInputChange} className="w-full p-3 bg-slate-50 rounded-xl border-none font-medium italic text-slate-500 text-xs" />
+            </div>
+          </div>
+        </section>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
+            
+            {/* SECCIÓN 3: ÚTERO */}
+            <section className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100">
+              <div className="bg-[#b57a84] p-4 text-white font-black text-xs uppercase tracking-widest flex items-center gap-2">
+                <Layers size={18} /> Hallazgos Uterinos
+              </div>
+              <div className="p-6 space-y-6">
+                
+                {/* Diámetros con Formato Especial */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-[9px] font-black text-slate-400 block mb-1 text-center italic">Longitud x AP (mm)</label>
+                      <div className="flex items-center gap-1 bg-white p-2 rounded-xl border border-slate-200">
+                        <input name="uteroL" placeholder="L" value={formData.uteroL} onChange={handleInputChange} className="w-full text-center font-black outline-none" />
+                        <span className="text-slate-300 font-bold">x</span>
+                        <input name="uteroAP" placeholder="AP" value={formData.uteroAP} onChange={handleInputChange} className="w-full text-center font-black outline-none" />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-[9px] font-black text-slate-400 block mb-1 text-center italic">Transverso : Otros</label>
+                      <div className="flex items-center gap-1 bg-white p-2 rounded-xl border border-slate-200">
+                        <input name="uteroT" placeholder="T" value={formData.uteroT} onChange={handleInputChange} className="w-full text-center font-black outline-none" />
+                        <span className="text-slate-300 font-bold">:</span>
+                        <input placeholder="50" className="w-full text-center font-black outline-none opacity-40" disabled />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-center md:text-right">
+                    <span className="text-[9px] font-black text-slate-400 uppercase block tracking-widest">Volumen Uterino</span>
+                    <span className="text-4xl font-black text-[#b57a84] drop-shadow-sm">{formData.uteroVol} <small className="text-sm font-normal text-slate-300">cc</small></span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="text-[9px] font-black text-slate-400 uppercase block mb-2 text-center underline decoration-[#b57a84] decoration-2 underline-offset-4">Localización</label>
+                    <div className="flex gap-1">
+                      {['Central', 'Derecha', 'Izquierda'].map(v => (
+                        <button key={v} onClick={() => toggleBtn('uteroUbicacion', v)} className={`flex-1 py-2 text-[9px] font-bold rounded-lg border transition-all ${formData.uteroUbicacion === v ? 'bg-[#4a3a3d] text-white border-slate-800 shadow-md' : 'bg-slate-50 text-slate-400 border-slate-100'}`}>{v.toUpperCase()}</button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-[9px] font-black text-slate-400 uppercase block mb-2 text-center underline decoration-[#b57a84] decoration-2 underline-offset-4">Posición</label>
+                    <div className="flex gap-1">
+                      {['AVF', 'RVF'].map(v => (
+                        <button key={v} onClick={() => toggleBtn('uteroPosicion', v)} className={`flex-1 py-2 text-[9px] font-bold rounded-lg border transition-all ${formData.uteroPosicion === v ? 'bg-[#4a3a3d] text-white border-slate-800 shadow-md' : 'bg-slate-50 text-slate-400 border-slate-100'}`}>{v}</button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-[9px] font-black text-slate-400 uppercase block mb-2 text-center underline decoration-[#b57a84] decoration-2 underline-offset-4">Superficie</label>
+                    <div className="flex gap-1">
+                      {['Regular', 'Irregular'].map(v => (
+                        <button key={v} onClick={() => toggleBtn('uteroSuperficie', v)} className={`flex-1 py-2 text-[9px] font-bold rounded-lg border transition-all ${formData.uteroSuperficie === v ? 'bg-[#4a3a3d] text-white border-slate-800 shadow-md' : 'bg-slate-50 text-slate-400 border-slate-100'}`}>{v.toUpperCase()}</button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-slate-100">
+                  <div>
+                    <label className="text-[9px] font-black text-slate-400 uppercase block mb-2 underline decoration-[#b57a84] decoration-2 underline-offset-4">Miometrio</label>
+                    <div className="flex gap-1">
+                      {['Homogeneo', 'Heterogenio'].map(v => (
+                        <button key={v} onClick={() => toggleBtn('miometrioEco', v)} className={`flex-1 py-2 text-[9px] font-bold rounded-lg border transition-all ${formData.miometrioEco === v ? 'bg-[#b57a84] text-white' : 'bg-slate-50 text-slate-400'}`}>{v.toUpperCase()}</button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-[9px] font-black text-slate-400 uppercase block mb-2 underline decoration-[#b57a84] decoration-2 underline-offset-4">Endometrio</label>
+                    <div className="flex gap-1">
+                      {['Menstrual', 'Proliferativo', 'Secretor', 'Atrofico'].map(v => (
+                        <button key={v} onClick={() => toggleBtn('endometrioPatron', v)} className={`flex-1 py-2 text-[9px] font-bold rounded-lg border transition-all ${formData.endometrioPatron === v ? 'bg-[#b57a84] text-white' : 'bg-slate-50 text-slate-400'}`}>{v.substring(0, 5).toUpperCase()}</button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* SECCIÓN 4: NÓDULOS */}
+            <section className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+              <div className="flex justify-between items-center mb-6">
+                <div className="flex items-center gap-2 text-[#b57a84] font-black text-[11px] uppercase tracking-widest border-b pb-2">
+                  <Zap size={16} /> Hallazgos en Miometrio (Nódulos)
+                </div>
+                <div className="flex gap-1 bg-slate-50 p-1 rounded-xl border border-slate-100">
+                  {['No', 'Si'].map(v => (
+                    <button key={v} onClick={() => toggleBtn('tieneNodulos', v)} className={`px-5 py-1.5 text-[9px] font-black rounded-lg transition-all ${formData.tieneNodulos === v ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400'}`}>{v === 'Si' ? 'CON NÓDULOS' : 'SIN NÓDULOS'}</button>
+                  ))}
+                </div>
+              </div>
+
+              {formData.tieneNodulos === 'Si' && (
+                <div className="space-y-4 animate-in slide-in-from-top-4 duration-300">
+                  <div>
+                    <label className="text-[9px] font-black text-slate-400 uppercase block mb-2 underline">Ubicación del Hallazgo</label>
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-1">
+                      {['Fondo', 'Pared Anterior', 'Pared Posterior', 'Lateral', 'Otros'].map(v => (
+                        <button key={v} onClick={() => toggleBtn('noduloUbicacion', v)} className={`py-2 text-[8px] font-bold rounded-lg border transition-all ${formData.noduloUbicacion === v ? 'bg-[#4a3a3d] text-white border-slate-800' : 'bg-slate-50 text-slate-400 border-slate-100'}`}>{v.toUpperCase()}</button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-4 gap-2">
+                    {[{l:'L', n:'noduloL'}, {l:'AP', n:'noduloAP'}, {l:'T', n:'noduloT'}].map(d => (
+                      <input key={d.n} name={d.n} type="number" placeholder={`${d.l} (mm)`} value={formData[d.n]} onChange={handleInputChange} className="p-3 bg-slate-50 rounded-xl text-center text-xs font-bold border-none outline-none focus:ring-1 focus:ring-[#e2c2c6]" />
+                    ))}
+                    <div className="bg-slate-900 rounded-xl flex flex-col items-center justify-center text-white p-1">
+                      <span className="text-[7px] text-[#b57a84] font-black leading-none">VOL</span>
+                      <span className="text-[11px] font-bold leading-none">{formData.noduloVol} cc</span>
+                    </div>
+                  </div>
+                  <textarea name="noduloDetalles" value={formData.noduloDetalles} onChange={handleInputChange} placeholder="Detalles del nódulo (Máximo 2 líneas descriptivas)..." className="w-full p-3 bg-slate-50 rounded-xl text-xs italic border-none h-16 resize-none shadow-inner" />
+                </div>
+              )}
+            </section>
+
+            {/* SECCIÓN 5: OVARIOS */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {['Der', 'Izq'].map(side => (
+                <section key={side} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                  <h3 className="text-[11px] font-black text-[#b57a84] uppercase tracking-widest mb-4 border-b pb-2 italic">OVARIO {side === 'Der' ? 'DERECHO' : 'IZQUIERDO'}</h3>
+                  <div className="flex gap-1 mb-4">
+                    {['Normales', 'Poliquisticos', 'Otros'].map(v => (
+                      <button key={v} onClick={() => toggleBtn(`ov${side}Tipo`, v)} className={`flex-1 py-2 text-[9px] font-bold rounded-lg border transition-all ${formData[`ov${side}Tipo`] === v ? 'bg-[#4a3a3d] text-white border-slate-800' : 'bg-slate-50 text-slate-400 border-slate-100'}`}>{v === 'Poliquisticos' ? 'POLIQ.' : v.toUpperCase()}</button>
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-4 gap-2 mb-4">
+                    {[{l:'AP', n:`ov${side}AP`}, {l:'TR', n:`ov${side}T`}, {l:'LO', n:`ov${side}L`}].map(d => (
+                      <input key={d.n} name={d.n} type="number" placeholder={d.l} value={formData[d.n]} onChange={handleInputChange} className="p-2 bg-slate-50 rounded-lg text-center font-bold text-xs border-none outline-none focus:ring-1 focus:ring-[#e2c2c6]" />
+                    ))}
+                    <div className="bg-slate-900 rounded-xl flex flex-col items-center justify-center text-white">
+                      <span className="text-[7px] text-[#b57a84] font-black leading-none">VOL</span>
+                      <span className="text-[11px] font-bold leading-none">{formData[`ov${side}Vol`]}</span>
+                    </div>
+                  </div>
+                  <textarea name={`ov${side}Otros`} value={formData[`ov${side}Otros`]} onChange={handleInputChange} placeholder="Hallazgos adicionales en este ovario..." className="w-full p-3 bg-slate-50 rounded-xl text-[10px] italic h-16 resize-none border-none outline-none" />
+                </section>
+              ))}
+            </div>
+
+            {/* SECCIÓN 6: VAGINA Y CUELLO */}
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[{f:'vagina', l:'ESTADO VAGINAL'}, {f:'cuello', l:'CUELLO UTERINO'}].map(item => (
+                <div key={item.f} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase block mb-3 text-center tracking-tighter">{item.l}</label>
+                  <div className="flex gap-1 mb-3">
+                    {['Normal', 'Otros'].map(v => (
+                      <button key={v} onClick={() => toggleBtn(item.f, v)} className={`flex-1 py-2 text-[9px] font-bold rounded-lg border transition-all ${formData[item.f] === v ? 'bg-[#b57a84] text-white border-[#b57a84]' : 'bg-slate-50 text-slate-400 border-slate-100'}`}>{v.toUpperCase()}</button>
+                    ))}
+                  </div>
+                  {formData[item.f] === 'Otros' && (
+                    <input name={`${item.f}Otros`} value={formData[`${item.f}Otros`]} onChange={handleInputChange} placeholder="Describa hallazgo..." className="w-full p-2 bg-slate-50 rounded-lg text-xs border-none outline-none animate-in fade-in" />
+                  )}
+                </div>
+              ))}
+            </section>
+          </div>
+
+          {/* SIDEBAR DERECHO (CONTROL FIJO) */}
+          <div className="space-y-8">
+            
+            {/* VEJIGA */}
+            <section className="bg-white rounded-2xl p-6 shadow-sm border-t-8 border-[#b57a84] sticky top-4">
+              <div className="flex items-center gap-2 mb-4 text-[#b57a84] font-black text-[11px] uppercase tracking-widest">
+                <Droplets size={16} /> Vejiga
+              </div>
+              <div className="space-y-4">
+                <div className="flex gap-1">
+                  {['Regular', 'Irregular'].map(v => (
+                    <button key={v} onClick={() => toggleBtn('vejigaSuperficie', v)} className={`flex-1 py-2 text-[9px] font-bold rounded-lg border transition-all ${formData.vejigaSuperficie === v ? 'bg-[#4a3a3d] text-white' : 'bg-slate-50 text-slate-400'}`}>{v.toUpperCase()}</button>
+                  ))}
+                </div>
+                <div className="bg-slate-100 p-4 rounded-xl flex items-center justify-between">
+                  <span className="text-[9px] font-black text-slate-400 uppercase">Pared (mm)</span>
+                  <input name="vejigaParedGrosor" value={formData.vejigaParedGrosor} onChange={handleInputChange} className="w-16 p-2 bg-white rounded-lg text-center font-black border-none outline-none" />
+                </div>
+              </div>
+
+              {/* DOUGLAS */}
+              <div className="mt-8 pt-6 border-t border-slate-100">
+                <label className="text-[10px] font-black text-[#b57a84] uppercase tracking-widest block mb-3">Fondo de Saco Douglas</label>
+                <div className="space-y-3">
+                  <div className="flex gap-1">
+                    {['Libre', 'Ocupado'].map(v => (
+                      <button key={v} onClick={() => toggleBtn('douglas', v)} className={`flex-1 py-2 text-[9px] font-bold rounded-lg border transition-all ${formData.douglas === v ? 'bg-[#4a3a3d] text-white border-slate-800 shadow-md' : 'bg-slate-50 text-slate-400 border-slate-100'}`}>{v.toUpperCase()}</button>
+                    ))}
+                  </div>
+                  {formData.douglas === 'Ocupado' && (
+                    <input name="douglasOcupado" value={formData.douglasOcupado} onChange={handleInputChange} placeholder="Ocupado por..." className="w-full p-2 bg-slate-50 rounded-lg text-xs border-none outline-none shadow-inner" />
+                  )}
+                </div>
+              </div>
+
+              {/* BLOQUE CONCLUSIÓN MÉDICA */}
+              <div className="mt-8 space-y-4">
+                <div className="flex items-center gap-2 text-[#b57a84] font-black text-[10px] uppercase border-b pb-2 tracking-tighter italic">
+                  <ClipboardList size={14} /> Sugestivo de
+                </div>
+                <div className="space-y-4 bg-slate-50 p-4 rounded-2xl">
+                  <div>
+                    <label className="text-[8px] font-bold text-slate-400 uppercase block mb-1">Diagnóstico Útero</label>
+                    <select name="sugestivoUtero" value={formData.sugestivoUtero} onChange={handleInputChange} className="w-full p-2 bg-white rounded-lg text-[10px] border-none font-bold text-slate-700 shadow-sm outline-none">
+                      {['Normal', 'Fibroso', 'Miomatoso', 'Adenomiotico', 'Fibroadenomiomatoso'].map(o => <option key={o} value={o}>{o.toUpperCase()}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-[8px] font-bold text-slate-400 uppercase block mb-1">Diagnóstico Ovarios</label>
+                    <div className="flex gap-1 mb-2">
+                      {['Normales', 'Poliquisticos', 'Otros'].map(v => (
+                        <button key={v} onClick={() => toggleBtn('sugestivoOvarios', v)} className={`flex-1 py-1.5 text-[8px] font-black rounded-lg border transition-all ${formData.sugestivoOvarios === v ? 'bg-[#4a3a3d] text-white border-slate-800 shadow-sm' : 'bg-white text-slate-400 border-slate-100'}`}>{v.toUpperCase()}</button>
+                      ))}
+                    </div>
+                    {formData.sugestivoOvarios === 'Otros' && <input name="sugestivoOvariosOtros" value={formData.sugestivoOvariosOtros} onChange={handleInputChange} placeholder="Especifique ovarios..." className="w-full p-2 bg-white rounded-lg text-[10px] border-none outline-none shadow-sm" />}
+                  </div>
+                </div>
+                <textarea name="conclusionLibre" value={formData.conclusionLibre} onChange={handleInputChange} className="w-full h-32 p-3 bg-white text-slate-700 rounded-xl text-xs outline-none border border-slate-100 resize-none shadow-sm focus:ring-1 focus:ring-[#e2c2c6] transition-all" placeholder="Escriba aquí la conclusión final del reporte médico..." />
+                <button onClick={() => setShowModal(true)} className="w-full py-4 rounded-xl font-black text-xs bg-[#b57a84] text-white shadow-xl shadow-[#b57a84]/20 active:scale-95 transition-all hover:bg-[#a66b75] uppercase tracking-widest">
+                  Procesar Reporte
+                </button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      {/* MODAL DE ÉXITO Y ENVÍO */}
+      {showModal && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-[2.5rem] w-full max-w-md p-8 shadow-2xl animate-in zoom-in-95 duration-200">
+            <div className="flex justify-between items-start mb-6">
+              <div className="flex flex-col">
+                <span className="text-[#b57a84] text-[10px] font-black uppercase tracking-[0.3em]">Éxito</span>
+                <h2 className="text-xl font-black text-slate-800 tracking-tighter italic uppercase underline decoration-[#b57a84] decoration-4 underline-offset-4">Reporte Estructurado</h2>
+              </div>
+              <button onClick={() => setShowModal(false)} className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400"><X size={20} /></button>
+            </div>
+            
+            <p className="text-xs text-slate-500 mb-8 font-medium">El reporte ha sido procesado con los datos del equipo Mindray y biometría calculada. ¿Desea enviarlo ahora?</p>
+
+            <button onClick={handleShareWhatsApp} className="w-full flex items-center gap-4 p-5 bg-[#25D366]/10 text-[#075e54] rounded-2xl hover:bg-[#25D366]/20 transition-all border border-[#25D366]/20 group">
+              <div className="bg-[#25D366] text-white p-3 rounded-xl group-hover:scale-110 transition-transform shadow-lg shadow-[#25D366]/30"><MessageCircle size={24} fill="currentColor" /></div>
+              <div className="text-left">
+                <span className="block font-black text-sm uppercase">Enviar a WhatsApp</span>
+                <span className="text-[10px] font-medium opacity-70 italic tracking-tight leading-none">Formato optimizado para móvil</span>
+              </div>
+            </button>
+
+            <div className="mt-6 flex justify-center">
+               <button onClick={() => setShowModal(false)} className="text-[10px] font-black text-slate-400 hover:text-[#b57a84] uppercase tracking-widest transition-colors">Volver a editar</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default App;
