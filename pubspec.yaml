@@ -13,11 +13,18 @@ dependencies:
 
   layrz_theme: ^7.5.7
   layrz_icons: ^1.0.5
+  freezed_annotation: ^3.1.0
+  json_annotation: ^4.9.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  build_runner: ^2.4.6
+  freezed: ^3.1.0
+  json_serializable: ^6.7.0
+  # json_annotation is required at runtime for codegen; the package is
+  # declared in `dependencies` to satisfy build_runner/json_serializable.
 
 flutter:
   uses-material-design: true

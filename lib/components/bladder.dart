@@ -167,7 +167,7 @@ class _BladderWidgetState extends State<BladderWidget> {
                 ),
                 const SizedBox(height: 6),
                 DropdownButtonFormField<String>(
-                  value: diagnosticoUtero,
+                  initialValue: diagnosticoUtero,
                   items: diagnosticosUtero
                       .map((d) => DropdownMenuItem(value: d, child: Text(d)))
                       .toList(),
