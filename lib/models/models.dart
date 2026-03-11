@@ -10,6 +10,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'patient.dart';
 part 'study_protocol.dart';
+
 part 'ovary.dart';
 part 'bladder.dart';
 part 'nodules.dart';
