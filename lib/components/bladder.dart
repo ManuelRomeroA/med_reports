@@ -2,32 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:layrz_theme/layrz_theme.dart';
 import 'package:med_reports/components/general/selected_button.dart';
 import 'package:med_reports/main.dart';
+import 'package:med_reports/models/models.dart';
 
 class BladderWidget extends StatefulWidget {
-  const BladderWidget({super.key});
+  final ReportDraft draft;
+  const BladderWidget({super.key, required this.draft});
 
   @override
   State<BladderWidget> createState() => _BladderWidgetState();
 }
 
 class _BladderWidgetState extends State<BladderWidget> {
-  String regularidad = "REGULAR";
-  String pared = "";
-  String fondoDouglas = "LIBRE";
-
-  // Para la sección "SUGESTIVO DE"
-  String diagnosticoUtero = "NORMAL";
-  final List<String> diagnosticosUtero = ["NORMAL", "OTRO"];
-  String diagnosticoOvarios = "NORMALES";
-  final List<String> diagnosticosOvarios = [
-    "NORMALES",
-    "POLIQUISTICOS",
-    "OTROS",
-  ];
-  String conclusion = "";
-
   @override
   Widget build(BuildContext context) {
+    widget.draft.bladder ??= Bladder(
+      regularity: Regularity.regular,
+      wallMm: 0.0,
+      douglasPouch: DouglasPouch.free,
+      diagnosis: BladderDiagnosis.normal,
+      ovaryDiagnosis: OvaryDiagnosis.normales,
+    );
     final theme = Theme.of(context);
 
     return Container(
@@ -65,16 +59,18 @@ class _BladderWidgetState extends State<BladderWidget> {
 
           // Regularidad
           Row(
-            children: ["REGULAR", "IRREGULAR"].map((op) {
-              final selected = regularidad == op;
+            children: [Regularity.regular, Regularity.irregular].map((reg) {
+              final selected = widget.draft.bladder?.regularity == reg;
               return Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: SelectedButton(
-                    label: op,
+                    label: reg == Regularity.regular ? "REGULAR" : "IRREGULAR",
                     selected: selected,
                     selectedColor: kCafeVinoOscuro,
-                    onTap: () => setState(() => regularidad = op),
+                    onTap: () {
+                      setState(() => widget.draft.bladder?.regularity = reg);
+                    },
                   ),
                 ),
               );
@@ -84,10 +80,13 @@ class _BladderWidgetState extends State<BladderWidget> {
 
           // Pared
           ThemedTextInput(
-            value: pared,
+            value: widget.draft.bladder?.wallMm?.toString() ?? "",
             labelText: "PARED (MM)",
             keyboardType: TextInputType.number,
-            onChanged: (value) => setState(() => pared = value),
+            onChanged: (value) {
+              widget.draft.bladder?.wallMm = double.tryParse(value);
+              setState(() {});
+            },
           ),
           const SizedBox(height: 18),
 
@@ -105,16 +104,20 @@ class _BladderWidgetState extends State<BladderWidget> {
           Divider(color: theme.colorScheme.primary.withValues(alpha: 0.15)),
           const SizedBox(height: 12),
           Row(
-            children: ["LIBRE", "OCUPADO"].map((op) {
-              final selected = fondoDouglas == op;
+            children: [DouglasPouch.free, DouglasPouch.occupied].map((pouch) {
+              final selected = widget.draft.bladder?.douglasPouch == pouch;
               return Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: SelectedButton(
-                    label: op,
+                    label: pouch == DouglasPouch.free ? "LIBRE" : "OCUPADO",
                     selected: selected,
                     selectedColor: kCafeVinoOscuro,
-                    onTap: () => setState(() => fondoDouglas = op),
+                    onTap: () {
+                      setState(
+                        () => widget.draft.bladder?.douglasPouch = pouch,
+                      );
+                    },
                   ),
                 ),
               );
@@ -166,14 +169,19 @@ class _BladderWidgetState extends State<BladderWidget> {
                   ),
                 ),
                 const SizedBox(height: 6),
-                DropdownButtonFormField<String>(
-                  initialValue: diagnosticoUtero,
-                  items: diagnosticosUtero
-                      .map((d) => DropdownMenuItem(value: d, child: Text(d)))
+                DropdownButtonFormField<BladderDiagnosis>(
+                  value: widget.draft.bladder?.diagnosis,
+                  items: BladderDiagnosis.values
+                      .map(
+                        (d) => DropdownMenuItem(
+                          value: d,
+                          child: Text(d.name.toUpperCase()),
+                        ),
+                      )
                       .toList(),
-                  onChanged: (value) => setState(
-                    () => diagnosticoUtero = value ?? diagnosticoUtero,
-                  ),
+                  onChanged: (value) => setState(() {
+                    widget.draft.bladder?.diagnosis = value;
+                  }),
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(borderSide: BorderSide.none),
                     filled: true,
@@ -197,16 +205,21 @@ class _BladderWidgetState extends State<BladderWidget> {
                 ),
                 const SizedBox(height: 6),
                 Row(
-                  children: diagnosticosOvarios.map((op) {
-                    final selected = diagnosticoOvarios == op;
+                  children: OvaryDiagnosis.values.map((diag) {
+                    final selected =
+                        widget.draft.bladder?.ovaryDiagnosis == diag;
                     return Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
                         child: SelectedButton(
-                          label: op,
+                          label: diag.name.toUpperCase(),
                           selected: selected,
                           selectedColor: kCafeVinoOscuro,
-                          onTap: () => setState(() => diagnosticoOvarios = op),
+                          onTap: () {
+                            setState(
+                              () => widget.draft.bladder?.ovaryDiagnosis = diag,
+                            );
+                          },
                         ),
                       ),
                     );
@@ -219,10 +232,12 @@ class _BladderWidgetState extends State<BladderWidget> {
 
           // Conclusión final
           ThemedTextInput(
-            value: conclusion,
+            value: widget.draft.bladder?.conclusion ?? "",
             labelText: "Escriba aquí la conclusión final del reporte médico...",
             maxLines: 4,
-            onChanged: (value) => setState(() => conclusion = value),
+            onChanged: (value) {
+              setState(() => widget.draft.bladder?.conclusion = value);
+            },
           ),
           const SizedBox(height: 18),
 
@@ -243,7 +258,7 @@ class _BladderWidgetState extends State<BladderWidget> {
                 ),
               ),
               onPressed: () {
-                // Acción al procesar reporte
+                print(widget.draft.toJson());
               },
               child: const Text(
                 "PROCESAR REPORTE",

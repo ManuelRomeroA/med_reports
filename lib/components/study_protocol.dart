@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:med_reports/components/general/selected_button.dart';
+import 'package:med_reports/models/models.dart';
 
 class StudyProtocolWidget extends StatefulWidget {
-  const StudyProtocolWidget({super.key});
+  final ReportDraft draft;
+  const StudyProtocolWidget({super.key, required this.draft});
 
   @override
   State<StudyProtocolWidget> createState() => _StudyProtocolWidgetState();

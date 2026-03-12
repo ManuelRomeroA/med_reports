@@ -92,12 +92,21 @@ _Bladder _$BladderFromJson(Map<String, dynamic> json) => _Bladder(
   regularity: $enumDecode(_$RegularityEnumMap, json['regularity']),
   wallMm: (json['wallMm'] as num?)?.toDouble(),
   douglasPouch: $enumDecode(_$DouglasPouchEnumMap, json['douglasPouch']),
+  diagnosis: $enumDecodeNullable(_$BladderDiagnosisEnumMap, json['diagnosis']),
+  ovaryDiagnosis: $enumDecodeNullable(
+    _$OvaryDiagnosisEnumMap,
+    json['ovaryDiagnosis'],
+  ),
+  conclusion: json['conclusion'] as String?,
 );
 
 Map<String, dynamic> _$BladderToJson(_Bladder instance) => <String, dynamic>{
   'regularity': _$RegularityEnumMap[instance.regularity]!,
   'wallMm': instance.wallMm,
   'douglasPouch': _$DouglasPouchEnumMap[instance.douglasPouch]!,
+  'diagnosis': _$BladderDiagnosisEnumMap[instance.diagnosis],
+  'ovaryDiagnosis': _$OvaryDiagnosisEnumMap[instance.ovaryDiagnosis],
+  'conclusion': instance.conclusion,
 };
 
 const _$RegularityEnumMap = {
@@ -108,6 +117,19 @@ const _$RegularityEnumMap = {
 const _$DouglasPouchEnumMap = {
   DouglasPouch.free: 'libre',
   DouglasPouch.occupied: 'ocupado',
+};
+
+const _$BladderDiagnosisEnumMap = {
+  BladderDiagnosis.normal: 'normal',
+  BladderDiagnosis.medio: 'medio',
+  BladderDiagnosis.alto: 'alto',
+  BladderDiagnosis.otro: 'otro',
+};
+
+const _$OvaryDiagnosisEnumMap = {
+  OvaryDiagnosis.normales: 'normales',
+  OvaryDiagnosis.poliquisticos: 'poliquisticos',
+  OvaryDiagnosis.otros: 'otros',
 };
 
 _Nodules _$NodulesFromJson(Map<String, dynamic> json) => _Nodules(
@@ -144,10 +166,53 @@ _Report _$ReportFromJson(Map<String, dynamic> json) => _Report(
 Map<String, dynamic> _$ReportToJson(_Report instance) => <String, dynamic>{
   'id': instance.id,
   'createdAt': instance.createdAt.toIso8601String(),
-  'patient': instance.patient.toJson(),
-  'protocol': instance.protocol.toJson(),
-  'findings': instance.findings.toJson(),
+  'patient': instance.patient,
+  'protocol': instance.protocol,
+  'findings': instance.findings,
   'doctor': instance.doctor,
   'clinic': instance.clinic,
   'meta': instance.meta,
 };
+
+_ReportDraft _$ReportDraftFromJson(Map<String, dynamic> json) => _ReportDraft(
+  id: json['id'] as String?,
+  createdAt: json['createdAt'] == null
+      ? null
+      : DateTime.parse(json['createdAt'] as String),
+  patient: json['patient'] == null
+      ? null
+      : Patient.fromJson(json['patient'] as Map<String, dynamic>),
+  protocol: json['protocol'] == null
+      ? null
+      : StudyProtocol.fromJson(json['protocol'] as Map<String, dynamic>),
+  findings: json['findings'] == null
+      ? null
+      : Findings.fromJson(json['findings'] as Map<String, dynamic>),
+  bladder: json['bladder'] == null
+      ? null
+      : Bladder.fromJson(json['bladder'] as Map<String, dynamic>),
+  rightOvary: json['rightOvary'] == null
+      ? null
+      : Ovary.fromJson(json['rightOvary'] as Map<String, dynamic>),
+  leftOvary: json['leftOvary'] == null
+      ? null
+      : Ovary.fromJson(json['leftOvary'] as Map<String, dynamic>),
+  doctor: json['doctor'] as String?,
+  clinic: json['clinic'] as String?,
+  meta: json['meta'] as Map<String, dynamic>?,
+);
+
+Map<String, dynamic> _$ReportDraftToJson(_ReportDraft instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'patient': instance.patient,
+      'protocol': instance.protocol,
+      'findings': instance.findings,
+      'bladder': instance.bladder,
+      'rightOvary': instance.rightOvary,
+      'leftOvary': instance.leftOvary,
+      'doctor': instance.doctor,
+      'clinic': instance.clinic,
+      'meta': instance.meta,
+    };

@@ -18,6 +18,12 @@ enum DouglasPouch {
   occupied,
 }
 
+/// New enum for bladder diagnosis
+enum BladderDiagnosis { normal, medio, alto, otro }
+
+/// New enum for ovary diagnosis
+enum OvaryDiagnosis { normales, poliquisticos, otros }
+
 /// Bladder findings including wall regularity and Douglas pouch status.
 @unfreezed
 abstract class Bladder with _$Bladder {
@@ -26,6 +32,9 @@ abstract class Bladder with _$Bladder {
     required Regularity regularity,
     double? wallMm,
     required DouglasPouch douglasPouch,
+    BladderDiagnosis? diagnosis,
+    OvaryDiagnosis? ovaryDiagnosis,
+    String? conclusion,
   }) = _Bladder;
 
   /// Deserializes a [Bladder] from JSON.

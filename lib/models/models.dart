@@ -16,6 +16,7 @@ part 'bladder.dart';
 part 'nodules.dart';
 part 'findings.dart';
 part 'report.dart';
+part 'report_draft.dart';
 
 part 'models.freezed.dart';
 part 'models.g.dart';

@@ -7,12 +7,27 @@ import 'package:med_reports/components/nodulos/nodulos.dart';
 import 'package:med_reports/components/ovary.dart';
 import 'package:med_reports/components/study_protocol.dart';
 import 'package:med_reports/components/utero_widget.dart';
+import 'package:med_reports/models/models.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
   @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  late ReportDraft draft;
+
+  @override
+  void initState() {
+    super.initState();
+    draft = ReportDraft();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    debugPrint("Redibujando HomeView: $draft");
     return Scaffold(
       backgroundColor: Theme.of(context).inputDecorationTheme.fillColor,
       body: SingleChildScrollView(
@@ -22,9 +37,8 @@ class HomeView extends StatelessWidget {
             spacing: 24,
             children: [
               HeaderWidget(),
-              DatosPacienteWidget(),
-              StudyProtocolWidget(),
-
+              DatosPacienteWidget(draft: draft),
+              StudyProtocolWidget(draft: draft),
               Row(
                 spacing: 24,
                 mainAxisAlignment: .start,
@@ -69,7 +83,7 @@ class HomeView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Expanded(child: BladderWidget()),
+                  Expanded(child: BladderWidget(draft: draft)),
                 ],
               ),
             ],
