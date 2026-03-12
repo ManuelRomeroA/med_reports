@@ -41,7 +41,6 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Redibujando HomeView: $draft");
     return Scaffold(
       backgroundColor: Theme.of(context).inputDecorationTheme.fillColor,
       body: SingleChildScrollView(
@@ -78,9 +77,7 @@ class _HomeViewState extends State<HomeView> {
                                 titulo: "Ovario Derecho",
                                 ovary: draft.rightOvary!,
                                 onChanged: (value) {
-                                  setState(() {
-                                    draft.rightOvary = value;
-                                  });
+                                  draft.rightOvary = value;
                                 },
                               ),
                             ),
@@ -89,9 +86,7 @@ class _HomeViewState extends State<HomeView> {
                                 titulo: "Ovario Izquierdo",
                                 ovary: draft.leftOvary!,
                                 onChanged: (value) {
-                                  setState(() {
-                                    draft.leftOvary = value;
-                                  });
+                                  draft.leftOvary = value;
                                 },
                               ),
                             ),
