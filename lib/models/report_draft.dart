@@ -21,6 +21,25 @@ abstract class ReportDraft with _$ReportDraft {
 }
 
 extension ReportDraftX on ReportDraft {
+  void ensureOvaries() {
+    if (rightOvary == null) {
+      rightOvary = Ovary(
+        side: OvarySide.right,
+        type: OvaryType.normal,
+        measures: OvaryMeasurement(ap: 0, tr: 0, lo: 0),
+        notes: "",
+      );
+    }
+    if (leftOvary == null) {
+      leftOvary = Ovary(
+        side: OvarySide.left,
+        type: OvaryType.normal,
+        measures: OvaryMeasurement(ap: 0, tr: 0, lo: 0),
+        notes: "",
+      );
+    }
+  }
+
   Report toReport() {
     final now = DateTime.now();
     return Report(

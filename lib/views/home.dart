@@ -22,7 +22,21 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    draft = ReportDraft();
+    draft = ReportDraft(
+      rightOvary: Ovary(
+        side: OvarySide.right,
+        type: OvaryType.normal,
+        measures: OvaryMeasurement(ap: 0, tr: 0, lo: 0),
+        notes: "",
+      ),
+      leftOvary: Ovary(
+        side: OvarySide.left,
+        type: OvaryType.normal,
+        measures: OvaryMeasurement(ap: 0, tr: 0, lo: 0),
+        notes: "",
+      ),
+    );
+    draft.ensureOvaries();
   }
 
   @override
@@ -60,10 +74,26 @@ class _HomeViewState extends State<HomeView> {
                           spacing: 24,
                           children: [
                             Expanded(
-                              child: OvaryWidget(titulo: "Ovario Derecho"),
+                              child: OvaryWidget(
+                                titulo: "Ovario Derecho",
+                                ovary: draft.rightOvary!,
+                                onChanged: (value) {
+                                  setState(() {
+                                    draft.rightOvary = value;
+                                  });
+                                },
+                              ),
                             ),
                             Expanded(
-                              child: OvaryWidget(titulo: "Ovario Izquierdo"),
+                              child: OvaryWidget(
+                                titulo: "Ovario Izquierdo",
+                                ovary: draft.leftOvary!,
+                                onChanged: (value) {
+                                  setState(() {
+                                    draft.leftOvary = value;
+                                  });
+                                },
+                              ),
                             ),
                           ],
                         ),

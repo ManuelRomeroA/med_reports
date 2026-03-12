@@ -5,16 +5,18 @@ version: 1.0.0+1
 
 environment:
   sdk: ^3.10.7
-  flutter: ">=3.19.0"
+  flutter: ">=3.41.4"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  layrz_theme: ^7.5.7
+  layrz_theme: ^7.5.17
   layrz_icons: ^1.0.5
   freezed_annotation: ^3.1.0
   json_annotation: ^4.9.0
+  pdf: ^3.11.3
+  printing: ^5.10.1
 
 dev_dependencies:
   flutter_test:

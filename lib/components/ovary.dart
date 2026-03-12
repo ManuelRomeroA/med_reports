@@ -2,32 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:layrz_theme/layrz_theme.dart';
 import 'package:med_reports/components/general/selected_button.dart';
 import 'package:med_reports/main.dart';
+import 'package:med_reports/models/models.dart';
 
 class OvaryWidget extends StatefulWidget {
   final String titulo;
-  const OvaryWidget({super.key, required this.titulo});
+  final Ovary ovary;
+  final void Function(Ovary value) onChanged;
+  const OvaryWidget({
+    super.key,
+    required this.titulo,
+    required this.ovary,
+    required this.onChanged,
+  });
 
   @override
   State<OvaryWidget> createState() => _OvaryWidgetState();
 }
 
 class _OvaryWidgetState extends State<OvaryWidget> {
-  // Estado de los selectores
-  String tipo = "NORMALES";
-  final tipos = ["NORMALES", "POLIQ.", "OTROS"];
+  late Ovary ovary;
 
-  // Campos de entrada como String
-  String apValue = "";
-  String trValue = "";
-  String loValue = "";
-  String hallazgosValue = "";
-
-  double calcularVolumen() {
-    // Volumen = AP * TR * LO * 0.523
-    final ap = double.tryParse(apValue) ?? 0;
-    final tr = double.tryParse(trValue) ?? 0;
-    final lo = double.tryParse(loValue) ?? 0;
-    return ap * tr * lo * 0.523;
+  @override
+  void initState() {
+    super.initState();
+    ovary = widget.ovary;
   }
 
   @override
@@ -67,14 +65,18 @@ class _OvaryWidgetState extends State<OvaryWidget> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: .max,
-            children: tipos.map((t) {
-              final selected = tipo == t;
+            children: OvaryType.values.map((type) {
               return Expanded(
                 child: SelectedButton(
-                  label: t,
-                  selected: selected,
+                  label: type.name.toUpperCase(),
+                  selected: widget.ovary.type == type,
                   selectedColor: kCafeVinoOscuro,
-                  onTap: () => setState(() => tipo = t),
+                  onTap: () {
+                    setState(() {
+                      ovary.type = type;
+                      widget.onChanged(ovary);
+                    });
+                  },
                 ),
               );
             }).toList(),
@@ -86,28 +88,47 @@ class _OvaryWidgetState extends State<OvaryWidget> {
             children: [
               Expanded(
                 child: ThemedTextInput(
-                  value: apValue,
+                  value: widget.ovary.measures?.ap?.toString() ?? "",
                   labelText: "AP",
                   keyboardType: TextInputType.number,
-                  onChanged: (value) => setState(() => apValue = value),
+                  onChanged: (value) {
+                    setState(() {
+                      final numVal = double.tryParse(value);
+                      ovary.measures?.ap = numVal;
+                      widget.onChanged(ovary);
+                    });
+                  },
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: ThemedTextInput(
-                  value: trValue,
+                  value: widget.ovary.measures?.tr?.toString() ?? "",
+
                   labelText: "TR",
                   keyboardType: TextInputType.number,
-                  onChanged: (value) => setState(() => trValue = value),
+                  onChanged: (value) {
+                    setState(() {
+                      final numVal = double.tryParse(value);
+                      widget.ovary.measures?.tr = numVal;
+                      widget.onChanged(widget.ovary);
+                    });
+                  },
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: ThemedTextInput(
-                  value: loValue,
+                  value: widget.ovary.measures?.lo?.toString() ?? "",
                   labelText: "LO",
                   keyboardType: TextInputType.number,
-                  onChanged: (value) => setState(() => loValue = value),
+                  onChanged: (value) {
+                    setState(() {
+                      final numVal = double.tryParse(value);
+                      widget.ovary.measures?.lo = numVal;
+                      widget.onChanged(widget.ovary);
+                    });
+                  },
                 ),
               ),
               const SizedBox(width: 12),
@@ -132,7 +153,7 @@ class _OvaryWidgetState extends State<OvaryWidget> {
                       ),
                     ),
                     Text(
-                      calcularVolumen().toStringAsFixed(0),
+                      (widget.ovary.measures?.volume ?? 0).toStringAsFixed(0),
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -148,10 +169,15 @@ class _OvaryWidgetState extends State<OvaryWidget> {
 
           // Hallazgos adicionales
           ThemedTextInput(
-            value: hallazgosValue,
+            value: widget.ovary.notes ?? "",
             labelText: "Hallazgos adicionales en este ovario...",
             maxLines: 2,
-            onChanged: (value) => setState(() => hallazgosValue = value),
+            onChanged: (value) {
+              setState(() {
+                widget.ovary.notes = value;
+                widget.onChanged(widget.ovary);
+              });
+            },
           ),
         ],
       ),

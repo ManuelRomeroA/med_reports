@@ -96,7 +96,7 @@ class _DatosPacienteWidgetState extends State<DatosPacienteWidget> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: DropdownButtonFormField<String>(
-                    value: widget.draft.patient?.bloodGroup,
+                    initialValue: widget.draft.patient?.bloodGroup,
                     items: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]
                         .map((g) => DropdownMenuItem(value: g, child: Text(g)))
                         .toList(),

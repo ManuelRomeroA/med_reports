@@ -3,6 +3,9 @@ import 'package:layrz_theme/layrz_theme.dart';
 import 'package:med_reports/components/general/selected_button.dart';
 import 'package:med_reports/main.dart';
 import 'package:med_reports/models/models.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 
 class BladderWidget extends StatefulWidget {
   final ReportDraft draft;
@@ -170,7 +173,7 @@ class _BladderWidgetState extends State<BladderWidget> {
                 ),
                 const SizedBox(height: 6),
                 DropdownButtonFormField<BladderDiagnosis>(
-                  value: widget.draft.bladder?.diagnosis,
+                  initialValue: widget.draft.bladder?.diagnosis,
                   items: BladderDiagnosis.values
                       .map(
                         (d) => DropdownMenuItem(
@@ -257,8 +260,52 @@ class _BladderWidgetState extends State<BladderWidget> {
                   letterSpacing: 1,
                 ),
               ),
-              onPressed: () {
-                print(widget.draft.toJson());
+              onPressed: () async {
+                debugPrint("Procesando reporte: ${widget.draft}");
+                // final report = widget.draft.toReport();
+                // final pdf = pw.Document();
+                // pdf.addPage(
+                //   pw.Page(
+                //     pageFormat: PdfPageFormat.a4,
+                //     build: (pw.Context context) {
+                //       return pw.Padding(
+                //         padding: const pw.EdgeInsets.all(32),
+                //         child: pw.Column(
+                //           crossAxisAlignment: pw.CrossAxisAlignment.start,
+                //           children: [
+                //             pw.Text(
+                //               "Reporte Médico",
+                //               style: pw.TextStyle(fontSize: 24),
+                //             ),
+                //             pw.Divider(),
+                //             pw.Text('Paciente: \\${report.patient.name}'),
+                //             pw.Text('Edad: \\${report.patient.age ?? '-'}'),
+                //             pw.Text('CI: \\${report.patient.ci ?? '-'}'),
+                //             pw.Text('Fecha: \\${report.createdAt.toString()}'),
+                //             pw.Divider(),
+                //             pw.Text('Doctor: \\${report.doctor ?? '-'}'),
+                //             pw.Text('Clínica: \\${report.clinic ?? '-'}'),
+                //             pw.Divider(),
+                //             pw.Text(
+                //               'Protocolo: \\${report.protocol.type.toString()}',
+                //             ),
+                //             pw.Divider(),
+                //             pw.Text(
+                //               'Hallazgos: \\${report.findings.toString()}',
+                //             ),
+                //             pw.Divider(),
+                //             pw.Text(
+                //               'Conclusión: \\${report.meta?['conclusion'] ?? '-'}',
+                //             ),
+                //           ],
+                //         ),
+                //       );
+                //     },
+                //   ),
+                // );
+                // await Printing.layoutPdf(
+                //   onLayout: (format) async => pdf.save(),
+                // );
               },
               child: const Text(
                 "PROCESAR REPORTE",
