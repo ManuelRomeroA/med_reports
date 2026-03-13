@@ -27,16 +27,14 @@ class _HomeViewState extends State<HomeView> {
         side: OvarySide.right,
         type: OvaryType.normal,
         measures: OvaryMeasurement(ap: 0, tr: 0, lo: 0),
-        notes: "",
       ),
       leftOvary: Ovary(
         side: OvarySide.left,
         type: OvaryType.normal,
         measures: OvaryMeasurement(ap: 0, tr: 0, lo: 0),
-        notes: "",
       ),
+      // Otros campos según corresponda
     );
-    draft.ensureOvaries();
   }
 
   @override
@@ -75,7 +73,7 @@ class _HomeViewState extends State<HomeView> {
                             Expanded(
                               child: OvaryWidget(
                                 titulo: "Ovario Derecho",
-                                ovary: draft.rightOvary!,
+                                ovary: draft.rightOvary,
                                 onChanged: (value) {
                                   draft.rightOvary = value;
                                 },
@@ -84,7 +82,7 @@ class _HomeViewState extends State<HomeView> {
                             Expanded(
                               child: OvaryWidget(
                                 titulo: "Ovario Izquierdo",
-                                ovary: draft.leftOvary!,
+                                ovary: draft.leftOvary,
                                 onChanged: (value) {
                                   draft.leftOvary = value;
                                 },

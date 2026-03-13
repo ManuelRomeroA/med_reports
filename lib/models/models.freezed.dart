@@ -585,7 +585,7 @@ as String?,
 /// @nodoc
 mixin _$OvaryMeasurement {
 
- double? get ap; set ap(double? value); double? get tr; set tr(double? value); double? get lo; set lo(double? value);
+ double get ap; set ap(double value); double get tr; set tr(double value); double get lo; set lo(double value);
 /// Create a copy of OvaryMeasurement
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -611,7 +611,7 @@ abstract mixin class $OvaryMeasurementCopyWith<$Res>  {
   factory $OvaryMeasurementCopyWith(OvaryMeasurement value, $Res Function(OvaryMeasurement) _then) = _$OvaryMeasurementCopyWithImpl;
 @useResult
 $Res call({
- double? ap, double? tr, double? lo
+ double ap, double tr, double lo
 });
 
 
@@ -628,12 +628,12 @@ class _$OvaryMeasurementCopyWithImpl<$Res>
 
 /// Create a copy of OvaryMeasurement
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? ap = freezed,Object? tr = freezed,Object? lo = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? ap = null,Object? tr = null,Object? lo = null,}) {
   return _then(_self.copyWith(
-ap: freezed == ap ? _self.ap : ap // ignore: cast_nullable_to_non_nullable
-as double?,tr: freezed == tr ? _self.tr : tr // ignore: cast_nullable_to_non_nullable
-as double?,lo: freezed == lo ? _self.lo : lo // ignore: cast_nullable_to_non_nullable
-as double?,
+ap: null == ap ? _self.ap : ap // ignore: cast_nullable_to_non_nullable
+as double,tr: null == tr ? _self.tr : tr // ignore: cast_nullable_to_non_nullable
+as double,lo: null == lo ? _self.lo : lo // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
@@ -718,7 +718,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double? ap,  double? tr,  double? lo)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double ap,  double tr,  double lo)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _OvaryMeasurement() when $default != null:
 return $default(_that.ap,_that.tr,_that.lo);case _:
@@ -739,7 +739,7 @@ return $default(_that.ap,_that.tr,_that.lo);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double? ap,  double? tr,  double? lo)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double ap,  double tr,  double lo)  $default,) {final _that = this;
 switch (_that) {
 case _OvaryMeasurement():
 return $default(_that.ap,_that.tr,_that.lo);case _:
@@ -759,7 +759,7 @@ return $default(_that.ap,_that.tr,_that.lo);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double? ap,  double? tr,  double? lo)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double ap,  double tr,  double lo)?  $default,) {final _that = this;
 switch (_that) {
 case _OvaryMeasurement() when $default != null:
 return $default(_that.ap,_that.tr,_that.lo);case _:
@@ -774,12 +774,12 @@ return $default(_that.ap,_that.tr,_that.lo);case _:
 @JsonSerializable()
 
 class _OvaryMeasurement extends OvaryMeasurement {
-   _OvaryMeasurement({this.ap, this.tr, this.lo}): super._();
+   _OvaryMeasurement({required this.ap, required this.tr, required this.lo}): super._();
   factory _OvaryMeasurement.fromJson(Map<String, dynamic> json) => _$OvaryMeasurementFromJson(json);
 
-@override  double? ap;
-@override  double? tr;
-@override  double? lo;
+@override  double ap;
+@override  double tr;
+@override  double lo;
 
 /// Create a copy of OvaryMeasurement
 /// with the given fields replaced by the non-null parameter values.
@@ -807,7 +807,7 @@ abstract mixin class _$OvaryMeasurementCopyWith<$Res> implements $OvaryMeasureme
   factory _$OvaryMeasurementCopyWith(_OvaryMeasurement value, $Res Function(_OvaryMeasurement) _then) = __$OvaryMeasurementCopyWithImpl;
 @override @useResult
 $Res call({
- double? ap, double? tr, double? lo
+ double ap, double tr, double lo
 });
 
 
@@ -824,12 +824,12 @@ class __$OvaryMeasurementCopyWithImpl<$Res>
 
 /// Create a copy of OvaryMeasurement
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? ap = freezed,Object? tr = freezed,Object? lo = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? ap = null,Object? tr = null,Object? lo = null,}) {
   return _then(_OvaryMeasurement(
-ap: freezed == ap ? _self.ap : ap // ignore: cast_nullable_to_non_nullable
-as double?,tr: freezed == tr ? _self.tr : tr // ignore: cast_nullable_to_non_nullable
-as double?,lo: freezed == lo ? _self.lo : lo // ignore: cast_nullable_to_non_nullable
-as double?,
+ap: null == ap ? _self.ap : ap // ignore: cast_nullable_to_non_nullable
+as double,tr: null == tr ? _self.tr : tr // ignore: cast_nullable_to_non_nullable
+as double,lo: null == lo ? _self.lo : lo // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
@@ -840,7 +840,7 @@ as double?,
 /// @nodoc
 mixin _$Ovary {
 
- OvarySide get side; set side(OvarySide value); OvaryType get type; set type(OvaryType value); OvaryMeasurement? get measures; set measures(OvaryMeasurement? value); String? get notes; set notes(String? value);
+ OvarySide get side; set side(OvarySide value); OvaryType get type; set type(OvaryType value); OvaryMeasurement get measures; set measures(OvaryMeasurement value); String? get notes; set notes(String? value);
 /// Create a copy of Ovary
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -866,11 +866,11 @@ abstract mixin class $OvaryCopyWith<$Res>  {
   factory $OvaryCopyWith(Ovary value, $Res Function(Ovary) _then) = _$OvaryCopyWithImpl;
 @useResult
 $Res call({
- OvarySide side, OvaryType type, OvaryMeasurement? measures, String? notes
+ OvarySide side, OvaryType type, OvaryMeasurement measures, String? notes
 });
 
 
-$OvaryMeasurementCopyWith<$Res>? get measures;
+$OvaryMeasurementCopyWith<$Res> get measures;
 
 }
 /// @nodoc
@@ -883,12 +883,12 @@ class _$OvaryCopyWithImpl<$Res>
 
 /// Create a copy of Ovary
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? side = null,Object? type = null,Object? measures = freezed,Object? notes = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? side = null,Object? type = null,Object? measures = null,Object? notes = freezed,}) {
   return _then(_self.copyWith(
 side: null == side ? _self.side : side // ignore: cast_nullable_to_non_nullable
 as OvarySide,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as OvaryType,measures: freezed == measures ? _self.measures : measures // ignore: cast_nullable_to_non_nullable
-as OvaryMeasurement?,notes: freezed == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
+as OvaryType,measures: null == measures ? _self.measures : measures // ignore: cast_nullable_to_non_nullable
+as OvaryMeasurement,notes: freezed == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -896,12 +896,9 @@ as String?,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$OvaryMeasurementCopyWith<$Res>? get measures {
-    if (_self.measures == null) {
-    return null;
-  }
-
-  return $OvaryMeasurementCopyWith<$Res>(_self.measures!, (value) {
+$OvaryMeasurementCopyWith<$Res> get measures {
+  
+  return $OvaryMeasurementCopyWith<$Res>(_self.measures, (value) {
     return _then(_self.copyWith(measures: value));
   });
 }
@@ -986,7 +983,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( OvarySide side,  OvaryType type,  OvaryMeasurement? measures,  String? notes)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( OvarySide side,  OvaryType type,  OvaryMeasurement measures,  String? notes)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Ovary() when $default != null:
 return $default(_that.side,_that.type,_that.measures,_that.notes);case _:
@@ -1007,7 +1004,7 @@ return $default(_that.side,_that.type,_that.measures,_that.notes);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( OvarySide side,  OvaryType type,  OvaryMeasurement? measures,  String? notes)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( OvarySide side,  OvaryType type,  OvaryMeasurement measures,  String? notes)  $default,) {final _that = this;
 switch (_that) {
 case _Ovary():
 return $default(_that.side,_that.type,_that.measures,_that.notes);case _:
@@ -1027,7 +1024,7 @@ return $default(_that.side,_that.type,_that.measures,_that.notes);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( OvarySide side,  OvaryType type,  OvaryMeasurement? measures,  String? notes)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( OvarySide side,  OvaryType type,  OvaryMeasurement measures,  String? notes)?  $default,) {final _that = this;
 switch (_that) {
 case _Ovary() when $default != null:
 return $default(_that.side,_that.type,_that.measures,_that.notes);case _:
@@ -1042,12 +1039,12 @@ return $default(_that.side,_that.type,_that.measures,_that.notes);case _:
 @JsonSerializable()
 
 class _Ovary implements Ovary {
-   _Ovary({required this.side, required this.type, this.measures, this.notes});
+   _Ovary({required this.side, required this.type, required this.measures, this.notes});
   factory _Ovary.fromJson(Map<String, dynamic> json) => _$OvaryFromJson(json);
 
 @override  OvarySide side;
 @override  OvaryType type;
-@override  OvaryMeasurement? measures;
+@override  OvaryMeasurement measures;
 @override  String? notes;
 
 /// Create a copy of Ovary
@@ -1076,11 +1073,11 @@ abstract mixin class _$OvaryCopyWith<$Res> implements $OvaryCopyWith<$Res> {
   factory _$OvaryCopyWith(_Ovary value, $Res Function(_Ovary) _then) = __$OvaryCopyWithImpl;
 @override @useResult
 $Res call({
- OvarySide side, OvaryType type, OvaryMeasurement? measures, String? notes
+ OvarySide side, OvaryType type, OvaryMeasurement measures, String? notes
 });
 
 
-@override $OvaryMeasurementCopyWith<$Res>? get measures;
+@override $OvaryMeasurementCopyWith<$Res> get measures;
 
 }
 /// @nodoc
@@ -1093,12 +1090,12 @@ class __$OvaryCopyWithImpl<$Res>
 
 /// Create a copy of Ovary
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? side = null,Object? type = null,Object? measures = freezed,Object? notes = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? side = null,Object? type = null,Object? measures = null,Object? notes = freezed,}) {
   return _then(_Ovary(
 side: null == side ? _self.side : side // ignore: cast_nullable_to_non_nullable
 as OvarySide,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as OvaryType,measures: freezed == measures ? _self.measures : measures // ignore: cast_nullable_to_non_nullable
-as OvaryMeasurement?,notes: freezed == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
+as OvaryType,measures: null == measures ? _self.measures : measures // ignore: cast_nullable_to_non_nullable
+as OvaryMeasurement,notes: freezed == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -1107,12 +1104,9 @@ as String?,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$OvaryMeasurementCopyWith<$Res>? get measures {
-    if (_self.measures == null) {
-    return null;
-  }
-
-  return $OvaryMeasurementCopyWith<$Res>(_self.measures!, (value) {
+$OvaryMeasurementCopyWith<$Res> get measures {
+  
+  return $OvaryMeasurementCopyWith<$Res>(_self.measures, (value) {
     return _then(_self.copyWith(measures: value));
   });
 }
@@ -2236,7 +2230,17 @@ $FindingsCopyWith<$Res> get findings {
 /// @nodoc
 mixin _$ReportDraft {
 
- String? get id; set id(String? value); DateTime? get createdAt; set createdAt(DateTime? value); Patient? get patient; set patient(Patient? value); StudyProtocol? get protocol; set protocol(StudyProtocol? value); Findings? get findings; set findings(Findings? value); Bladder? get bladder; set bladder(Bladder? value); Ovary? get rightOvary; set rightOvary(Ovary? value); Ovary? get leftOvary; set leftOvary(Ovary? value); String? get doctor; set doctor(String? value); String? get clinic; set clinic(String? value); Map<String, dynamic>? get meta; set meta(Map<String, dynamic>? value);
+ String? get id; set id(String? value); DateTime? get createdAt; set createdAt(DateTime? value); Patient? get patient; set patient(Patient? value); StudyProtocol? get protocol; set protocol(StudyProtocol? value); Findings? get findings; set findings(Findings? value); Bladder? get bladder; set bladder(Bladder? value);/// The right ovary information for this report draft. Defaults to a normal right ovary.
+/// The right ovary information for this report draft. Defaults to a normal right ovary.
+/// La inicialización de rightOvary debe hacerse externamente (UI/factory/método).
+ Ovary get rightOvary;/// The right ovary information for this report draft. Defaults to a normal right ovary.
+/// The right ovary information for this report draft. Defaults to a normal right ovary.
+/// La inicialización de rightOvary debe hacerse externamente (UI/factory/método).
+ set rightOvary(Ovary value);/// The left ovary information for this report draft. Defaults to a normal left ovary.
+/// La inicialización de leftOvary debe hacerse externamente (UI/factory/método).
+ Ovary get leftOvary;/// The left ovary information for this report draft. Defaults to a normal left ovary.
+/// La inicialización de leftOvary debe hacerse externamente (UI/factory/método).
+ set leftOvary(Ovary value); String? get doctor; set doctor(String? value); String? get clinic; set clinic(String? value); Map<String, dynamic>? get meta; set meta(Map<String, dynamic>? value);
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2262,11 +2266,11 @@ abstract mixin class $ReportDraftCopyWith<$Res>  {
   factory $ReportDraftCopyWith(ReportDraft value, $Res Function(ReportDraft) _then) = _$ReportDraftCopyWithImpl;
 @useResult
 $Res call({
- String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary? rightOvary, Ovary? leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta
+ String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta
 });
 
 
-$PatientCopyWith<$Res>? get patient;$StudyProtocolCopyWith<$Res>? get protocol;$FindingsCopyWith<$Res>? get findings;$BladderCopyWith<$Res>? get bladder;$OvaryCopyWith<$Res>? get rightOvary;$OvaryCopyWith<$Res>? get leftOvary;
+$PatientCopyWith<$Res>? get patient;$StudyProtocolCopyWith<$Res>? get protocol;$FindingsCopyWith<$Res>? get findings;$BladderCopyWith<$Res>? get bladder;$OvaryCopyWith<$Res> get rightOvary;$OvaryCopyWith<$Res> get leftOvary;
 
 }
 /// @nodoc
@@ -2279,7 +2283,7 @@ class _$ReportDraftCopyWithImpl<$Res>
 
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = freezed,Object? leftOvary = freezed,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -2287,9 +2291,9 @@ as DateTime?,patient: freezed == patient ? _self.patient : patient // ignore: ca
 as Patient?,protocol: freezed == protocol ? _self.protocol : protocol // ignore: cast_nullable_to_non_nullable
 as StudyProtocol?,findings: freezed == findings ? _self.findings : findings // ignore: cast_nullable_to_non_nullable
 as Findings?,bladder: freezed == bladder ? _self.bladder : bladder // ignore: cast_nullable_to_non_nullable
-as Bladder?,rightOvary: freezed == rightOvary ? _self.rightOvary : rightOvary // ignore: cast_nullable_to_non_nullable
-as Ovary?,leftOvary: freezed == leftOvary ? _self.leftOvary : leftOvary // ignore: cast_nullable_to_non_nullable
-as Ovary?,doctor: freezed == doctor ? _self.doctor : doctor // ignore: cast_nullable_to_non_nullable
+as Bladder?,rightOvary: null == rightOvary ? _self.rightOvary : rightOvary // ignore: cast_nullable_to_non_nullable
+as Ovary,leftOvary: null == leftOvary ? _self.leftOvary : leftOvary // ignore: cast_nullable_to_non_nullable
+as Ovary,doctor: freezed == doctor ? _self.doctor : doctor // ignore: cast_nullable_to_non_nullable
 as String?,clinic: freezed == clinic ? _self.clinic : clinic // ignore: cast_nullable_to_non_nullable
 as String?,meta: freezed == meta ? _self.meta : meta // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>?,
@@ -2347,24 +2351,18 @@ $BladderCopyWith<$Res>? get bladder {
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$OvaryCopyWith<$Res>? get rightOvary {
-    if (_self.rightOvary == null) {
-    return null;
-  }
-
-  return $OvaryCopyWith<$Res>(_self.rightOvary!, (value) {
+$OvaryCopyWith<$Res> get rightOvary {
+  
+  return $OvaryCopyWith<$Res>(_self.rightOvary, (value) {
     return _then(_self.copyWith(rightOvary: value));
   });
 }/// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$OvaryCopyWith<$Res>? get leftOvary {
-    if (_self.leftOvary == null) {
-    return null;
-  }
-
-  return $OvaryCopyWith<$Res>(_self.leftOvary!, (value) {
+$OvaryCopyWith<$Res> get leftOvary {
+  
+  return $OvaryCopyWith<$Res>(_self.leftOvary, (value) {
     return _then(_self.copyWith(leftOvary: value));
   });
 }
@@ -2449,7 +2447,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary? rightOvary,  Ovary? leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ReportDraft() when $default != null:
 return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta);case _:
@@ -2470,7 +2468,7 @@ return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.find
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary? rightOvary,  Ovary? leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta)  $default,) {final _that = this;
 switch (_that) {
 case _ReportDraft():
 return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta);case _:
@@ -2490,7 +2488,7 @@ return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.find
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary? rightOvary,  Ovary? leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta)?  $default,) {final _that = this;
 switch (_that) {
 case _ReportDraft() when $default != null:
 return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta);case _:
@@ -2505,7 +2503,7 @@ return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.find
 @JsonSerializable()
 
 class _ReportDraft implements ReportDraft {
-   _ReportDraft({this.id, this.createdAt, this.patient, this.protocol, this.findings, this.bladder, this.rightOvary, this.leftOvary, this.doctor, this.clinic, this.meta});
+   _ReportDraft({this.id, this.createdAt, this.patient, this.protocol, this.findings, this.bladder, required this.rightOvary, required this.leftOvary, this.doctor, this.clinic, this.meta});
   factory _ReportDraft.fromJson(Map<String, dynamic> json) => _$ReportDraftFromJson(json);
 
 @override  String? id;
@@ -2514,8 +2512,13 @@ class _ReportDraft implements ReportDraft {
 @override  StudyProtocol? protocol;
 @override  Findings? findings;
 @override  Bladder? bladder;
-@override  Ovary? rightOvary;
-@override  Ovary? leftOvary;
+/// The right ovary information for this report draft. Defaults to a normal right ovary.
+/// The right ovary information for this report draft. Defaults to a normal right ovary.
+/// La inicialización de rightOvary debe hacerse externamente (UI/factory/método).
+@override  Ovary rightOvary;
+/// The left ovary information for this report draft. Defaults to a normal left ovary.
+/// La inicialización de leftOvary debe hacerse externamente (UI/factory/método).
+@override  Ovary leftOvary;
 @override  String? doctor;
 @override  String? clinic;
 @override  Map<String, dynamic>? meta;
@@ -2546,11 +2549,11 @@ abstract mixin class _$ReportDraftCopyWith<$Res> implements $ReportDraftCopyWith
   factory _$ReportDraftCopyWith(_ReportDraft value, $Res Function(_ReportDraft) _then) = __$ReportDraftCopyWithImpl;
 @override @useResult
 $Res call({
- String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary? rightOvary, Ovary? leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta
+ String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta
 });
 
 
-@override $PatientCopyWith<$Res>? get patient;@override $StudyProtocolCopyWith<$Res>? get protocol;@override $FindingsCopyWith<$Res>? get findings;@override $BladderCopyWith<$Res>? get bladder;@override $OvaryCopyWith<$Res>? get rightOvary;@override $OvaryCopyWith<$Res>? get leftOvary;
+@override $PatientCopyWith<$Res>? get patient;@override $StudyProtocolCopyWith<$Res>? get protocol;@override $FindingsCopyWith<$Res>? get findings;@override $BladderCopyWith<$Res>? get bladder;@override $OvaryCopyWith<$Res> get rightOvary;@override $OvaryCopyWith<$Res> get leftOvary;
 
 }
 /// @nodoc
@@ -2563,7 +2566,7 @@ class __$ReportDraftCopyWithImpl<$Res>
 
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = freezed,Object? leftOvary = freezed,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,}) {
   return _then(_ReportDraft(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -2571,9 +2574,9 @@ as DateTime?,patient: freezed == patient ? _self.patient : patient // ignore: ca
 as Patient?,protocol: freezed == protocol ? _self.protocol : protocol // ignore: cast_nullable_to_non_nullable
 as StudyProtocol?,findings: freezed == findings ? _self.findings : findings // ignore: cast_nullable_to_non_nullable
 as Findings?,bladder: freezed == bladder ? _self.bladder : bladder // ignore: cast_nullable_to_non_nullable
-as Bladder?,rightOvary: freezed == rightOvary ? _self.rightOvary : rightOvary // ignore: cast_nullable_to_non_nullable
-as Ovary?,leftOvary: freezed == leftOvary ? _self.leftOvary : leftOvary // ignore: cast_nullable_to_non_nullable
-as Ovary?,doctor: freezed == doctor ? _self.doctor : doctor // ignore: cast_nullable_to_non_nullable
+as Bladder?,rightOvary: null == rightOvary ? _self.rightOvary : rightOvary // ignore: cast_nullable_to_non_nullable
+as Ovary,leftOvary: null == leftOvary ? _self.leftOvary : leftOvary // ignore: cast_nullable_to_non_nullable
+as Ovary,doctor: freezed == doctor ? _self.doctor : doctor // ignore: cast_nullable_to_non_nullable
 as String?,clinic: freezed == clinic ? _self.clinic : clinic // ignore: cast_nullable_to_non_nullable
 as String?,meta: freezed == meta ? _self.meta : meta // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>?,
@@ -2632,24 +2635,18 @@ $BladderCopyWith<$Res>? get bladder {
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$OvaryCopyWith<$Res>? get rightOvary {
-    if (_self.rightOvary == null) {
-    return null;
-  }
-
-  return $OvaryCopyWith<$Res>(_self.rightOvary!, (value) {
+$OvaryCopyWith<$Res> get rightOvary {
+  
+  return $OvaryCopyWith<$Res>(_self.rightOvary, (value) {
     return _then(_self.copyWith(rightOvary: value));
   });
 }/// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$OvaryCopyWith<$Res>? get leftOvary {
-    if (_self.leftOvary == null) {
-    return null;
-  }
-
-  return $OvaryCopyWith<$Res>(_self.leftOvary!, (value) {
+$OvaryCopyWith<$Res> get leftOvary {
+  
+  return $OvaryCopyWith<$Res>(_self.leftOvary, (value) {
     return _then(_self.copyWith(leftOvary: value));
   });
 }

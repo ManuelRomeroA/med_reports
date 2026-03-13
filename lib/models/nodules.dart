@@ -1,15 +1,17 @@
 part of 'models.dart';
 
-/// Represents presence of focal nodules or masses.
-///
-/// `has` indicates whether nodules are present; `description` contains a
-/// concise morphological description (size, echogenicity, location).
+/// Documents presence or description of focal nodules in imaging.
 @unfreezed
 abstract class Nodules with _$Nodules {
-  /// Mutable model for nodules presence/description while editing.
-  factory Nodules({required bool has, String? description}) = _Nodules;
+  factory Nodules({
+    /// Indicates if nodules are present (true) or absent (false).
+    required bool has,
 
-  /// Deserializes [Nodules] from JSON.
+    /// Optional morphological description of nodules, if present.
+    String? description,
+  }) = _Nodules;
+
+  /// Creates Nodules from JSON map.
   factory Nodules.fromJson(Map<String, dynamic> json) =>
       _$NodulesFromJson(json);
 }

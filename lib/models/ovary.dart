@@ -1,64 +1,74 @@
 part of 'models.dart';
 
-/// Ovary side.
-///
-/// Represents which ovary the measurements belong to.
-enum OvarySide { right, left }
+/// Indicates laterality of ovary: right or left.
+enum OvarySide {
+  /// Designates the right ovary.
+  right,
 
-/// Ovary type classification.
-enum OvaryType { normal, polycystic, other }
+  /// Designates the left ovary.
+  left,
+}
 
-// /// Ovary measurement values (AP, TR, LO) and computed volume.
-// @freezed
-// class OvaryMeasurement with _$OvaryMeasurement {
-//   /// Creates a measurement triple. Values are in millimeters (mm).
-//   const factory OvaryMeasurement({double? ap, double? tr, double? lo}) =
-//       _OvaryMeasurement;
+/// Classification of ovarian morphology.
+enum OvaryType {
+  /// Morphologically normal ovary.
+  normal,
 
-//   const OvaryMeasurement._();
+  /// Indicates polycystic ovary appearance.
+  polycystic,
 
-//   /// Volume calculated using the standard ellipsoid formula: AP * TR * LO * 0.523
-//   double get volume => (ap ?? 0) * (tr ?? 0) * (lo ?? 0) * 0.523;
+  /// Other or unclassified morphology.
+  other,
+}
 
-//   /// Deserializes a measurement from JSON.
-//   factory OvaryMeasurement.fromJson(Map<String, dynamic> json) =>
-//       _$OvaryMeasurementFromJson(json);
-// }
-
-/// Ovary measurement values (AP, TR, LO) and computed volume.
-///
-/// Measurements use millimetres (mm). Use [ap], [tr], [lo] to store the
-/// antero-posterior, transverse and longitudinal diameters respectively.
+/// Contains ovary measurements (diameters in mm, computed volume).
 @unfreezed
 abstract class OvaryMeasurement with _$OvaryMeasurement {
+  /// [ap]: Antero-posterior diameter, mm.
+  /// [tr]: Transverse diameter, mm.
+  /// [lo]: Longitudinal diameter, mm.
+  factory OvaryMeasurement({
+    /// Antero-posterior ovarian diameter, in millimeters.
+    required double ap,
+
+    /// Transverse ovarian diameter, in millimeters.
+    required double tr,
+
+    /// Longitudinal ovarian diameter, in millimeters.
+    required double lo,
+  }) = _OvaryMeasurement;
+
   OvaryMeasurement._();
 
-  /// Mutable measurement triple for AP/TR/LO in millimetres.
-  factory OvaryMeasurement({double? ap, double? tr, double? lo}) =
-      _OvaryMeasurement;
+  /// [volume]: Computed ovarian volume (mm³).
+  double get volume => (ap) * (tr) * (lo) * 0.523;
 
-  /// Volume calculated using the ellipsoid formula: AP * TR * LO * 0.523.
-  double get volume => (ap ?? 0) * (tr ?? 0) * (lo ?? 0) * 0.523;
-
-  /// Deserializes a measurement from JSON.
+  /// Creates OvaryMeasurement from JSON.
   factory OvaryMeasurement.fromJson(Map<String, dynamic> json) =>
       _$OvaryMeasurementFromJson(json);
 }
 
-/// Ovary domain entity representing one ovary (left or right).
-///
-/// Use this class to store side, morphological type, measurements and any
-/// free-text [notes] observed on the ultrasound.
+/// Represents a single ovary report entity for ultrasound.
 @unfreezed
 abstract class Ovary with _$Ovary {
-  /// Mutable ovary record while editing.
+  /// [side]: Ovary laterality.
+  /// [type]: Morphological classification.
+  /// [measures]: Linear measurements (AP/TR/LO).
+  /// [notes]: Optional notes.
   factory Ovary({
+    /// Indicates laterality—whether this is the right or left ovary.
     required OvarySide side,
+
+    /// Classifies the morphology of the ovary.
     required OvaryType type,
-    OvaryMeasurement? measures,
+
+    /// Ovarian diameter measurements (AP, TR, LO).
+    required OvaryMeasurement measures,
+
+    /// Optional notes and comments describing the ovary.
     String? notes,
   }) = _Ovary;
 
-  /// Deserializes an [Ovary] from JSON.
+  /// Creates Ovary from JSON.
   factory Ovary.fromJson(Map<String, dynamic> json) => _$OvaryFromJson(json);
 }

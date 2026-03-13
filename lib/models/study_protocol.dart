@@ -1,29 +1,34 @@
 part of 'models.dart';
 
-/// Type of study/protocol used for the ultrasound.
-///
-/// Uses explicit JSON values to preserve compatibility with existing persisted
-/// data which uses uppercase identifiers.
+/// Enum specifying types of ultrasound study protocols.
 @JsonEnum(alwaysCreate: true)
 enum StudyType {
+  /// [pelvic]: Pelvic ultrasound protocol ("ECOSONOGRAMA_PELVICO").
   @JsonValue('ECOSONOGRAMA_PELVICO')
   pelvic,
+
+  /// [transvaginal]: Transvaginal ultrasound protocol ("TRANSVAGINAL").
   @JsonValue('TRANSVAGINAL')
   transvaginal,
+
+  /// [transrectal]: Transrectal ultrasound protocol ("TRANSRECTAL").
   @JsonValue('TRANSRECTAL')
   transrectal,
 }
 
-/// Protocol metadata such as the study type and equipment used.
-///
-/// Example JSON: `{ "type": "TRANSVAGINAL", "equipment": "GE Voluson" }`.
+/// Metadata for ultrasound study protocol configuration.
+/// Contains study type and equipment model.
 @unfreezed
 abstract class StudyProtocol with _$StudyProtocol {
-  /// Mutable protocol metadata while editing the report.
-  factory StudyProtocol({required StudyType type, String? equipment}) =
-      _StudyProtocol;
+  factory StudyProtocol({
+    /// Specifies the type of ultrasound study protocol.
+    required StudyType type,
 
-  /// Deserializes a [StudyProtocol] from JSON.
+    /// Model or description of the equipment used, if available.
+    String? equipment,
+  }) = _StudyProtocol;
+
+  /// Creates a StudyProtocol from a JSON map.
   factory StudyProtocol.fromJson(Map<String, dynamic> json) =>
       _$StudyProtocolFromJson(json);
 }

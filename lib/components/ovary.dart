@@ -88,13 +88,15 @@ class _OvaryWidgetState extends State<OvaryWidget> {
             children: [
               Expanded(
                 child: ThemedTextInput(
-                  value: widget.ovary.measures?.ap?.toString() ?? "",
+                  value: widget.ovary.measures.ap.toString(),
                   labelText: "AP",
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
                     setState(() {
                       final numVal = double.tryParse(value);
-                      ovary.measures?.ap = numVal;
+                      if (numVal == null) return;
+
+                      ovary.measures.ap = numVal;
                       widget.onChanged(ovary);
                     });
                   },
@@ -103,14 +105,15 @@ class _OvaryWidgetState extends State<OvaryWidget> {
               const SizedBox(width: 12),
               Expanded(
                 child: ThemedTextInput(
-                  value: widget.ovary.measures?.tr?.toString() ?? "",
+                  value: widget.ovary.measures.tr.toString(),
 
                   labelText: "TR",
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
                     setState(() {
                       final numVal = double.tryParse(value);
-                      widget.ovary.measures?.tr = numVal;
+                      if (numVal == null) return;
+                      widget.ovary.measures.tr = numVal;
                       widget.onChanged(widget.ovary);
                     });
                   },
@@ -119,13 +122,14 @@ class _OvaryWidgetState extends State<OvaryWidget> {
               const SizedBox(width: 12),
               Expanded(
                 child: ThemedTextInput(
-                  value: widget.ovary.measures?.lo?.toString() ?? "",
+                  value: widget.ovary.measures.lo.toString(),
                   labelText: "LO",
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
                     setState(() {
                       final numVal = double.tryParse(value);
-                      widget.ovary.measures?.lo = numVal;
+                      if (numVal == null) return;
+                      widget.ovary.measures.lo = numVal;
                       widget.onChanged(widget.ovary);
                     });
                   },
@@ -153,7 +157,7 @@ class _OvaryWidgetState extends State<OvaryWidget> {
                       ),
                     ),
                     Text(
-                      (widget.ovary.measures?.volume ?? 0).toStringAsFixed(0),
+                      widget.ovary.measures.volume.toStringAsFixed(0),
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

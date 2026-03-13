@@ -1,15 +1,13 @@
 part of 'models.dart';
 
-/// Aggregated findings for the pelvic ultrasound.
-///
-/// Contains organ-specific findings (bladder, ovaries) and free-text
-/// diagnostic/conclusion fields used in the report generation UI.
+/// Aggregates clinical findings for a pelvic ultrasound study.
 @unfreezed
 abstract class Findings with _$Findings {
-  /// Mutable aggregated findings while the report is being filled.
+  /// Optional text description detailing the uterine diagnosis.
+  /// Optional overall conclusion in free-text form summarizing findings.
   factory Findings({String? uterusDiagnosis, String? conclusion}) = _Findings;
 
-  /// Deserializes [Findings] from JSON.
+  /// Creates Findings from JSON.
   factory Findings.fromJson(Map<String, dynamic> json) =>
       _$FindingsFromJson(json);
 }

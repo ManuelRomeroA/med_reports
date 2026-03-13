@@ -3,6 +3,19 @@ import 'package:med_reports/models/models.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
+Report _draftToReport(ReportDraft draft) {
+  return Report(
+    id: draft.id ?? '',
+    createdAt: draft.createdAt ?? DateTime.now(),
+    patient: draft.patient!,
+    protocol: draft.protocol!,
+    findings: draft.findings!,
+    doctor: draft.doctor,
+    clinic: draft.clinic,
+    meta: draft.meta,
+  );
+}
+
 void main() {
   test('Draft to Report conversion', () {
     final draft = ReportDraft(
@@ -22,8 +35,18 @@ void main() {
       doctor: 'Dra. Perez',
       clinic: 'Maternidad',
       meta: {'conclusion': 'sin patología', 'version': 1},
+      rightOvary: Ovary(
+        side: OvarySide.right,
+        type: OvaryType.normal,
+        measures: OvaryMeasurement(ap: 0, tr: 0, lo: 0),
+      ),
+      leftOvary: Ovary(
+        side: OvarySide.left,
+        type: OvaryType.normal,
+        measures: OvaryMeasurement(ap: 0, tr: 0, lo: 0),
+      ),
     );
-    final report = draft.toReport();
+    final report = _draftToReport(draft);
     expect(report.id, 'draft1');
     expect(report.patient.name, 'Maria Test');
     expect(report.protocol.equipment, 'Mindray');

@@ -3,9 +3,6 @@ import 'package:layrz_theme/layrz_theme.dart';
 import 'package:med_reports/components/general/selected_button.dart';
 import 'package:med_reports/main.dart';
 import 'package:med_reports/models/models.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
 
 class BladderWidget extends StatefulWidget {
   final ReportDraft draft;

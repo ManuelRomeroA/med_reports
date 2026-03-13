@@ -56,9 +56,9 @@ const _$StudyTypeEnumMap = {
 
 _OvaryMeasurement _$OvaryMeasurementFromJson(Map<String, dynamic> json) =>
     _OvaryMeasurement(
-      ap: (json['ap'] as num?)?.toDouble(),
-      tr: (json['tr'] as num?)?.toDouble(),
-      lo: (json['lo'] as num?)?.toDouble(),
+      ap: (json['ap'] as num).toDouble(),
+      tr: (json['tr'] as num).toDouble(),
+      lo: (json['lo'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$OvaryMeasurementToJson(_OvaryMeasurement instance) =>
@@ -67,9 +67,7 @@ Map<String, dynamic> _$OvaryMeasurementToJson(_OvaryMeasurement instance) =>
 _Ovary _$OvaryFromJson(Map<String, dynamic> json) => _Ovary(
   side: $enumDecode(_$OvarySideEnumMap, json['side']),
   type: $enumDecode(_$OvaryTypeEnumMap, json['type']),
-  measures: json['measures'] == null
-      ? null
-      : OvaryMeasurement.fromJson(json['measures'] as Map<String, dynamic>),
+  measures: OvaryMeasurement.fromJson(json['measures'] as Map<String, dynamic>),
   notes: json['notes'] as String?,
 );
 
@@ -191,12 +189,8 @@ _ReportDraft _$ReportDraftFromJson(Map<String, dynamic> json) => _ReportDraft(
   bladder: json['bladder'] == null
       ? null
       : Bladder.fromJson(json['bladder'] as Map<String, dynamic>),
-  rightOvary: json['rightOvary'] == null
-      ? null
-      : Ovary.fromJson(json['rightOvary'] as Map<String, dynamic>),
-  leftOvary: json['leftOvary'] == null
-      ? null
-      : Ovary.fromJson(json['leftOvary'] as Map<String, dynamic>),
+  rightOvary: Ovary.fromJson(json['rightOvary'] as Map<String, dynamic>),
+  leftOvary: Ovary.fromJson(json['leftOvary'] as Map<String, dynamic>),
   doctor: json['doctor'] as String?,
   clinic: json['clinic'] as String?,
   meta: json['meta'] as Map<String, dynamic>?,
