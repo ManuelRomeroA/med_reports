@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:med_reports/components/nodulos/content.dart';
+import 'package:med_reports/models/models.dart';
 import 'package:med_reports/main.dart';
 
+/**
+ * Widget para editar hallazgos miometriales (nódulos) en el borrador draft mutable.
+ * Recibe el draft y un callback [onChanged] que se llama luego de cualquier modificación.
+ * Edita el draft directamente y notifica a home.
+ */
 class NodulesWidget extends StatefulWidget {
-  const NodulesWidget({super.key});
+  final ReportDraft draft;
+  final VoidCallback onChanged;
+  const NodulesWidget({
+    super.key,
+    required this.draft,
+    required this.onChanged,
+  });
 
   @override
   State<NodulesWidget> createState() => _NodulesWidgetState();
 }
 
 class _NodulesWidgetState extends State<NodulesWidget> {
-  String seleccion = "Si";
+  // El estado se toma/modifica directamente del draft recibido.
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +58,15 @@ class _NodulesWidgetState extends State<NodulesWidget> {
                 ),
               ),
               _NodulesSelector(
-                value: seleccion,
-                onChanged: (v) => setState(() => seleccion = v),
+                // Ejemplo de integración: reemplaza 'seleccion' con draft.findings?.uterusDiagnosis u otro campo propio
+                value: widget.draft.findings?.uterusDiagnosis ?? "",
+                onChanged: (v) {
+                  if (widget.draft.findings == null)
+                    widget.draft.findings = new Findings();
+                  widget.draft.findings?.uterusDiagnosis = v;
+                  setState(() {});
+                  widget.onChanged();
+                },
               ),
             ],
           ),
@@ -56,7 +75,8 @@ class _NodulesWidgetState extends State<NodulesWidget> {
             thickness: 1,
             color: theme.colorScheme.primary.withValues(alpha: 0.15),
           ),
-          if (seleccion == "No") ...[
+          // Si quieres mostrar condiciones dependientes del draft, consulta draft directamente.
+          if ((widget.draft.findings?.uterusDiagnosis ?? "") == "No") ...[
             const SizedBox(height: 18),
             NodulesContent(),
           ],

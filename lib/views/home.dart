@@ -19,6 +19,12 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   late ReportDraft draft;
 
+  /// Callback invocada cuando algún widget hijo modifica el borrador (draft)
+  /// Permite refrescar la pantalla y propagar cambios aguas abajo.
+  void onDraftChanged() {
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
@@ -64,7 +70,7 @@ class _HomeViewState extends State<HomeView> {
                       mainAxisSize: .min,
                       children: [
                         UteroWidget(),
-                        NodulesWidget(),
+                        NodulesWidget(draft: draft, onChanged: onDraftChanged),
                         Row(
                           mainAxisAlignment: .start,
                           crossAxisAlignment: .center,
@@ -96,10 +102,20 @@ class _HomeViewState extends State<HomeView> {
                           spacing: 24,
                           children: [
                             Expanded(
-                              child: StateSelector(titulo: "ESTADO VAGINAL"),
+                              child: StateSelector(
+                                titulo: "ESTADO VAGINAL",
+                                draft: draft,
+                                onChanged: onDraftChanged,
+                                campo: "vaginalState",
+                              ),
                             ),
                             Expanded(
-                              child: StateSelector(titulo: "CUELLO UTERINO"),
+                              child: StateSelector(
+                                titulo: "CUELLO UTERINO",
+                                draft: draft,
+                                onChanged: onDraftChanged,
+                                campo: "cervixState",
+                              ),
                             ),
                           ],
                         ),
