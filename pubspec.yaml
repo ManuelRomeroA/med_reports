@@ -25,6 +25,7 @@ dev_dependencies:
   build_runner: ^2.4.6
   freezed: ^3.1.0
   json_serializable: ^6.7.0
+  test: ^1.30.0
   # json_annotation is required at runtime for codegen; the package is
   # declared in `dependencies` to satisfy build_runner/json_serializable.
 

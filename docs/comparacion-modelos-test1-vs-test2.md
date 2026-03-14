@@ -43,9 +43,14 @@
 - Ajusta templates/pipelines para que el resultado sea siempre el óptimo, especialmente cuando automatizas generación de modelos.
 
 
-2. Caso práctico y simétrico:
-   - Crear dos clases de ejemplo simples (Test1 y Test2) con la estructura:
+ Iniciemos nueva task, Caso práctico y simétrico:
+   - Crear una clase Test 1 Freezed con la siguiente estrutura usando sdd-design
      - String id
      - int age
      - List<String> names
-   - Ambas clases deben ser modelos Freezed.
+
+ Iniciemos nueva task, Caso práctico y simétrico:
+   - Crear una clase Test 2 Freezed con la siguiente estrutura usando sdd-design-freezed
+     - String id
+     - int age
+     - List<String> names
