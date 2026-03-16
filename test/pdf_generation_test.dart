@@ -25,7 +25,7 @@ void main() {
         name: 'Maria Test',
         ci: '111111',
         age: 40,
-        bloodGroup: 'A+',
+        bloodType: 'A+',
       ),
       protocol: StudyProtocol(type: StudyType.pelvic, equipment: 'Mindray'),
       findings: Findings(

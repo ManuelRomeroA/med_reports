@@ -4,7 +4,7 @@ part of 'models.dart';
 @JsonEnum(alwaysCreate: true)
 enum StudyType {
   /// [pelvic]: Pelvic ultrasound protocol ("ECOSONOGRAMA_PELVICO").
-  @JsonValue('ECOSONOGRAMA_PELVICO')
+  @JsonValue('ECOSONOGRAMA PELVICO')
   pelvic,
 
   /// [transvaginal]: Transvaginal ultrasound protocol ("TRANSVAGINAL").
@@ -14,6 +14,13 @@ enum StudyType {
   /// [transrectal]: Transrectal ultrasound protocol ("TRANSRECTAL").
   @JsonValue('TRANSRECTAL')
   transrectal,
+
+  @JsonValue('DESCONOCIDO')
+  /// [unknow]: Unknow protocol
+  unknow;
+
+  @override
+  String toString() => _$StudyTypeEnumMap[this] ?? 'DESCONOCIDO';
 }
 
 /// Metadata for ultrasound study protocol configuration.
@@ -22,7 +29,9 @@ enum StudyType {
 abstract class StudyProtocol with _$StudyProtocol {
   factory StudyProtocol({
     /// Specifies the type of ultrasound study protocol.
-    required StudyType type,
+    @JsonKey(unknownEnumValue: StudyType.unknow)
+    @Default(StudyType.unknow)
+    StudyType type,
 
     /// Model or description of the equipment used, if available.
     String? equipment,

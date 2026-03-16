@@ -7,17 +7,30 @@ part of 'models.dart';
 // **************************************************************************
 
 _Patient _$PatientFromJson(Map<String, dynamic> json) => _Patient(
-  id: json['id'] as String,
-  name: json['name'] as String,
+  id: json['id'] as String?,
+  name: json['name'] as String?,
   ci: json['ci'] as String?,
   age: (json['age'] as num?)?.toInt(),
-  bloodGroup: json['bloodGroup'] as String?,
+  bloodType:
+      $enumDecodeNullable(
+        _$BloodTypeEnumMap,
+        json['bloodType'],
+        unknownValue: BloodType.unknow,
+      ) ??
+      BloodType.unknow,
   fur: json['fur'] == null ? null : DateTime.parse(json['fur'] as String),
   gesta: json['gesta'] as String?,
   para: json['para'] as String?,
   cesarea: json['cesarea'] as String?,
   aborto: json['aborto'] as String?,
-  referencia: json['referencia'] as String?,
+  period:
+      $enumDecodeNullable(
+        _$PeriodTypeEnumMap,
+        json['period'],
+        unknownValue: PeriodType.normal,
+      ) ??
+      PeriodType.normal,
+  reference: json['reference'] as String?,
   motivo: json['motivo'] as String?,
 );
 
@@ -26,19 +39,46 @@ Map<String, dynamic> _$PatientToJson(_Patient instance) => <String, dynamic>{
   'name': instance.name,
   'ci': instance.ci,
   'age': instance.age,
-  'bloodGroup': instance.bloodGroup,
+  'bloodType': _$BloodTypeEnumMap[instance.bloodType]!,
   'fur': instance.fur?.toIso8601String(),
   'gesta': instance.gesta,
   'para': instance.para,
   'cesarea': instance.cesarea,
   'aborto': instance.aborto,
-  'referencia': instance.referencia,
+  'period': _$PeriodTypeEnumMap[instance.period]!,
+  'reference': instance.reference,
   'motivo': instance.motivo,
+};
+
+const _$BloodTypeEnumMap = {
+  BloodType.ap: 'A+',
+  BloodType.an: 'A-',
+  BloodType.bp: 'B+',
+  BloodType.bn: 'B-',
+  BloodType.abp: 'AB+',
+  BloodType.abn: 'AB-',
+  BloodType.op: 'O+',
+  BloodType.on: 'O-',
+  BloodType.unknow: 'DESCONOCIDO',
+};
+
+const _$PeriodTypeEnumMap = {
+  PeriodType.regular: 'REGULAR',
+  PeriodType.excesiva: 'EXCESIVA',
+  PeriodType.normal: 'NORMAL',
+  PeriodType.escasa: 'ESCASA',
+  PeriodType.unknow: 'DESCONOCIDA',
 };
 
 _StudyProtocol _$StudyProtocolFromJson(Map<String, dynamic> json) =>
     _StudyProtocol(
-      type: $enumDecode(_$StudyTypeEnumMap, json['type']),
+      type:
+          $enumDecodeNullable(
+            _$StudyTypeEnumMap,
+            json['type'],
+            unknownValue: StudyType.unknow,
+          ) ??
+          StudyType.unknow,
       equipment: json['equipment'] as String?,
     );
 
@@ -49,9 +89,10 @@ Map<String, dynamic> _$StudyProtocolToJson(_StudyProtocol instance) =>
     };
 
 const _$StudyTypeEnumMap = {
-  StudyType.pelvic: 'ECOSONOGRAMA_PELVICO',
+  StudyType.pelvic: 'ECOSONOGRAMA PELVICO',
   StudyType.transvaginal: 'TRANSVAGINAL',
   StudyType.transrectal: 'TRANSRECTAL',
+  StudyType.unknow: 'DESCONOCIDO',
 };
 
 _OvaryMeasurement _$OvaryMeasurementFromJson(Map<String, dynamic> json) =>

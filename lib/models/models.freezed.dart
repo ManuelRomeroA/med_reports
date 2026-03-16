@@ -15,30 +15,32 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Patient {
 
-/// [id] Unique identifier (UUID) for the patient.
- String get id;/// [id] Unique identifier (UUID) for the patient.
- set id(String value);/// [name] Full name of the patient.
- String get name;/// [name] Full name of the patient.
- set name(String value);/// [ci] National ID or document number (legacy JSON key `ci`).
- String? get ci;/// [ci] National ID or document number (legacy JSON key `ci`).
- set ci(String? value);/// [age] Age in years.
- int? get age;/// [age] Age in years.
- set age(int? value);/// [bloodGroup] Blood group (e.g. "O+", "A-").
- String? get bloodGroup;/// [bloodGroup] Blood group (e.g. "O+", "A-").
- set bloodGroup(String? value);/// [fur] Date of last menstrual period (LMP). Stored in legacy JSON as `fur`.
- DateTime? get fur;/// [fur] Date of last menstrual period (LMP). Stored in legacy JSON as `fur`.
- set fur(DateTime? value);/// [gesta] Gravida (number of pregnancies).
- String? get gesta;/// [gesta] Gravida (number of pregnancies).
- set gesta(String? value);/// [para] Para (number of births).
- String? get para;/// [para] Para (number of births).
- set para(String? value);/// [cesarea] Cesarean count.
- String? get cesarea;/// [cesarea] Cesarean count.
- set cesarea(String? value);/// [aborto] Abortion count.
- String? get aborto;/// [aborto] Abortion count.
- set aborto(String? value);/// [referencia] Referral source.
- String? get referencia;/// [referencia] Referral source.
- set referencia(String? value);/// [motivo] Chief complaint or reason for consultation.
- String? get motivo;/// [motivo] Chief complaint or reason for consultation.
+/// Unique identifier for the patient (UUID format).
+ String? get id;/// Unique identifier for the patient (UUID format).
+ set id(String? value);/// Patient's full name, including surname(s).
+ String? get name;/// Patient's full name, including surname(s).
+ set name(String? value);/// National identification document or passport (optional).
+ String? get ci;/// National identification document or passport (optional).
+ set ci(String? value);/// Age of the patient in years (optional).
+ int? get age;/// Age of the patient in years (optional).
+ set age(int? value);/// Blood group (e.g., "O+") if available (optional).
+@JsonKey(unknownEnumValue: BloodType.unknow) BloodType get bloodType;/// Blood group (e.g., "O+") if available (optional).
+@JsonKey(unknownEnumValue: BloodType.unknow) set bloodType(BloodType value);/// Date corresponding to the last menstrual period (optional).
+ DateTime? get fur;/// Date corresponding to the last menstrual period (optional).
+ set fur(DateTime? value);/// Number of times the patient has been pregnant (optional).
+ String? get gesta;/// Number of times the patient has been pregnant (optional).
+ set gesta(String? value);/// Number of times the patient has given birth (optional).
+ String? get para;/// Number of times the patient has given birth (optional).
+ set para(String? value);/// Number of cesarean deliveries (optional).
+ String? get cesarea;/// Number of cesarean deliveries (optional).
+ set cesarea(String? value);/// Number of recorded abortions or miscarriages (optional).
+ String? get aborto;/// Number of recorded abortions or miscarriages (optional).
+ set aborto(String? value);/// Period
+@JsonKey(unknownEnumValue: PeriodType.normal) PeriodType get period;/// Period
+@JsonKey(unknownEnumValue: PeriodType.normal) set period(PeriodType value);/// Referral source or referring medical provider (optional).
+ String? get reference;/// Referral source or referring medical provider (optional).
+ set reference(String? value);/// Patient demographic and clinical identity model.
+ String? get motivo;/// Patient demographic and clinical identity model.
  set motivo(String? value);
 /// Create a copy of Patient
 /// with the given fields replaced by the non-null parameter values.
@@ -54,7 +56,7 @@ $PatientCopyWith<Patient> get copyWith => _$PatientCopyWithImpl<Patient>(this as
 
 @override
 String toString() {
-  return 'Patient(id: $id, name: $name, ci: $ci, age: $age, bloodGroup: $bloodGroup, fur: $fur, gesta: $gesta, para: $para, cesarea: $cesarea, aborto: $aborto, referencia: $referencia, motivo: $motivo)';
+  return 'Patient(id: $id, name: $name, ci: $ci, age: $age, bloodType: $bloodType, fur: $fur, gesta: $gesta, para: $para, cesarea: $cesarea, aborto: $aborto, period: $period, reference: $reference, motivo: $motivo)';
 }
 
 
@@ -65,7 +67,7 @@ abstract mixin class $PatientCopyWith<$Res>  {
   factory $PatientCopyWith(Patient value, $Res Function(Patient) _then) = _$PatientCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, String? ci, int? age, String? bloodGroup, DateTime? fur, String? gesta, String? para, String? cesarea, String? aborto, String? referencia, String? motivo
+ String? id, String? name, String? ci, int? age,@JsonKey(unknownEnumValue: BloodType.unknow) BloodType bloodType, DateTime? fur, String? gesta, String? para, String? cesarea, String? aborto,@JsonKey(unknownEnumValue: PeriodType.normal) PeriodType period, String? reference, String? motivo
 });
 
 
@@ -82,19 +84,20 @@ class _$PatientCopyWithImpl<$Res>
 
 /// Create a copy of Patient
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? ci = freezed,Object? age = freezed,Object? bloodGroup = freezed,Object? fur = freezed,Object? gesta = freezed,Object? para = freezed,Object? cesarea = freezed,Object? aborto = freezed,Object? referencia = freezed,Object? motivo = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = freezed,Object? ci = freezed,Object? age = freezed,Object? bloodType = null,Object? fur = freezed,Object? gesta = freezed,Object? para = freezed,Object? cesarea = freezed,Object? aborto = freezed,Object? period = null,Object? reference = freezed,Object? motivo = freezed,}) {
   return _then(_self.copyWith(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,ci: freezed == ci ? _self.ci : ci // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,ci: freezed == ci ? _self.ci : ci // ignore: cast_nullable_to_non_nullable
 as String?,age: freezed == age ? _self.age : age // ignore: cast_nullable_to_non_nullable
-as int?,bloodGroup: freezed == bloodGroup ? _self.bloodGroup : bloodGroup // ignore: cast_nullable_to_non_nullable
-as String?,fur: freezed == fur ? _self.fur : fur // ignore: cast_nullable_to_non_nullable
+as int?,bloodType: null == bloodType ? _self.bloodType : bloodType // ignore: cast_nullable_to_non_nullable
+as BloodType,fur: freezed == fur ? _self.fur : fur // ignore: cast_nullable_to_non_nullable
 as DateTime?,gesta: freezed == gesta ? _self.gesta : gesta // ignore: cast_nullable_to_non_nullable
 as String?,para: freezed == para ? _self.para : para // ignore: cast_nullable_to_non_nullable
 as String?,cesarea: freezed == cesarea ? _self.cesarea : cesarea // ignore: cast_nullable_to_non_nullable
 as String?,aborto: freezed == aborto ? _self.aborto : aborto // ignore: cast_nullable_to_non_nullable
-as String?,referencia: freezed == referencia ? _self.referencia : referencia // ignore: cast_nullable_to_non_nullable
+as String?,period: null == period ? _self.period : period // ignore: cast_nullable_to_non_nullable
+as PeriodType,reference: freezed == reference ? _self.reference : reference // ignore: cast_nullable_to_non_nullable
 as String?,motivo: freezed == motivo ? _self.motivo : motivo // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -181,10 +184,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String? ci,  int? age,  String? bloodGroup,  DateTime? fur,  String? gesta,  String? para,  String? cesarea,  String? aborto,  String? referencia,  String? motivo)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String? name,  String? ci,  int? age, @JsonKey(unknownEnumValue: BloodType.unknow)  BloodType bloodType,  DateTime? fur,  String? gesta,  String? para,  String? cesarea,  String? aborto, @JsonKey(unknownEnumValue: PeriodType.normal)  PeriodType period,  String? reference,  String? motivo)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Patient() when $default != null:
-return $default(_that.id,_that.name,_that.ci,_that.age,_that.bloodGroup,_that.fur,_that.gesta,_that.para,_that.cesarea,_that.aborto,_that.referencia,_that.motivo);case _:
+return $default(_that.id,_that.name,_that.ci,_that.age,_that.bloodType,_that.fur,_that.gesta,_that.para,_that.cesarea,_that.aborto,_that.period,_that.reference,_that.motivo);case _:
   return orElse();
 
 }
@@ -202,10 +205,10 @@ return $default(_that.id,_that.name,_that.ci,_that.age,_that.bloodGroup,_that.fu
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String? ci,  int? age,  String? bloodGroup,  DateTime? fur,  String? gesta,  String? para,  String? cesarea,  String? aborto,  String? referencia,  String? motivo)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String? name,  String? ci,  int? age, @JsonKey(unknownEnumValue: BloodType.unknow)  BloodType bloodType,  DateTime? fur,  String? gesta,  String? para,  String? cesarea,  String? aborto, @JsonKey(unknownEnumValue: PeriodType.normal)  PeriodType period,  String? reference,  String? motivo)  $default,) {final _that = this;
 switch (_that) {
 case _Patient():
-return $default(_that.id,_that.name,_that.ci,_that.age,_that.bloodGroup,_that.fur,_that.gesta,_that.para,_that.cesarea,_that.aborto,_that.referencia,_that.motivo);case _:
+return $default(_that.id,_that.name,_that.ci,_that.age,_that.bloodType,_that.fur,_that.gesta,_that.para,_that.cesarea,_that.aborto,_that.period,_that.reference,_that.motivo);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -222,10 +225,10 @@ return $default(_that.id,_that.name,_that.ci,_that.age,_that.bloodGroup,_that.fu
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String? ci,  int? age,  String? bloodGroup,  DateTime? fur,  String? gesta,  String? para,  String? cesarea,  String? aborto,  String? referencia,  String? motivo)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String? name,  String? ci,  int? age, @JsonKey(unknownEnumValue: BloodType.unknow)  BloodType bloodType,  DateTime? fur,  String? gesta,  String? para,  String? cesarea,  String? aborto, @JsonKey(unknownEnumValue: PeriodType.normal)  PeriodType period,  String? reference,  String? motivo)?  $default,) {final _that = this;
 switch (_that) {
 case _Patient() when $default != null:
-return $default(_that.id,_that.name,_that.ci,_that.age,_that.bloodGroup,_that.fur,_that.gesta,_that.para,_that.cesarea,_that.aborto,_that.referencia,_that.motivo);case _:
+return $default(_that.id,_that.name,_that.ci,_that.age,_that.bloodType,_that.fur,_that.gesta,_that.para,_that.cesarea,_that.aborto,_that.period,_that.reference,_that.motivo);case _:
   return null;
 
 }
@@ -237,32 +240,34 @@ return $default(_that.id,_that.name,_that.ci,_that.age,_that.bloodGroup,_that.fu
 @JsonSerializable()
 
 class _Patient implements Patient {
-   _Patient({required this.id, required this.name, this.ci, this.age, this.bloodGroup, this.fur, this.gesta, this.para, this.cesarea, this.aborto, this.referencia, this.motivo});
+   _Patient({this.id, this.name, this.ci, this.age, @JsonKey(unknownEnumValue: BloodType.unknow) this.bloodType = BloodType.unknow, this.fur, this.gesta, this.para, this.cesarea, this.aborto, @JsonKey(unknownEnumValue: PeriodType.normal) this.period = PeriodType.normal, this.reference, this.motivo});
   factory _Patient.fromJson(Map<String, dynamic> json) => _$PatientFromJson(json);
 
-/// [id] Unique identifier (UUID) for the patient.
-@override  String id;
-/// [name] Full name of the patient.
-@override  String name;
-/// [ci] National ID or document number (legacy JSON key `ci`).
+/// Unique identifier for the patient (UUID format).
+@override  String? id;
+/// Patient's full name, including surname(s).
+@override  String? name;
+/// National identification document or passport (optional).
 @override  String? ci;
-/// [age] Age in years.
+/// Age of the patient in years (optional).
 @override  int? age;
-/// [bloodGroup] Blood group (e.g. "O+", "A-").
-@override  String? bloodGroup;
-/// [fur] Date of last menstrual period (LMP). Stored in legacy JSON as `fur`.
+/// Blood group (e.g., "O+") if available (optional).
+@override@JsonKey(unknownEnumValue: BloodType.unknow)  BloodType bloodType;
+/// Date corresponding to the last menstrual period (optional).
 @override  DateTime? fur;
-/// [gesta] Gravida (number of pregnancies).
+/// Number of times the patient has been pregnant (optional).
 @override  String? gesta;
-/// [para] Para (number of births).
+/// Number of times the patient has given birth (optional).
 @override  String? para;
-/// [cesarea] Cesarean count.
+/// Number of cesarean deliveries (optional).
 @override  String? cesarea;
-/// [aborto] Abortion count.
+/// Number of recorded abortions or miscarriages (optional).
 @override  String? aborto;
-/// [referencia] Referral source.
-@override  String? referencia;
-/// [motivo] Chief complaint or reason for consultation.
+/// Period
+@override@JsonKey(unknownEnumValue: PeriodType.normal)  PeriodType period;
+/// Referral source or referring medical provider (optional).
+@override  String? reference;
+/// Patient demographic and clinical identity model.
 @override  String? motivo;
 
 /// Create a copy of Patient
@@ -280,7 +285,7 @@ Map<String, dynamic> toJson() {
 
 @override
 String toString() {
-  return 'Patient(id: $id, name: $name, ci: $ci, age: $age, bloodGroup: $bloodGroup, fur: $fur, gesta: $gesta, para: $para, cesarea: $cesarea, aborto: $aborto, referencia: $referencia, motivo: $motivo)';
+  return 'Patient(id: $id, name: $name, ci: $ci, age: $age, bloodType: $bloodType, fur: $fur, gesta: $gesta, para: $para, cesarea: $cesarea, aborto: $aborto, period: $period, reference: $reference, motivo: $motivo)';
 }
 
 
@@ -291,7 +296,7 @@ abstract mixin class _$PatientCopyWith<$Res> implements $PatientCopyWith<$Res> {
   factory _$PatientCopyWith(_Patient value, $Res Function(_Patient) _then) = __$PatientCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, String? ci, int? age, String? bloodGroup, DateTime? fur, String? gesta, String? para, String? cesarea, String? aborto, String? referencia, String? motivo
+ String? id, String? name, String? ci, int? age,@JsonKey(unknownEnumValue: BloodType.unknow) BloodType bloodType, DateTime? fur, String? gesta, String? para, String? cesarea, String? aborto,@JsonKey(unknownEnumValue: PeriodType.normal) PeriodType period, String? reference, String? motivo
 });
 
 
@@ -308,19 +313,20 @@ class __$PatientCopyWithImpl<$Res>
 
 /// Create a copy of Patient
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? ci = freezed,Object? age = freezed,Object? bloodGroup = freezed,Object? fur = freezed,Object? gesta = freezed,Object? para = freezed,Object? cesarea = freezed,Object? aborto = freezed,Object? referencia = freezed,Object? motivo = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = freezed,Object? ci = freezed,Object? age = freezed,Object? bloodType = null,Object? fur = freezed,Object? gesta = freezed,Object? para = freezed,Object? cesarea = freezed,Object? aborto = freezed,Object? period = null,Object? reference = freezed,Object? motivo = freezed,}) {
   return _then(_Patient(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,ci: freezed == ci ? _self.ci : ci // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,ci: freezed == ci ? _self.ci : ci // ignore: cast_nullable_to_non_nullable
 as String?,age: freezed == age ? _self.age : age // ignore: cast_nullable_to_non_nullable
-as int?,bloodGroup: freezed == bloodGroup ? _self.bloodGroup : bloodGroup // ignore: cast_nullable_to_non_nullable
-as String?,fur: freezed == fur ? _self.fur : fur // ignore: cast_nullable_to_non_nullable
+as int?,bloodType: null == bloodType ? _self.bloodType : bloodType // ignore: cast_nullable_to_non_nullable
+as BloodType,fur: freezed == fur ? _self.fur : fur // ignore: cast_nullable_to_non_nullable
 as DateTime?,gesta: freezed == gesta ? _self.gesta : gesta // ignore: cast_nullable_to_non_nullable
 as String?,para: freezed == para ? _self.para : para // ignore: cast_nullable_to_non_nullable
 as String?,cesarea: freezed == cesarea ? _self.cesarea : cesarea // ignore: cast_nullable_to_non_nullable
 as String?,aborto: freezed == aborto ? _self.aborto : aborto // ignore: cast_nullable_to_non_nullable
-as String?,referencia: freezed == referencia ? _self.referencia : referencia // ignore: cast_nullable_to_non_nullable
+as String?,period: null == period ? _self.period : period // ignore: cast_nullable_to_non_nullable
+as PeriodType,reference: freezed == reference ? _self.reference : reference // ignore: cast_nullable_to_non_nullable
 as String?,motivo: freezed == motivo ? _self.motivo : motivo // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -333,7 +339,11 @@ as String?,
 /// @nodoc
 mixin _$StudyProtocol {
 
- StudyType get type; set type(StudyType value); String? get equipment; set equipment(String? value);
+/// Specifies the type of ultrasound study protocol.
+@JsonKey(unknownEnumValue: StudyType.unknow) StudyType get type;/// Specifies the type of ultrasound study protocol.
+@JsonKey(unknownEnumValue: StudyType.unknow) set type(StudyType value);/// Model or description of the equipment used, if available.
+ String? get equipment;/// Model or description of the equipment used, if available.
+ set equipment(String? value);
 /// Create a copy of StudyProtocol
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -359,7 +369,7 @@ abstract mixin class $StudyProtocolCopyWith<$Res>  {
   factory $StudyProtocolCopyWith(StudyProtocol value, $Res Function(StudyProtocol) _then) = _$StudyProtocolCopyWithImpl;
 @useResult
 $Res call({
- StudyType type, String? equipment
+@JsonKey(unknownEnumValue: StudyType.unknow) StudyType type, String? equipment
 });
 
 
@@ -465,7 +475,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( StudyType type,  String? equipment)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(unknownEnumValue: StudyType.unknow)  StudyType type,  String? equipment)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _StudyProtocol() when $default != null:
 return $default(_that.type,_that.equipment);case _:
@@ -486,7 +496,7 @@ return $default(_that.type,_that.equipment);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( StudyType type,  String? equipment)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(unknownEnumValue: StudyType.unknow)  StudyType type,  String? equipment)  $default,) {final _that = this;
 switch (_that) {
 case _StudyProtocol():
 return $default(_that.type,_that.equipment);case _:
@@ -506,7 +516,7 @@ return $default(_that.type,_that.equipment);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( StudyType type,  String? equipment)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(unknownEnumValue: StudyType.unknow)  StudyType type,  String? equipment)?  $default,) {final _that = this;
 switch (_that) {
 case _StudyProtocol() when $default != null:
 return $default(_that.type,_that.equipment);case _:
@@ -521,10 +531,12 @@ return $default(_that.type,_that.equipment);case _:
 @JsonSerializable()
 
 class _StudyProtocol implements StudyProtocol {
-   _StudyProtocol({required this.type, this.equipment});
+   _StudyProtocol({@JsonKey(unknownEnumValue: StudyType.unknow) this.type = StudyType.unknow, this.equipment});
   factory _StudyProtocol.fromJson(Map<String, dynamic> json) => _$StudyProtocolFromJson(json);
 
-@override  StudyType type;
+/// Specifies the type of ultrasound study protocol.
+@override@JsonKey(unknownEnumValue: StudyType.unknow)  StudyType type;
+/// Model or description of the equipment used, if available.
 @override  String? equipment;
 
 /// Create a copy of StudyProtocol
@@ -553,7 +565,7 @@ abstract mixin class _$StudyProtocolCopyWith<$Res> implements $StudyProtocolCopy
   factory _$StudyProtocolCopyWith(_StudyProtocol value, $Res Function(_StudyProtocol) _then) = __$StudyProtocolCopyWithImpl;
 @override @useResult
 $Res call({
- StudyType type, String? equipment
+@JsonKey(unknownEnumValue: StudyType.unknow) StudyType type, String? equipment
 });
 
 
@@ -585,7 +597,13 @@ as String?,
 /// @nodoc
 mixin _$OvaryMeasurement {
 
- double get ap; set ap(double value); double get tr; set tr(double value); double get lo; set lo(double value);
+/// Antero-posterior ovarian diameter, in millimeters.
+ double get ap;/// Antero-posterior ovarian diameter, in millimeters.
+ set ap(double value);/// Transverse ovarian diameter, in millimeters.
+ double get tr;/// Transverse ovarian diameter, in millimeters.
+ set tr(double value);/// Longitudinal ovarian diameter, in millimeters.
+ double get lo;/// Longitudinal ovarian diameter, in millimeters.
+ set lo(double value);
 /// Create a copy of OvaryMeasurement
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -777,8 +795,11 @@ class _OvaryMeasurement extends OvaryMeasurement {
    _OvaryMeasurement({required this.ap, required this.tr, required this.lo}): super._();
   factory _OvaryMeasurement.fromJson(Map<String, dynamic> json) => _$OvaryMeasurementFromJson(json);
 
+/// Antero-posterior ovarian diameter, in millimeters.
 @override  double ap;
+/// Transverse ovarian diameter, in millimeters.
 @override  double tr;
+/// Longitudinal ovarian diameter, in millimeters.
 @override  double lo;
 
 /// Create a copy of OvaryMeasurement
@@ -840,7 +861,15 @@ as double,
 /// @nodoc
 mixin _$Ovary {
 
- OvarySide get side; set side(OvarySide value); OvaryType get type; set type(OvaryType value); OvaryMeasurement get measures; set measures(OvaryMeasurement value); String? get notes; set notes(String? value);
+/// Indicates laterality—whether this is the right or left ovary.
+ OvarySide get side;/// Indicates laterality—whether this is the right or left ovary.
+ set side(OvarySide value);/// Classifies the morphology of the ovary.
+ OvaryType get type;/// Classifies the morphology of the ovary.
+ set type(OvaryType value);/// Ovarian diameter measurements (AP, TR, LO).
+ OvaryMeasurement get measures;/// Ovarian diameter measurements (AP, TR, LO).
+ set measures(OvaryMeasurement value);/// Optional notes and comments describing the ovary.
+ String? get notes;/// Optional notes and comments describing the ovary.
+ set notes(String? value);
 /// Create a copy of Ovary
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1042,9 +1071,13 @@ class _Ovary implements Ovary {
    _Ovary({required this.side, required this.type, required this.measures, this.notes});
   factory _Ovary.fromJson(Map<String, dynamic> json) => _$OvaryFromJson(json);
 
+/// Indicates laterality—whether this is the right or left ovary.
 @override  OvarySide side;
+/// Classifies the morphology of the ovary.
 @override  OvaryType type;
+/// Ovarian diameter measurements (AP, TR, LO).
 @override  OvaryMeasurement measures;
+/// Optional notes and comments describing the ovary.
 @override  String? notes;
 
 /// Create a copy of Ovary
@@ -1116,7 +1149,19 @@ $OvaryMeasurementCopyWith<$Res> get measures {
 /// @nodoc
 mixin _$Bladder {
 
- Regularity get regularity; set regularity(Regularity value); double? get wallMm; set wallMm(double? value); DouglasPouch get douglasPouch; set douglasPouch(DouglasPouch value); BladderDiagnosis? get diagnosis; set diagnosis(BladderDiagnosis? value); OvaryDiagnosis? get ovaryDiagnosis; set ovaryDiagnosis(OvaryDiagnosis? value); String? get conclusion; set conclusion(String? value);
+/// State of bladder wall regularity.
+ Regularity get regularity;/// State of bladder wall regularity.
+ set regularity(Regularity value);/// Measured bladder wall thickness in millimeters (optional).
+ double? get wallMm;/// Measured bladder wall thickness in millimeters (optional).
+ set wallMm(double? value);/// Status of Douglas pouch (free or occupied).
+ DouglasPouch get douglasPouch;/// Status of Douglas pouch (free or occupied).
+ set douglasPouch(DouglasPouch value);/// Diagnosis related to the bladder, if any (optional).
+ BladderDiagnosis? get diagnosis;/// Diagnosis related to the bladder, if any (optional).
+ set diagnosis(BladderDiagnosis? value);/// Ovary diagnosis contextually relevant to the bladder (optional).
+ OvaryDiagnosis? get ovaryDiagnosis;/// Ovary diagnosis contextually relevant to the bladder (optional).
+ set ovaryDiagnosis(OvaryDiagnosis? value);/// Free-text conclusion or imaging comment (optional).
+ String? get conclusion;/// Free-text conclusion or imaging comment (optional).
+ set conclusion(String? value);
 /// Create a copy of Bladder
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1311,11 +1356,17 @@ class _Bladder implements Bladder {
    _Bladder({required this.regularity, this.wallMm, required this.douglasPouch, this.diagnosis, this.ovaryDiagnosis, this.conclusion});
   factory _Bladder.fromJson(Map<String, dynamic> json) => _$BladderFromJson(json);
 
+/// State of bladder wall regularity.
 @override  Regularity regularity;
+/// Measured bladder wall thickness in millimeters (optional).
 @override  double? wallMm;
+/// Status of Douglas pouch (free or occupied).
 @override  DouglasPouch douglasPouch;
+/// Diagnosis related to the bladder, if any (optional).
 @override  BladderDiagnosis? diagnosis;
+/// Ovary diagnosis contextually relevant to the bladder (optional).
 @override  OvaryDiagnosis? ovaryDiagnosis;
+/// Free-text conclusion or imaging comment (optional).
 @override  String? conclusion;
 
 /// Create a copy of Bladder
@@ -1380,7 +1431,11 @@ as String?,
 /// @nodoc
 mixin _$Nodules {
 
- bool get has; set has(bool value); String? get description; set description(String? value);
+/// Indicates if nodules are present (true) or absent (false).
+ bool get has;/// Indicates if nodules are present (true) or absent (false).
+ set has(bool value);/// Optional morphological description of nodules, if present.
+ String? get description;/// Optional morphological description of nodules, if present.
+ set description(String? value);
 /// Create a copy of Nodules
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1571,7 +1626,9 @@ class _Nodules implements Nodules {
    _Nodules({required this.has, this.description});
   factory _Nodules.fromJson(Map<String, dynamic> json) => _$NodulesFromJson(json);
 
+/// Indicates if nodules are present (true) or absent (false).
 @override  bool has;
+/// Optional morphological description of nodules, if present.
 @override  String? description;
 
 /// Create a copy of Nodules
@@ -1884,7 +1941,15 @@ as String?,
 /// @nodoc
 mixin _$Report {
 
- String get id; DateTime get createdAt; Patient get patient; StudyProtocol get protocol; Findings get findings; String? get doctor; String? get clinic; Map<String, dynamic>? get meta;
+/// Unique identifier for this report.
+ String get id;/// Timestamp when the report was created.
+ DateTime get createdAt;/// Information identifying the patient of the report.
+ Patient get patient;/// Study protocol and equipment associated with the report.
+ StudyProtocol get protocol;/// Clinical findings included in the examination.
+ Findings get findings;/// Name of the reporting doctor or signee (optional).
+ String? get doctor;/// Clinic, hospital, or site associated with the report (optional).
+ String? get clinic;/// Arbitrary additional metadata (optional).
+ Map<String, dynamic>? get meta;
 /// Create a copy of Report
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2115,14 +2180,23 @@ class _Report extends Report {
   const _Report({required this.id, required this.createdAt, required this.patient, required this.protocol, required this.findings, this.doctor, this.clinic, final  Map<String, dynamic>? meta}): _meta = meta,super._();
   factory _Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);
 
+/// Unique identifier for this report.
 @override final  String id;
+/// Timestamp when the report was created.
 @override final  DateTime createdAt;
+/// Information identifying the patient of the report.
 @override final  Patient patient;
+/// Study protocol and equipment associated with the report.
 @override final  StudyProtocol protocol;
+/// Clinical findings included in the examination.
 @override final  Findings findings;
+/// Name of the reporting doctor or signee (optional).
 @override final  String? doctor;
+/// Clinic, hospital, or site associated with the report (optional).
 @override final  String? clinic;
+/// Arbitrary additional metadata (optional).
  final  Map<String, dynamic>? _meta;
+/// Arbitrary additional metadata (optional).
 @override Map<String, dynamic>? get meta {
   final value = _meta;
   if (value == null) return null;
@@ -2230,17 +2304,29 @@ $FindingsCopyWith<$Res> get findings {
 /// @nodoc
 mixin _$ReportDraft {
 
- String? get id; set id(String? value); DateTime? get createdAt; set createdAt(DateTime? value); Patient? get patient; set patient(Patient? value); StudyProtocol? get protocol; set protocol(StudyProtocol? value); Findings? get findings; set findings(Findings? value); Bladder? get bladder; set bladder(Bladder? value);/// The right ovary information for this report draft. Defaults to a normal right ovary.
-/// The right ovary information for this report draft. Defaults to a normal right ovary.
-/// La inicialización de rightOvary debe hacerse externamente (UI/factory/método).
- Ovary get rightOvary;/// The right ovary information for this report draft. Defaults to a normal right ovary.
-/// The right ovary information for this report draft. Defaults to a normal right ovary.
-/// La inicialización de rightOvary debe hacerse externamente (UI/factory/método).
- set rightOvary(Ovary value);/// The left ovary information for this report draft. Defaults to a normal left ovary.
-/// La inicialización de leftOvary debe hacerse externamente (UI/factory/método).
- Ovary get leftOvary;/// The left ovary information for this report draft. Defaults to a normal left ovary.
-/// La inicialización de leftOvary debe hacerse externamente (UI/factory/método).
- set leftOvary(Ovary value); String? get doctor; set doctor(String? value); String? get clinic; set clinic(String? value); Map<String, dynamic>? get meta; set meta(Map<String, dynamic>? value);
+/// Unique identifier for the draft report (optional).
+ String? get id;/// Unique identifier for the draft report (optional).
+ set id(String? value);/// Date and time this draft was created (optional).
+ DateTime? get createdAt;/// Date and time this draft was created (optional).
+ set createdAt(DateTime? value);/// Patient information, demographic and clinical data (optional).
+ Patient? get patient;/// Patient information, demographic and clinical data (optional).
+ set patient(Patient? value);/// Ultrasound protocol and equipment details (optional).
+ StudyProtocol? get protocol;/// Ultrasound protocol and equipment details (optional).
+ set protocol(StudyProtocol? value);/// Clinical findings documented in the draft (optional).
+ Findings? get findings;/// Clinical findings documented in the draft (optional).
+ set findings(Findings? value);/// Optional bladder imaging and findings.
+ Bladder? get bladder;/// Optional bladder imaging and findings.
+ set bladder(Bladder? value);/// Reported data for the right ovary (required).
+ Ovary get rightOvary;/// Reported data for the right ovary (required).
+ set rightOvary(Ovary value);/// Reported data for the left ovary (required).
+ Ovary get leftOvary;/// Reported data for the left ovary (required).
+ set leftOvary(Ovary value);/// Name of the reporting doctor or clinician supervising the draft (optional).
+ String? get doctor;/// Name of the reporting doctor or clinician supervising the draft (optional).
+ set doctor(String? value);/// Site, service, or clinic where the draft was created (optional).
+ String? get clinic;/// Site, service, or clinic where the draft was created (optional).
+ set clinic(String? value);/// Additional extensible metadata fields (optional).
+ Map<String, dynamic>? get meta;/// Additional extensible metadata fields (optional).
+ set meta(Map<String, dynamic>? value);
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2506,21 +2592,27 @@ class _ReportDraft implements ReportDraft {
    _ReportDraft({this.id, this.createdAt, this.patient, this.protocol, this.findings, this.bladder, required this.rightOvary, required this.leftOvary, this.doctor, this.clinic, this.meta});
   factory _ReportDraft.fromJson(Map<String, dynamic> json) => _$ReportDraftFromJson(json);
 
+/// Unique identifier for the draft report (optional).
 @override  String? id;
+/// Date and time this draft was created (optional).
 @override  DateTime? createdAt;
+/// Patient information, demographic and clinical data (optional).
 @override  Patient? patient;
+/// Ultrasound protocol and equipment details (optional).
 @override  StudyProtocol? protocol;
+/// Clinical findings documented in the draft (optional).
 @override  Findings? findings;
+/// Optional bladder imaging and findings.
 @override  Bladder? bladder;
-/// The right ovary information for this report draft. Defaults to a normal right ovary.
-/// The right ovary information for this report draft. Defaults to a normal right ovary.
-/// La inicialización de rightOvary debe hacerse externamente (UI/factory/método).
+/// Reported data for the right ovary (required).
 @override  Ovary rightOvary;
-/// The left ovary information for this report draft. Defaults to a normal left ovary.
-/// La inicialización de leftOvary debe hacerse externamente (UI/factory/método).
+/// Reported data for the left ovary (required).
 @override  Ovary leftOvary;
+/// Name of the reporting doctor or clinician supervising the draft (optional).
 @override  String? doctor;
+/// Site, service, or clinic where the draft was created (optional).
 @override  String? clinic;
+/// Additional extensible metadata fields (optional).
 @override  Map<String, dynamic>? meta;
 
 /// Create a copy of ReportDraft

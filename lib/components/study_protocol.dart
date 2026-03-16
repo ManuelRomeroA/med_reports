@@ -11,13 +11,6 @@ class StudyProtocolWidget extends StatefulWidget {
 }
 
 class _StudyProtocolWidgetState extends State<StudyProtocolWidget> {
-  String tipoEstudio = "ECOSONOGRAMA PÉLVICO";
-  final List<String> tipos = [
-    "ECOSONOGRAMA PÉLVICO",
-    "TRANSVAGINAL",
-    "TRANSRECTAL",
-  ];
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -81,19 +74,25 @@ class _StudyProtocolWidgetState extends State<StudyProtocolWidget> {
                     ),
                     const SizedBox(height: 8),
                     Row(
-                      children: tipos.map((tipo) {
-                        final selected = tipoEstudio == tipo;
-                        return SelectedButton(
-                          label: tipo,
-                          selected: selected,
-                          selectedColor: theme.colorScheme.primary,
-                          onTap: () {
-                            setState(() {
-                              tipoEstudio = tipo;
-                            });
-                          },
-                        );
-                      }).toList(),
+                      children: StudyType.values
+                          .where((type) => StudyType.unknow != type)
+                          .map((type) {
+                            return SelectedButton(
+                              label: type.toString(),
+                              selected: widget.draft.protocol?.type == type,
+                              selectedColor: theme.colorScheme.primary,
+                              onTap: () {
+                                debugPrint("Type: $type");
+                                widget.draft.protocol?.type = type;
+                                debugPrint(
+                                  "Type selected: ${widget.draft.protocol?.type}",
+                                );
+
+                                setState(() {});
+                              },
+                            );
+                          })
+                          .toList(),
                     ),
                   ],
                 ),
@@ -103,7 +102,6 @@ class _StudyProtocolWidgetState extends State<StudyProtocolWidget> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-
                 children: [
                   Text(
                     "DATOS DEL EQUIPO",

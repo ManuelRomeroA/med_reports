@@ -22,13 +22,13 @@ void main() {
       name: 'Jane Doe',
       ci: '12345678',
       age: 32,
-      bloodGroup: 'O+',
+      bloodType: 'O+',
       fur: DateTime.parse('1990-01-02T00:00:00Z'),
       gesta: '1',
       para: '0',
       cesarea: '0',
       aborto: '0',
-      referencia: 'clinic',
+      reference: 'clinic',
       motivo: 'pelvic pain',
     );
 

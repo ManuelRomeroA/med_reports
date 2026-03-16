@@ -4,20 +4,18 @@ import 'package:med_reports/components/general/selected_button.dart';
 import 'package:med_reports/main.dart';
 import 'package:med_reports/models/models.dart';
 
-class DatosPacienteWidget extends StatefulWidget {
+class PatientInfoWidget extends StatefulWidget {
   final ReportDraft draft;
-  const DatosPacienteWidget({super.key, required this.draft});
+  const PatientInfoWidget({super.key, required this.draft});
 
   @override
-  State<DatosPacienteWidget> createState() => _DatosPacienteWidgetState();
+  State<PatientInfoWidget> createState() => _PatientInfoWidgetState();
 }
 
-class _DatosPacienteWidgetState extends State<DatosPacienteWidget> {
+class _PatientInfoWidgetState extends State<PatientInfoWidget> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    widget.draft.patient ??= Patient(id: 'draft_id', name: "");
-    // Si no existe el draft.patient, lo agregamos
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 0),
@@ -54,36 +52,36 @@ class _DatosPacienteWidgetState extends State<DatosPacienteWidget> {
               Expanded(
                 flex: 2,
                 child: ThemedTextInput(
+                  labelText: "NOMBRES Y APELLIDOS",
                   value: widget.draft.patient?.name,
-
                   onChanged: (value) {
                     widget.draft.patient?.name = value;
                     setState(() {});
                   },
-                  labelText: "NOMBRES Y APELLIDOS",
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: ThemedTextInput(
+                  labelText: "C.I.",
                   value: widget.draft.patient?.ci,
+                  keyboardType: TextInputType.number,
                   onChanged: (value) {
                     widget.draft.patient?.ci = value;
                     setState(() {});
                   },
-                  labelText: "C.I.",
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: ThemedTextInput(
+                  labelText: "EDAD",
+                  keyboardType: TextInputType.number,
                   value: widget.draft.patient?.age?.toString(),
                   onChanged: (value) {
                     widget.draft.patient?.age = int.tryParse(value);
                     setState(() {});
                   },
-                  keyboardType: TextInputType.number,
-                  labelText: "EDAD",
                 ),
               ),
             ],
@@ -95,15 +93,16 @@ class _DatosPacienteWidgetState extends State<DatosPacienteWidget> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: DropdownButtonFormField<String>(
-                    initialValue: widget.draft.patient?.bloodGroup,
-                    items: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]
-                        .map((g) => DropdownMenuItem(value: g, child: Text(g)))
+                  child: DropdownButtonFormField<BloodType>(
+                    initialValue: widget.draft.patient?.bloodType,
+                    items: BloodType.values
+                        .map(
+                          (type) => DropdownMenuItem(
+                            value: type,
+                            child: Text(type.toString()),
+                          ),
+                        )
                         .toList(),
-                    onChanged: (v) {
-                      widget.draft.patient?.bloodGroup = v;
-                      setState(() {});
-                    },
                     decoration: const InputDecoration(
                       labelText: "GRUPO SANGUÍNEO",
                     ),
@@ -111,6 +110,11 @@ class _DatosPacienteWidgetState extends State<DatosPacienteWidget> {
                       color: theme.colorScheme.secondary,
                       fontWeight: FontWeight.w600,
                     ),
+                    onChanged: (value) {
+                      if (value == null) return;
+                      widget.draft.patient?.bloodType = value;
+                      setState(() {});
+                    },
                   ),
                 ),
               ),
@@ -118,7 +122,7 @@ class _DatosPacienteWidgetState extends State<DatosPacienteWidget> {
               Expanded(
                 child: ThemedDatePicker(
                   labelText: "FUR",
-                  value: widget.draft.patient?.fur ?? DateTime.now(),
+                  value: widget.draft.patient?.fur,
                   onChanged: (date) {
                     widget.draft.patient?.fur = date;
                     setState(() {});
@@ -129,44 +133,19 @@ class _DatosPacienteWidgetState extends State<DatosPacienteWidget> {
               Expanded(
                 flex: 2,
                 child: Row(
-                  children: [
-                    SelectedButton(
-                      label: "REGULAR",
-                      selected: widget.draft.patient?.referencia == "REGULAR",
-                      selectedColor: kCafeVinoOscuro,
-                      onTap: () {
-                        widget.draft.patient?.referencia = "REGULAR";
-                        setState(() {});
-                      },
-                    ),
-                    SelectedButton(
-                      label: "EXCESIVA",
-                      selected: widget.draft.patient?.referencia == "EXCESIVA",
-                      selectedColor: kCafeVinoOscuro,
-                      onTap: () {
-                        widget.draft.patient?.referencia = "EXCESIVA";
-                        setState(() {});
-                      },
-                    ),
-                    SelectedButton(
-                      label: "NORMAL",
-                      selected: widget.draft.patient?.referencia == "NORMAL",
-                      selectedColor: kCafeVinoOscuro,
-                      onTap: () {
-                        widget.draft.patient?.referencia = "NORMAL";
-                        setState(() {});
-                      },
-                    ),
-                    SelectedButton(
-                      label: "ESCASA",
-                      selected: widget.draft.patient?.referencia == "ESCASA",
-                      selectedColor: kCafeVinoOscuro,
-                      onTap: () {
-                        widget.draft.patient?.referencia = "ESCASA";
-                        setState(() {});
-                      },
-                    ),
-                  ],
+                  children: PeriodType.values
+                      .where((type) => PeriodType.unknow != type)
+                      .map(
+                        (type) => SelectedButton(
+                          label: type.name.toUpperCase(),
+                          selected: widget.draft.patient?.period == type,
+                          selectedColor: kCafeVinoOscuro,
+                          onTap: () => setState(
+                            () => widget.draft.patient?.period = type,
+                          ),
+                        ),
+                      )
+                      .toList(),
                 ),
               ),
             ],
@@ -177,45 +156,45 @@ class _DatosPacienteWidgetState extends State<DatosPacienteWidget> {
             children: [
               Expanded(
                 child: ThemedTextInput(
+                  labelText: "GESTA",
                   value: widget.draft.patient?.gesta,
                   onChanged: (value) {
                     widget.draft.patient?.gesta = value;
                     setState(() {});
                   },
-                  labelText: "GESTA",
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: ThemedTextInput(
+                  labelText: "PARA",
                   value: widget.draft.patient?.para,
                   onChanged: (value) {
                     widget.draft.patient?.para = value;
                     setState(() {});
                   },
-                  labelText: "PARA",
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: ThemedTextInput(
+                  labelText: "CESAREA",
                   value: widget.draft.patient?.cesarea,
                   onChanged: (value) {
                     widget.draft.patient?.cesarea = value;
                     setState(() {});
                   },
-                  labelText: "CESAREA",
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: ThemedTextInput(
+                  labelText: "ABORTOS",
                   value: widget.draft.patient?.aborto,
                   onChanged: (value) {
                     widget.draft.patient?.aborto = value;
                     setState(() {});
                   },
-                  labelText: "ABORTOS",
                 ),
               ),
             ],
@@ -226,24 +205,24 @@ class _DatosPacienteWidgetState extends State<DatosPacienteWidget> {
             children: [
               Expanded(
                 child: ThemedTextInput(
-                  value: widget.draft.patient?.referencia,
+                  labelText: "REFERENCIA",
+                  value: widget.draft.patient?.reference,
                   onChanged: (value) {
-                    widget.draft.patient?.referencia = value;
+                    widget.draft.patient?.reference = value;
                     setState(() {});
                   },
-                  labelText: "REFERENCIA",
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 flex: 2,
                 child: ThemedTextInput(
+                  labelText: "M.C. (MOTIVO DE CONSULTA)",
                   value: widget.draft.patient?.motivo,
                   onChanged: (value) {
                     widget.draft.patient?.motivo = value;
                     setState(() {});
                   },
-                  labelText: "M.C. (MOTIVO DE CONSULTA)",
                 ),
               ),
             ],

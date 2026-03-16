@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:med_reports/components/bladder.dart';
-import 'package:med_reports/components/datos_paciente_widget.dart';
+import 'package:med_reports/components/patient_info.dart';
 import 'package:med_reports/components/state_selecter.dart';
 import 'package:med_reports/components/header.dart';
 import 'package:med_reports/components/nodulos/nodulos.dart';
@@ -29,6 +29,8 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     draft = ReportDraft(
+      patient: Patient(fur: DateTime.now()),
+      protocol: StudyProtocol(type: StudyType.pelvic),
       rightOvary: Ovary(
         side: OvarySide.right,
         type: OvaryType.normal,
@@ -54,7 +56,7 @@ class _HomeViewState extends State<HomeView> {
             spacing: 24,
             children: [
               HeaderWidget(),
-              DatosPacienteWidget(draft: draft),
+              PatientInfoWidget(draft: draft),
               StudyProtocolWidget(draft: draft),
               Row(
                 spacing: 24,
