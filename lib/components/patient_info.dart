@@ -30,15 +30,13 @@ class _PatientInfoWidgetState extends State<PatientInfoWidget> {
         children: [
           Row(
             children: [
-              Icon(Icons.person_outline, color: theme.colorScheme.primary),
+              Icon(Icons.person_outline, color: theme.primaryColor),
               const SizedBox(width: 8),
               Text(
                 'IDENTIFICACIÓN DE LA PACIENTE',
-                style: TextStyle(
-                  color: theme.colorScheme.primary,
+                style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
-                  letterSpacing: 1,
-                  fontSize: 15,
+                  color: theme.primaryColor,
                 ),
               ),
             ],

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:med_reports/components/general/selected_button.dart';
 import 'package:layrz_theme/layrz_theme.dart';
 import 'package:med_reports/main.dart';
+import 'package:med_reports/models/models.dart';
 
 class UteroWidget extends StatefulWidget {
-  const UteroWidget({super.key});
+  final ReportDraft draft;
+  const UteroWidget({super.key, required this.draft});
 
   @override
   State<UteroWidget> createState() => _UteroWidgetState();
@@ -38,9 +40,7 @@ class _UteroWidgetState extends State<UteroWidget> {
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: theme.colorScheme.primary.withValues(alpha: 0.13),
-        ),
+        border: Border.all(color: theme.primaryColor.withValues(alpha: 0.13)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,13 +57,11 @@ class _UteroWidgetState extends State<UteroWidget> {
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-              child: const Text(
+              child: Text(
                 'HALLAZGOS UTERINOS',
-                style: TextStyle(
-                  color: Colors.white,
+                style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
-                  letterSpacing: 1,
-                  fontSize: 16,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -86,11 +84,9 @@ class _UteroWidgetState extends State<UteroWidget> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         "Longitud x AP (mm)",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 11,
+                        style: theme.textTheme.titleSmall?.copyWith(
                           color: Colors.grey,
                         ),
                       ),
@@ -98,34 +94,35 @@ class _UteroWidgetState extends State<UteroWidget> {
                         children: [
                           Expanded(
                             child: ThemedTextInput(
-                              value: longitud,
-                              onChanged: (v) => setState(() => longitud = v),
                               labelText: "L",
+                              value: widget.draft,
                               keyboardType: TextInputType.number,
+                              onChanged: (v) => setState(() => longitud = v),
                             ),
                           ),
                           const SizedBox(width: 8),
-                          const Text(
-                            'x',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                          SizedBox(
+                            width: 12,
+                            child: Text(
+                              'x',
+                              style: theme.textTheme.titleMedium,
+                            ),
                           ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: ThemedTextInput(
                               value: ap,
-                              onChanged: (v) => setState(() => ap = v),
                               labelText: "AP",
                               keyboardType: TextInputType.number,
+                              onChanged: (v) => setState(() => ap = v),
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 12),
-                      const Text(
+                      Text(
                         "Transverso : Otros",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 11,
+                        style: theme.textTheme.titleSmall?.copyWith(
                           color: Colors.grey,
                         ),
                       ),
@@ -134,12 +131,14 @@ class _UteroWidgetState extends State<UteroWidget> {
                           Expanded(
                             child: ThemedTextInput(
                               value: transverso,
-                              onChanged: (v) => setState(() => transverso = v),
                               labelText: "T",
                               keyboardType: TextInputType.number,
+                              onChanged: (v) => setState(() => transverso = v),
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(width: 20),
+
+                          /// TODO: ASK this
                           Expanded(
                             child: ThemedTextInput(
                               value: '50',
@@ -159,11 +158,9 @@ class _UteroWidgetState extends State<UteroWidget> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      const Text(
+                      Text(
                         "VOLUMEN UTERINO",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 11,
+                        style: theme.textTheme.titleSmall?.copyWith(
                           color: Colors.grey,
                         ),
                       ),
@@ -175,18 +172,16 @@ class _UteroWidgetState extends State<UteroWidget> {
                         children: [
                           Text(
                             volumen,
-                            style: TextStyle(
-                              color: kCafeVinoOscuro,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 36,
-                            ),
-                          ),
-                          const Text(
-                            "CC",
-                            style: TextStyle(
+                            style: theme.textTheme.headlineLarge?.copyWith(
                               color: Colors.grey,
                               fontWeight: FontWeight.bold,
-                              fontSize: 13,
+                            ),
+                          ),
+                          Text(
+                            "CC",
+                            style: theme.textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
                             ),
                           ),
                         ],
@@ -210,13 +205,9 @@ class _UteroWidgetState extends State<UteroWidget> {
                     children: [
                       Text(
                         "LOCALIZACIÓN",
-                        style: TextStyle(
+                        style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
-                          fontSize: 11,
-                          color: theme.colorScheme.primary.withValues(
-                            alpha: 0.7,
-                          ),
-                          letterSpacing: 1,
+                          color: theme.primaryColor.withValues(alpha: 0.7),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -247,13 +238,9 @@ class _UteroWidgetState extends State<UteroWidget> {
                     children: [
                       Text(
                         "POSICIÓN",
-                        style: TextStyle(
+                        style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
-                          fontSize: 11,
-                          color: theme.colorScheme.primary.withValues(
-                            alpha: 0.7,
-                          ),
-                          letterSpacing: 1,
+                          color: theme.primaryColor.withValues(alpha: 0.7),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -283,13 +270,9 @@ class _UteroWidgetState extends State<UteroWidget> {
                     children: [
                       Text(
                         "SUPERFICIE",
-                        style: TextStyle(
+                        style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
-                          fontSize: 11,
-                          color: theme.colorScheme.primary.withValues(
-                            alpha: 0.7,
-                          ),
-                          letterSpacing: 1,
+                          color: theme.primaryColor.withValues(alpha: 0.7),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -327,13 +310,9 @@ class _UteroWidgetState extends State<UteroWidget> {
                     children: [
                       Text(
                         "MIOMETRIO",
-                        style: TextStyle(
+                        style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
-                          fontSize: 11,
-                          color: theme.colorScheme.primary.withValues(
-                            alpha: 0.7,
-                          ),
-                          letterSpacing: 1,
+                          color: theme.primaryColor.withValues(alpha: 0.7),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -366,13 +345,9 @@ class _UteroWidgetState extends State<UteroWidget> {
                     children: [
                       Text(
                         "ENDOMETRIO",
-                        style: TextStyle(
+                        style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
-                          fontSize: 11,
-                          color: theme.colorScheme.primary.withValues(
-                            alpha: 0.7,
-                          ),
-                          letterSpacing: 1,
+                          color: theme.primaryColor.withValues(alpha: 0.7),
                         ),
                       ),
                       const SizedBox(height: 8),

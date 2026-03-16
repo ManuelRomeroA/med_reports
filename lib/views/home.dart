@@ -71,7 +71,7 @@ class _HomeViewState extends State<HomeView> {
                       spacing: 24,
                       mainAxisSize: .min,
                       children: [
-                        UteroWidget(),
+                        UteroWidget(draft: draft),
                         NodulesWidget(draft: draft, onChanged: onDraftChanged),
                         Row(
                           mainAxisAlignment: .start,

@@ -24,17 +24,14 @@ enum OvaryType {
 /// Contains ovary measurements (diameters in mm, computed volume).
 @unfreezed
 abstract class OvaryMeasurement with _$OvaryMeasurement {
-  /// [ap]: Antero-posterior diameter, mm.
-  /// [tr]: Transverse diameter, mm.
-  /// [lo]: Longitudinal diameter, mm.
   factory OvaryMeasurement({
-    /// Antero-posterior ovarian diameter, in millimeters.
+    /// [ap]: Antero-posterior diameter, mm.
     required double ap,
 
-    /// Transverse ovarian diameter, in millimeters.
+    /// [tr]: Transverse diameter, mm.
     required double tr,
 
-    /// Longitudinal ovarian diameter, in millimeters.
+    /// [lo]: Longitudinal diameter, mm.
     required double lo,
   }) = _OvaryMeasurement;
 
@@ -51,21 +48,18 @@ abstract class OvaryMeasurement with _$OvaryMeasurement {
 /// Represents a single ovary report entity for ultrasound.
 @unfreezed
 abstract class Ovary with _$Ovary {
-  /// [side]: Ovary laterality.
-  /// [type]: Morphological classification.
-  /// [measures]: Linear measurements (AP/TR/LO).
   /// [notes]: Optional notes.
   factory Ovary({
-    /// Indicates laterality—whether this is the right or left ovary.
+    /// [side]: Ovary laterality.
     required OvarySide side,
 
-    /// Classifies the morphology of the ovary.
+    /// [type]: Morphological classification.
     required OvaryType type,
 
     /// Ovarian diameter measurements (AP, TR, LO).
     required OvaryMeasurement measures,
 
-    /// Optional notes and comments describing the ovary.
+    /// [measures]: Linear measurements (AP/TR/LO).
     String? notes,
   }) = _Ovary;
 
