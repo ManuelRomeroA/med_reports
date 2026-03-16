@@ -33,9 +33,9 @@ abstract class UterineFindings with _$UterineFindings {
 
     /// [endometrium]
     String? endometrium,
-  }) = _ReportDraft;
+  }) = _UterineFindings;
 
   /// Creates UterineFindings from JSON.
   factory UterineFindings.fromJson(Map<String, dynamic> json) =>
-      _$ReportDraftFromJson(json);
+      _$UterineFindingsFromJson(json);
 }

@@ -251,3 +251,31 @@ Map<String, dynamic> _$ReportDraftToJson(_ReportDraft instance) =>
       'clinic': instance.clinic,
       'meta': instance.meta,
     };
+
+_UterineFindings _$UterineFindingsFromJson(Map<String, dynamic> json) =>
+    _UterineFindings(
+      longitud: (json['longitud'] as num?)?.toDouble(),
+      ap: (json['ap'] as num?)?.toDouble(),
+      transverse: (json['transverse'] as num?)?.toDouble(),
+      other: (json['other'] as num?)?.toDouble(),
+      volume: (json['volume'] as num?)?.toDouble(),
+      localization: json['localization'] as String?,
+      position: json['position'] as String?,
+      surface: json['surface'] as String?,
+      myometrium: json['myometrium'] as String?,
+      endometrium: json['endometrium'] as String?,
+    );
+
+Map<String, dynamic> _$UterineFindingsToJson(_UterineFindings instance) =>
+    <String, dynamic>{
+      'longitud': instance.longitud,
+      'ap': instance.ap,
+      'transverse': instance.transverse,
+      'other': instance.other,
+      'volume': instance.volume,
+      'localization': instance.localization,
+      'position': instance.position,
+      'surface': instance.surface,
+      'myometrium': instance.myometrium,
+      'endometrium': instance.endometrium,
+    };

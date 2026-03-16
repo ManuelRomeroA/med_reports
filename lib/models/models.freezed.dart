@@ -597,12 +597,12 @@ as String?,
 /// @nodoc
 mixin _$OvaryMeasurement {
 
-/// Antero-posterior ovarian diameter, in millimeters.
- double get ap;/// Antero-posterior ovarian diameter, in millimeters.
- set ap(double value);/// Transverse ovarian diameter, in millimeters.
- double get tr;/// Transverse ovarian diameter, in millimeters.
- set tr(double value);/// Longitudinal ovarian diameter, in millimeters.
- double get lo;/// Longitudinal ovarian diameter, in millimeters.
+/// [ap]: Antero-posterior diameter, mm.
+ double get ap;/// [ap]: Antero-posterior diameter, mm.
+ set ap(double value);/// [tr]: Transverse diameter, mm.
+ double get tr;/// [tr]: Transverse diameter, mm.
+ set tr(double value);/// [lo]: Longitudinal diameter, mm.
+ double get lo;/// [lo]: Longitudinal diameter, mm.
  set lo(double value);
 /// Create a copy of OvaryMeasurement
 /// with the given fields replaced by the non-null parameter values.
@@ -795,11 +795,11 @@ class _OvaryMeasurement extends OvaryMeasurement {
    _OvaryMeasurement({required this.ap, required this.tr, required this.lo}): super._();
   factory _OvaryMeasurement.fromJson(Map<String, dynamic> json) => _$OvaryMeasurementFromJson(json);
 
-/// Antero-posterior ovarian diameter, in millimeters.
+/// [ap]: Antero-posterior diameter, mm.
 @override  double ap;
-/// Transverse ovarian diameter, in millimeters.
+/// [tr]: Transverse diameter, mm.
 @override  double tr;
-/// Longitudinal ovarian diameter, in millimeters.
+/// [lo]: Longitudinal diameter, mm.
 @override  double lo;
 
 /// Create a copy of OvaryMeasurement
@@ -861,14 +861,14 @@ as double,
 /// @nodoc
 mixin _$Ovary {
 
-/// Indicates laterality—whether this is the right or left ovary.
- OvarySide get side;/// Indicates laterality—whether this is the right or left ovary.
- set side(OvarySide value);/// Classifies the morphology of the ovary.
- OvaryType get type;/// Classifies the morphology of the ovary.
+/// [side]: Ovary laterality.
+ OvarySide get side;/// [side]: Ovary laterality.
+ set side(OvarySide value);/// [type]: Morphological classification.
+ OvaryType get type;/// [type]: Morphological classification.
  set type(OvaryType value);/// Ovarian diameter measurements (AP, TR, LO).
  OvaryMeasurement get measures;/// Ovarian diameter measurements (AP, TR, LO).
- set measures(OvaryMeasurement value);/// Optional notes and comments describing the ovary.
- String? get notes;/// Optional notes and comments describing the ovary.
+ set measures(OvaryMeasurement value);/// [measures]: Linear measurements (AP/TR/LO).
+ String? get notes;/// [measures]: Linear measurements (AP/TR/LO).
  set notes(String? value);
 /// Create a copy of Ovary
 /// with the given fields replaced by the non-null parameter values.
@@ -1071,13 +1071,13 @@ class _Ovary implements Ovary {
    _Ovary({required this.side, required this.type, required this.measures, this.notes});
   factory _Ovary.fromJson(Map<String, dynamic> json) => _$OvaryFromJson(json);
 
-/// Indicates laterality—whether this is the right or left ovary.
+/// [side]: Ovary laterality.
 @override  OvarySide side;
-/// Classifies the morphology of the ovary.
+/// [type]: Morphological classification.
 @override  OvaryType type;
 /// Ovarian diameter measurements (AP, TR, LO).
 @override  OvaryMeasurement measures;
-/// Optional notes and comments describing the ovary.
+/// [measures]: Linear measurements (AP/TR/LO).
 @override  String? notes;
 
 /// Create a copy of Ovary
@@ -2304,28 +2304,28 @@ $FindingsCopyWith<$Res> get findings {
 /// @nodoc
 mixin _$ReportDraft {
 
-/// Unique identifier for the draft report (optional).
- String? get id;/// Unique identifier for the draft report (optional).
- set id(String? value);/// Date and time this draft was created (optional).
- DateTime? get createdAt;/// Date and time this draft was created (optional).
- set createdAt(DateTime? value);/// Patient information, demographic and clinical data (optional).
- Patient? get patient;/// Patient information, demographic and clinical data (optional).
- set patient(Patient? value);/// Ultrasound protocol and equipment details (optional).
- StudyProtocol? get protocol;/// Ultrasound protocol and equipment details (optional).
- set protocol(StudyProtocol? value);/// Clinical findings documented in the draft (optional).
- Findings? get findings;/// Clinical findings documented in the draft (optional).
- set findings(Findings? value);/// Optional bladder imaging and findings.
- Bladder? get bladder;/// Optional bladder imaging and findings.
- set bladder(Bladder? value);/// Reported data for the right ovary (required).
- Ovary get rightOvary;/// Reported data for the right ovary (required).
- set rightOvary(Ovary value);/// Reported data for the left ovary (required).
- Ovary get leftOvary;/// Reported data for the left ovary (required).
- set leftOvary(Ovary value);/// Name of the reporting doctor or clinician supervising the draft (optional).
- String? get doctor;/// Name of the reporting doctor or clinician supervising the draft (optional).
- set doctor(String? value);/// Site, service, or clinic where the draft was created (optional).
- String? get clinic;/// Site, service, or clinic where the draft was created (optional).
- set clinic(String? value);/// Additional extensible metadata fields (optional).
- Map<String, dynamic>? get meta;/// Additional extensible metadata fields (optional).
+/// [id]: Draft unique identifier (optional).
+ String? get id;/// [id]: Draft unique identifier (optional).
+ set id(String? value);/// [createdAt]: Timestamp of creation (optional).
+ DateTime? get createdAt;/// [createdAt]: Timestamp of creation (optional).
+ set createdAt(DateTime? value);/// [patient]: Patient info data model (optional).
+ Patient? get patient;/// [patient]: Patient info data model (optional).
+ set patient(Patient? value);/// [protocol]: Study protocol data (optional).
+ StudyProtocol? get protocol;/// [protocol]: Study protocol data (optional).
+ set protocol(StudyProtocol? value);/// [findings]: Clinical findings (optional).
+ Findings? get findings;/// [findings]: Clinical findings (optional).
+ set findings(Findings? value);/// [bladder]: Optional bladder findings.
+ Bladder? get bladder;/// [bladder]: Optional bladder findings.
+ set bladder(Bladder? value);/// [rightOvary]: Data for right ovary (required).
+ Ovary get rightOvary;/// [rightOvary]: Data for right ovary (required).
+ set rightOvary(Ovary value);/// [leftOvary]: Data for left ovary (required).
+ Ovary get leftOvary;/// [leftOvary]: Data for left ovary (required).
+ set leftOvary(Ovary value);/// [doctor]: Reporting doctor (optional).
+ String? get doctor;/// [doctor]: Reporting doctor (optional).
+ set doctor(String? value);/// [clinic]: Site or clinic (optional).
+ String? get clinic;/// [clinic]: Site or clinic (optional).
+ set clinic(String? value);/// [meta]: Extra metadata (optional).
+ Map<String, dynamic>? get meta;/// [meta]: Extra metadata (optional).
  set meta(Map<String, dynamic>? value);
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
@@ -2592,27 +2592,27 @@ class _ReportDraft implements ReportDraft {
    _ReportDraft({this.id, this.createdAt, this.patient, this.protocol, this.findings, this.bladder, required this.rightOvary, required this.leftOvary, this.doctor, this.clinic, this.meta});
   factory _ReportDraft.fromJson(Map<String, dynamic> json) => _$ReportDraftFromJson(json);
 
-/// Unique identifier for the draft report (optional).
+/// [id]: Draft unique identifier (optional).
 @override  String? id;
-/// Date and time this draft was created (optional).
+/// [createdAt]: Timestamp of creation (optional).
 @override  DateTime? createdAt;
-/// Patient information, demographic and clinical data (optional).
+/// [patient]: Patient info data model (optional).
 @override  Patient? patient;
-/// Ultrasound protocol and equipment details (optional).
+/// [protocol]: Study protocol data (optional).
 @override  StudyProtocol? protocol;
-/// Clinical findings documented in the draft (optional).
+/// [findings]: Clinical findings (optional).
 @override  Findings? findings;
-/// Optional bladder imaging and findings.
+/// [bladder]: Optional bladder findings.
 @override  Bladder? bladder;
-/// Reported data for the right ovary (required).
+/// [rightOvary]: Data for right ovary (required).
 @override  Ovary rightOvary;
-/// Reported data for the left ovary (required).
+/// [leftOvary]: Data for left ovary (required).
 @override  Ovary leftOvary;
-/// Name of the reporting doctor or clinician supervising the draft (optional).
+/// [doctor]: Reporting doctor (optional).
 @override  String? doctor;
-/// Site, service, or clinic where the draft was created (optional).
+/// [clinic]: Site or clinic (optional).
 @override  String? clinic;
-/// Additional extensible metadata fields (optional).
+/// [meta]: Extra metadata (optional).
 @override  Map<String, dynamic>? meta;
 
 /// Create a copy of ReportDraft
@@ -2742,6 +2742,312 @@ $OvaryCopyWith<$Res> get leftOvary {
     return _then(_self.copyWith(leftOvary: value));
   });
 }
+}
+
+
+/// @nodoc
+mixin _$UterineFindings {
+
+/// [longitud]
+ double? get longitud;/// [longitud]
+ set longitud(double? value);/// [ap]
+ double? get ap;/// [ap]
+ set ap(double? value);/// [transverse]
+ double? get transverse;/// [transverse]
+ set transverse(double? value);/// [other]
+ double? get other;/// [other]
+ set other(double? value);/// [volume]
+ double? get volume;/// [volume]
+ set volume(double? value);/// [localization]
+ String? get localization;/// [localization]
+ set localization(String? value);/// [position]
+ String? get position;/// [position]
+ set position(String? value);/// [surface]
+ String? get surface;/// [surface]
+ set surface(String? value);/// [myometrium]
+ String? get myometrium;/// [myometrium]
+ set myometrium(String? value);/// [endometrium]
+ String? get endometrium;/// [endometrium]
+ set endometrium(String? value);
+/// Create a copy of UterineFindings
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UterineFindingsCopyWith<UterineFindings> get copyWith => _$UterineFindingsCopyWithImpl<UterineFindings>(this as UterineFindings, _$identity);
+
+  /// Serializes this UterineFindings to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+
+
+@override
+String toString() {
+  return 'UterineFindings(longitud: $longitud, ap: $ap, transverse: $transverse, other: $other, volume: $volume, localization: $localization, position: $position, surface: $surface, myometrium: $myometrium, endometrium: $endometrium)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UterineFindingsCopyWith<$Res>  {
+  factory $UterineFindingsCopyWith(UterineFindings value, $Res Function(UterineFindings) _then) = _$UterineFindingsCopyWithImpl;
+@useResult
+$Res call({
+ double? longitud, double? ap, double? transverse, double? other, double? volume, String? localization, String? position, String? surface, String? myometrium, String? endometrium
+});
+
+
+
+
+}
+/// @nodoc
+class _$UterineFindingsCopyWithImpl<$Res>
+    implements $UterineFindingsCopyWith<$Res> {
+  _$UterineFindingsCopyWithImpl(this._self, this._then);
+
+  final UterineFindings _self;
+  final $Res Function(UterineFindings) _then;
+
+/// Create a copy of UterineFindings
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? longitud = freezed,Object? ap = freezed,Object? transverse = freezed,Object? other = freezed,Object? volume = freezed,Object? localization = freezed,Object? position = freezed,Object? surface = freezed,Object? myometrium = freezed,Object? endometrium = freezed,}) {
+  return _then(_self.copyWith(
+longitud: freezed == longitud ? _self.longitud : longitud // ignore: cast_nullable_to_non_nullable
+as double?,ap: freezed == ap ? _self.ap : ap // ignore: cast_nullable_to_non_nullable
+as double?,transverse: freezed == transverse ? _self.transverse : transverse // ignore: cast_nullable_to_non_nullable
+as double?,other: freezed == other ? _self.other : other // ignore: cast_nullable_to_non_nullable
+as double?,volume: freezed == volume ? _self.volume : volume // ignore: cast_nullable_to_non_nullable
+as double?,localization: freezed == localization ? _self.localization : localization // ignore: cast_nullable_to_non_nullable
+as String?,position: freezed == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
+as String?,surface: freezed == surface ? _self.surface : surface // ignore: cast_nullable_to_non_nullable
+as String?,myometrium: freezed == myometrium ? _self.myometrium : myometrium // ignore: cast_nullable_to_non_nullable
+as String?,endometrium: freezed == endometrium ? _self.endometrium : endometrium // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [UterineFindings].
+extension UterineFindingsPatterns on UterineFindings {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _UterineFindings value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _UterineFindings() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _UterineFindings value)  $default,){
+final _that = this;
+switch (_that) {
+case _UterineFindings():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _UterineFindings value)?  $default,){
+final _that = this;
+switch (_that) {
+case _UterineFindings() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double? longitud,  double? ap,  double? transverse,  double? other,  double? volume,  String? localization,  String? position,  String? surface,  String? myometrium,  String? endometrium)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _UterineFindings() when $default != null:
+return $default(_that.longitud,_that.ap,_that.transverse,_that.other,_that.volume,_that.localization,_that.position,_that.surface,_that.myometrium,_that.endometrium);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double? longitud,  double? ap,  double? transverse,  double? other,  double? volume,  String? localization,  String? position,  String? surface,  String? myometrium,  String? endometrium)  $default,) {final _that = this;
+switch (_that) {
+case _UterineFindings():
+return $default(_that.longitud,_that.ap,_that.transverse,_that.other,_that.volume,_that.localization,_that.position,_that.surface,_that.myometrium,_that.endometrium);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double? longitud,  double? ap,  double? transverse,  double? other,  double? volume,  String? localization,  String? position,  String? surface,  String? myometrium,  String? endometrium)?  $default,) {final _that = this;
+switch (_that) {
+case _UterineFindings() when $default != null:
+return $default(_that.longitud,_that.ap,_that.transverse,_that.other,_that.volume,_that.localization,_that.position,_that.surface,_that.myometrium,_that.endometrium);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _UterineFindings implements UterineFindings {
+   _UterineFindings({this.longitud, this.ap, this.transverse, this.other, this.volume, this.localization, this.position, this.surface, this.myometrium, this.endometrium});
+  factory _UterineFindings.fromJson(Map<String, dynamic> json) => _$UterineFindingsFromJson(json);
+
+/// [longitud]
+@override  double? longitud;
+/// [ap]
+@override  double? ap;
+/// [transverse]
+@override  double? transverse;
+/// [other]
+@override  double? other;
+/// [volume]
+@override  double? volume;
+/// [localization]
+@override  String? localization;
+/// [position]
+@override  String? position;
+/// [surface]
+@override  String? surface;
+/// [myometrium]
+@override  String? myometrium;
+/// [endometrium]
+@override  String? endometrium;
+
+/// Create a copy of UterineFindings
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$UterineFindingsCopyWith<_UterineFindings> get copyWith => __$UterineFindingsCopyWithImpl<_UterineFindings>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$UterineFindingsToJson(this, );
+}
+
+
+
+@override
+String toString() {
+  return 'UterineFindings(longitud: $longitud, ap: $ap, transverse: $transverse, other: $other, volume: $volume, localization: $localization, position: $position, surface: $surface, myometrium: $myometrium, endometrium: $endometrium)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$UterineFindingsCopyWith<$Res> implements $UterineFindingsCopyWith<$Res> {
+  factory _$UterineFindingsCopyWith(_UterineFindings value, $Res Function(_UterineFindings) _then) = __$UterineFindingsCopyWithImpl;
+@override @useResult
+$Res call({
+ double? longitud, double? ap, double? transverse, double? other, double? volume, String? localization, String? position, String? surface, String? myometrium, String? endometrium
+});
+
+
+
+
+}
+/// @nodoc
+class __$UterineFindingsCopyWithImpl<$Res>
+    implements _$UterineFindingsCopyWith<$Res> {
+  __$UterineFindingsCopyWithImpl(this._self, this._then);
+
+  final _UterineFindings _self;
+  final $Res Function(_UterineFindings) _then;
+
+/// Create a copy of UterineFindings
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? longitud = freezed,Object? ap = freezed,Object? transverse = freezed,Object? other = freezed,Object? volume = freezed,Object? localization = freezed,Object? position = freezed,Object? surface = freezed,Object? myometrium = freezed,Object? endometrium = freezed,}) {
+  return _then(_UterineFindings(
+longitud: freezed == longitud ? _self.longitud : longitud // ignore: cast_nullable_to_non_nullable
+as double?,ap: freezed == ap ? _self.ap : ap // ignore: cast_nullable_to_non_nullable
+as double?,transverse: freezed == transverse ? _self.transverse : transverse // ignore: cast_nullable_to_non_nullable
+as double?,other: freezed == other ? _self.other : other // ignore: cast_nullable_to_non_nullable
+as double?,volume: freezed == volume ? _self.volume : volume // ignore: cast_nullable_to_non_nullable
+as double?,localization: freezed == localization ? _self.localization : localization // ignore: cast_nullable_to_non_nullable
+as String?,position: freezed == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
+as String?,surface: freezed == surface ? _self.surface : surface // ignore: cast_nullable_to_non_nullable
+as String?,myometrium: freezed == myometrium ? _self.myometrium : myometrium // ignore: cast_nullable_to_non_nullable
+as String?,endometrium: freezed == endometrium ? _self.endometrium : endometrium // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
 }
 
 // dart format on
