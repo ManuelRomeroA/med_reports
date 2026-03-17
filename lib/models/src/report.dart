@@ -1,4 +1,4 @@
-part of 'models.dart';
+part of '../models.dart';
 
 /// Final immutable model for a signed imaging report.
 @freezed

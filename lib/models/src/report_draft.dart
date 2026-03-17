@@ -1,4 +1,4 @@
-part of 'models.dart';
+part of '../models.dart';
 
 /// Temporary, editable draft for a medical imaging report.
 @unfreezed

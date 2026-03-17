@@ -1,4 +1,4 @@
-part of 'models.dart';
+part of '../models.dart';
 
 /// Aggregates clinical findings for a pelvic ultrasound study.
 @unfreezed

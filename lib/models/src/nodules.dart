@@ -1,4 +1,4 @@
-part of 'models.dart';
+part of '../models.dart';
 
 /// Documents presence or description of focal nodules in imaging.
 @unfreezed

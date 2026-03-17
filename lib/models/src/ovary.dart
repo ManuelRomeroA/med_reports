@@ -1,4 +1,4 @@
-part of 'models.dart';
+part of '../models.dart';
 
 /// Indicates laterality of ovary: right or left.
 enum OvarySide {

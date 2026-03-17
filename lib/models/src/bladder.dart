@@ -1,4 +1,4 @@
-part of 'models.dart';
+part of '../models.dart';
 
 /// Represents bladder and Douglas pouch findings in an imaging report.
 enum Regularity {

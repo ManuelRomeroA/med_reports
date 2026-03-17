@@ -8,16 +8,16 @@ library;
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'patient.dart';
-part 'study_protocol.dart';
+part 'src/patient.dart';
+part 'src/study_protocol.dart';
 
-part 'ovary.dart';
-part 'bladder.dart';
-part 'nodules.dart';
-part 'findings.dart';
-part 'report.dart';
-part 'report_draft.dart';
-part 'uterine_findings.dart';
+part 'src/ovary.dart';
+part 'src/bladder.dart';
+part 'src/nodules.dart';
+part 'src/findings.dart';
+part 'src/report.dart';
+part 'src/report_draft.dart';
+part 'src/uterine_findings.dart';
 
 part 'models.freezed.dart';
 part 'models.g.dart';

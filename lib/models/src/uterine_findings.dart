@@ -3,7 +3,7 @@ Technical documentation:
 All enums in this file are serialized using @JsonValue with their value in Spanish and UPPERCASE for clinical compatibility. However, all code comments and documentation are provided in English for consistency and best practices in the codebase and developer experience.
 */
 
-part of 'models.dart';
+part of '../models.dart';
 
 /// Describes the location of the uterus in the pelvis, relevant for gynecological diagnosis.
 enum UterusLocalization {

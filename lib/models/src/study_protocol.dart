@@ -1,4 +1,4 @@
-part of 'models.dart';
+part of '../models.dart';
 
 /// Enum specifying types of ultrasound study protocols.
 @JsonEnum(alwaysCreate: true)

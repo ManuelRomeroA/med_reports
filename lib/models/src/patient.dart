@@ -1,4 +1,4 @@
-part of 'models.dart';
+part of '../models.dart';
 
 /// Modelo para representar la identidad clínica y demográfica del paciente.
 /// Incluye motivo principal de consulta y datos generales.
