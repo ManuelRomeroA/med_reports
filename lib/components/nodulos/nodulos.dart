@@ -3,19 +3,9 @@ import 'package:med_reports/components/nodulos/content.dart';
 import 'package:med_reports/models/models.dart';
 import 'package:med_reports/main.dart';
 
-/**
- * Widget para editar hallazgos miometriales (nódulos) en el borrador draft mutable.
- * Recibe el draft y un callback [onChanged] que se llama luego de cualquier modificación.
- * Edita el draft directamente y notifica a home.
- */
 class NodulesWidget extends StatefulWidget {
   final ReportDraft draft;
-  final VoidCallback onChanged;
-  const NodulesWidget({
-    super.key,
-    required this.draft,
-    required this.onChanged,
-  });
+  const NodulesWidget({super.key, required this.draft});
 
   @override
   State<NodulesWidget> createState() => _NodulesWidgetState();
@@ -58,14 +48,12 @@ class _NodulesWidgetState extends State<NodulesWidget> {
                 ),
               ),
               _NodulesSelector(
-                // Ejemplo de integración: reemplaza 'seleccion' con draft.findings?.uterusDiagnosis u otro campo propio
-                value: widget.draft.findings?.uterusDiagnosis ?? "",
-                onChanged: (v) {
-                  if (widget.draft.findings == null)
-                    widget.draft.findings = new Findings();
-                  widget.draft.findings?.uterusDiagnosis = v;
+                value: widget.draft.nodules?.has ?? false,
+                onChanged: (value) {
+                  widget.draft.nodules?.has = value;
+                  if (value) widget.draft.nodules?.detail = null;
+
                   setState(() {});
-                  widget.onChanged();
                 },
               ),
             ],
@@ -76,7 +64,7 @@ class _NodulesWidgetState extends State<NodulesWidget> {
             color: theme.colorScheme.primary.withValues(alpha: 0.15),
           ),
           // Si quieres mostrar condiciones dependientes del draft, consulta draft directamente.
-          if ((widget.draft.findings?.uterusDiagnosis ?? "") == "No") ...[
+          if ((widget.draft.nodules?.has ?? false) == false) ...[
             const SizedBox(height: 18),
             NodulesContent(),
           ],
@@ -87,8 +75,8 @@ class _NodulesWidgetState extends State<NodulesWidget> {
 }
 
 class _NodulesSelector extends StatelessWidget {
-  final String value;
-  final ValueChanged<String> onChanged;
+  final bool value;
+  final ValueChanged<bool> onChanged;
 
   const _NodulesSelector({required this.value, required this.onChanged});
 
@@ -108,14 +96,14 @@ class _NodulesSelector extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           _NoduleOption(
-            label: "Si",
-            selected: value == "Si",
-            onTap: () => onChanged("Si"),
+            value: true,
+            selected: value,
+            onTap: () => onChanged(true),
           ),
           _NoduleOption(
-            label: "No",
-            selected: value == "No",
-            onTap: () => onChanged("No"),
+            value: false,
+            selected: !value,
+            onTap: () => onChanged(false),
           ),
         ],
       ),
@@ -124,12 +112,12 @@ class _NodulesSelector extends StatelessWidget {
 }
 
 class _NoduleOption extends StatelessWidget {
-  final String label;
+  final bool value;
   final bool selected;
   final VoidCallback onTap;
 
   const _NoduleOption({
-    required this.label,
+    required this.value,
     required this.selected,
     required this.onTap,
   });
@@ -149,7 +137,7 @@ class _NoduleOption extends StatelessWidget {
               : null,
         ),
         child: Text(
-          label == "Si" ? "SIN NÓDULOS" : "CON NÓDULOS",
+          value ? "SIN NÓDULOS" : "CON NÓDULOS",
           style: TextStyle(color: kCafeVinoOscuro, fontWeight: FontWeight.bold),
         ),
       ),
