@@ -52,18 +52,17 @@ abstract class ReportDraft with _$ReportDraft {
     return ReportDraft(
       rightOvary: Ovary(
         side: OvarySide.right,
-        type: OvaryType.normal,
         measures: OvaryMeasurement(),
       ), // Asume constructor vacío
       leftOvary: Ovary(
         side: OvarySide.left,
-        type: OvaryType.normal,
         measures: OvaryMeasurement(),
       ), // Asume constructor vacío
       protocol: StudyProtocol(), // Asume constructor vacío
       patient: Patient(), // Asume constructor vacío
       findings: Findings(), // Asume constructor vacío
       nodules: Nodules(), // Asume constructor vacío
+      uterineFindings: UterineFindings(),
     );
   }
 }
