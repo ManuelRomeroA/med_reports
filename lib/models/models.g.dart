@@ -97,17 +97,29 @@ const _$StudyTypeEnumMap = {
 
 _OvaryMeasurement _$OvaryMeasurementFromJson(Map<String, dynamic> json) =>
     _OvaryMeasurement(
-      ap: (json['ap'] as num).toDouble(),
-      tr: (json['tr'] as num).toDouble(),
-      lo: (json['lo'] as num).toDouble(),
+      ap: (json['ap'] as num?)?.toDouble(),
+      tr: (json['tr'] as num?)?.toDouble(),
+      lo: (json['lo'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$OvaryMeasurementToJson(_OvaryMeasurement instance) =>
     <String, dynamic>{'ap': instance.ap, 'tr': instance.tr, 'lo': instance.lo};
 
 _Ovary _$OvaryFromJson(Map<String, dynamic> json) => _Ovary(
-  side: $enumDecode(_$OvarySideEnumMap, json['side']),
-  type: $enumDecode(_$OvaryTypeEnumMap, json['type']),
+  side:
+      $enumDecodeNullable(
+        _$OvarySideEnumMap,
+        json['side'],
+        unknownValue: OvarySide.unknown,
+      ) ??
+      OvarySide.left,
+  type:
+      $enumDecodeNullable(
+        _$OvaryTypeEnumMap,
+        json['type'],
+        unknownValue: OvaryType.unknown,
+      ) ??
+      OvaryType.normal,
   measures: OvaryMeasurement.fromJson(json['measures'] as Map<String, dynamic>),
   notes: json['notes'] as String?,
 );
@@ -119,12 +131,17 @@ Map<String, dynamic> _$OvaryToJson(_Ovary instance) => <String, dynamic>{
   'notes': instance.notes,
 };
 
-const _$OvarySideEnumMap = {OvarySide.right: 'right', OvarySide.left: 'left'};
+const _$OvarySideEnumMap = {
+  OvarySide.right: 'DERECHA',
+  OvarySide.left: 'IZQUIERDA',
+  OvarySide.unknown: 'DESCONOCIDO',
+};
 
 const _$OvaryTypeEnumMap = {
-  OvaryType.normal: 'normal',
-  OvaryType.polycystic: 'polycystic',
-  OvaryType.other: 'other',
+  OvaryType.normal: 'NORMAL',
+  OvaryType.polycystic: 'POLIQUISTICO',
+  OvaryType.other: 'OTRO',
+  OvaryType.unknown: 'DESCONOCIDO',
 };
 
 _Bladder _$BladderFromJson(Map<String, dynamic> json) => _Bladder(

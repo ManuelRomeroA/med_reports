@@ -49,11 +49,9 @@ class _OvaryWidgetState extends State<OvaryWidget> {
           // Título y línea
           Text(
             widget.titulo.toUpperCase(),
-            style: TextStyle(
+            style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: theme.colorScheme.primary,
-              fontSize: 15,
-              letterSpacing: 1,
             ),
           ),
           const SizedBox(height: 2),
@@ -65,21 +63,24 @@ class _OvaryWidgetState extends State<OvaryWidget> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: .max,
-            children: OvaryType.values.map((type) {
-              return Expanded(
-                child: SelectedButton(
-                  label: type.name.toUpperCase(),
-                  selected: widget.ovary.type == type,
-                  selectedColor: kCafeVinoOscuro,
-                  onTap: () {
-                    setState(() {
-                      ovary.type = type;
-                      widget.onChanged(ovary);
-                    });
-                  },
-                ),
-              );
-            }).toList(),
+            children: OvaryType.values
+                .where((type) => type != OvaryType.unknown)
+                .map((type) {
+                  return Expanded(
+                    child: SelectedButton(
+                      label: type.toString(),
+                      selected: widget.ovary.type == type,
+                      selectedColor: kCafeVinoOscuro,
+                      onTap: () {
+                        setState(() {
+                          ovary = ovary.copyWith(type: type);
+                          widget.onChanged(ovary);
+                        });
+                      },
+                    ),
+                  );
+                })
+                .toList(),
           ),
           const SizedBox(height: 18),
 
@@ -87,51 +88,53 @@ class _OvaryWidgetState extends State<OvaryWidget> {
           Row(
             children: [
               Expanded(
-                child: ThemedTextInput(
-                  value: widget.ovary.measures.ap.toString(),
+                child: ThemedNumberInput(
+                  value: widget.ovary.measures.ap,
                   labelText: "AP",
                   keyboardType: TextInputType.number,
-                  onChanged: (value) {
-                    setState(() {
-                      final numVal = double.tryParse(value);
-                      if (numVal == null) return;
+                  hidePrefixSuffixActions: true,
 
-                      ovary.measures.ap = numVal;
-                      widget.onChanged(ovary);
-                    });
+                  onChanged: (value) {
+                    if (value == null) return;
+                    ovary = ovary.copyWith(
+                      measures: ovary.measures.copyWith(ap: value.toDouble()),
+                    );
+                    widget.onChanged(ovary);
+                    setState(() {});
                   },
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: ThemedTextInput(
-                  value: widget.ovary.measures.tr.toString(),
-
+                child: ThemedNumberInput(
+                  value: widget.ovary.measures.tr,
                   labelText: "TR",
                   keyboardType: TextInputType.number,
+                  hidePrefixSuffixActions: true,
                   onChanged: (value) {
-                    setState(() {
-                      final numVal = double.tryParse(value);
-                      if (numVal == null) return;
-                      widget.ovary.measures.tr = numVal;
-                      widget.onChanged(widget.ovary);
-                    });
+                    if (value == null) return;
+                    ovary = ovary.copyWith(
+                      measures: ovary.measures.copyWith(tr: value.toDouble()),
+                    );
+                    widget.onChanged(ovary);
+                    setState(() {});
                   },
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: ThemedTextInput(
-                  value: widget.ovary.measures.lo.toString(),
+                child: ThemedNumberInput(
+                  value: widget.ovary.measures.lo,
                   labelText: "LO",
                   keyboardType: TextInputType.number,
+                  hidePrefixSuffixActions: true,
                   onChanged: (value) {
-                    setState(() {
-                      final numVal = double.tryParse(value);
-                      if (numVal == null) return;
-                      widget.ovary.measures.lo = numVal;
-                      widget.onChanged(widget.ovary);
-                    });
+                    if (value == null) return;
+                    ovary = ovary.copyWith(
+                      measures: ovary.measures.copyWith(lo: value.toDouble()),
+                    );
+                    widget.onChanged(ovary);
+                    setState(() {});
                   },
                 ),
               ),
@@ -149,19 +152,17 @@ class _OvaryWidgetState extends State<OvaryWidget> {
                   children: [
                     Text(
                       "VOL",
-                      style: TextStyle(
+                      style: theme.textTheme.titleMedium?.copyWith(
                         color: Colors.white.withValues(alpha: 0.7),
                         fontWeight: FontWeight.bold,
                         fontSize: 11,
-                        letterSpacing: 1,
                       ),
                     ),
                     Text(
                       widget.ovary.measures.volume.toStringAsFixed(0),
-                      style: const TextStyle(
+                      style: theme.textTheme.titleSmall?.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 15,
                       ),
                     ),
                   ],
@@ -174,12 +175,11 @@ class _OvaryWidgetState extends State<OvaryWidget> {
           // Hallazgos adicionales
           ThemedTextInput(
             value: widget.ovary.notes ?? "",
-            labelText: "Hallazgos adicionales en este ovario...",
+            labelText: "Hallazgos adicionales en este ovario",
             maxLines: 2,
             onChanged: (value) {
               setState(() {
-                widget.ovary.notes = value;
-                widget.onChanged(widget.ovary);
+                widget.onChanged(widget.ovary.copyWith(notes: value));
               });
             },
           ),

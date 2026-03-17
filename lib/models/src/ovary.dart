@@ -1,44 +1,74 @@
 part of '../models.dart';
 
-/// Indicates laterality of ovary: right or left.
+/// Indicates laterality of ovary: right, left, or unknown.
+/// Use [unknown] for unclassified cases.
+@JsonEnum()
 enum OvarySide {
-  /// Designates the right ovary.
+  /// Ovario derecho
+  @JsonValue('DERECHA')
   right,
 
-  /// Designates the left ovary.
+  /// Ovario izquierdo
+  @JsonValue('IZQUIERDA')
   left,
+
+  /// Lado de ovario desconocido o no clasificado
+  @JsonValue('DESCONOCIDO')
+  unknown;
+
+  @override
+  String toString() => _$OvarySideEnumMap[this] ?? 'DESCONOCIDO';
 }
 
 /// Classification of ovarian morphology.
+/// Use [unknown] for unclassified cases.
+@JsonEnum()
 enum OvaryType {
-  /// Morphologically normal ovary.
+  /// Ovario morfológicamente normal
+  @JsonValue('NORMAL')
   normal,
 
-  /// Indicates polycystic ovary appearance.
+  /// Ovario con aspecto poliquístico
+  @JsonValue('POLIQUISTICO')
   polycystic,
 
-  /// Other or unclassified morphology.
+  /// Ovario con morfología no clasificada u otra
+  @JsonValue('OTRO')
   other,
+
+  /// Tipo de ovario desconocido
+  @JsonValue('DESCONOCIDO')
+  unknown;
+
+  @override
+  String toString() => _$OvaryTypeEnumMap[this] ?? 'DESCONOCIDO';
 }
 
 /// Contains ovary measurements (diameters in mm, computed volume).
-@unfreezed
-abstract class OvaryMeasurement with _$OvaryMeasurement {
-  factory OvaryMeasurement({
-    /// [ap]: Antero-posterior diameter, mm.
-    required double ap,
+/// Medición ovárica: diámetros y volumen calculado (mm, mm³).
+@freezed
+sealed class OvaryMeasurement with _$OvaryMeasurement {
+  /// Diámetro antero-posterior del ovario en mm.
+  const OvaryMeasurement._();
 
-    /// [tr]: Transverse diameter, mm.
-    required double tr,
+  /// Factory constructor: diámetros.
+  const factory OvaryMeasurement({
+    /// Diámetro antero-posterior del ovario en mm.
+    double? ap,
 
-    /// [lo]: Longitudinal diameter, mm.
-    required double lo,
+    /// Diámetro transversal del ovario en mm.
+    double? tr,
+
+    /// Diámetro longitudinal del ovario en mm.
+    double? lo,
   }) = _OvaryMeasurement;
 
-  OvaryMeasurement._();
-
   /// [volume]: Computed ovarian volume (mm³).
-  double get volume => (ap) * (tr) * (lo) * 0.523;
+  /// Returns calculated volume or 0.0 if any diameter is missing.
+  double get volume {
+    if (ap == null || tr == null || lo == null) return 0.0;
+    return (ap!) * (tr!) * (lo!) * 0.523;
+  }
 
   /// Creates OvaryMeasurement from JSON.
   factory OvaryMeasurement.fromJson(Map<String, dynamic> json) =>
@@ -46,20 +76,26 @@ abstract class OvaryMeasurement with _$OvaryMeasurement {
 }
 
 /// Represents a single ovary report entity for ultrasound.
-@unfreezed
-abstract class Ovary with _$Ovary {
-  /// [notes]: Optional notes.
-  factory Ovary({
-    /// [side]: Ovary laterality.
-    required OvarySide side,
+@freezed
+sealed class Ovary with _$Ovary {
+  const Ovary._();
 
-    /// [type]: Morphological classification.
-    required OvaryType type,
+  /// Factory constructor: ovary entity.
+  const factory Ovary({
+    /// Lateralidad del ovario (derecha, izquierda, desconocido)
+    @JsonKey(unknownEnumValue: OvarySide.unknown)
+    @Default(OvarySide.left)
+    OvarySide side,
 
-    /// Ovarian diameter measurements (AP, TR, LO).
+    /// Tipo morfológico del ovario (normal, poliquístico, otro, desconocido)
+    @JsonKey(unknownEnumValue: OvaryType.unknown)
+    @Default(OvaryType.normal)
+    OvaryType type,
+
+    /// Medición diametral ovárica (AP, TR, LO)
     required OvaryMeasurement measures,
 
-    /// [measures]: Linear measurements (AP/TR/LO).
+    /// Notas adicionales sobre evaluación del ovario
     String? notes,
   }) = _Ovary;
 

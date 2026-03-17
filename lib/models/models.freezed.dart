@@ -39,8 +39,8 @@ mixin _$Patient {
 @JsonKey(unknownEnumValue: PeriodType.normal) PeriodType get period;/// Period
 @JsonKey(unknownEnumValue: PeriodType.normal) set period(PeriodType value);/// Referral source or referring medical provider (optional).
  String? get reference;/// Referral source or referring medical provider (optional).
- set reference(String? value);/// Patient demographic and clinical identity model.
- String? get motivo;/// Patient demographic and clinical identity model.
+ set reference(String? value);/// Motivo principal para la consulta o la realización del examen (opcional).
+ String? get motivo;/// Motivo principal para la consulta o la realización del examen (opcional).
  set motivo(String? value);
 /// Create a copy of Patient
 /// with the given fields replaced by the non-null parameter values.
@@ -267,7 +267,7 @@ class _Patient implements Patient {
 @override@JsonKey(unknownEnumValue: PeriodType.normal)  PeriodType period;
 /// Referral source or referring medical provider (optional).
 @override  String? reference;
-/// Patient demographic and clinical identity model.
+/// Motivo principal para la consulta o la realización del examen (opcional).
 @override  String? motivo;
 
 /// Create a copy of Patient
@@ -597,13 +597,10 @@ as String?,
 /// @nodoc
 mixin _$OvaryMeasurement {
 
-/// [ap]: Antero-posterior diameter, mm.
- double get ap;/// [ap]: Antero-posterior diameter, mm.
- set ap(double value);/// [tr]: Transverse diameter, mm.
- double get tr;/// [tr]: Transverse diameter, mm.
- set tr(double value);/// [lo]: Longitudinal diameter, mm.
- double get lo;/// [lo]: Longitudinal diameter, mm.
- set lo(double value);
+/// Diámetro antero-posterior del ovario en mm.
+ double? get ap;/// Diámetro transversal del ovario en mm.
+ double? get tr;/// Diámetro longitudinal del ovario en mm.
+ double? get lo;
 /// Create a copy of OvaryMeasurement
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -614,7 +611,14 @@ $OvaryMeasurementCopyWith<OvaryMeasurement> get copyWith => _$OvaryMeasurementCo
   Map<String, dynamic> toJson();
 
 
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OvaryMeasurement&&(identical(other.ap, ap) || other.ap == ap)&&(identical(other.tr, tr) || other.tr == tr)&&(identical(other.lo, lo) || other.lo == lo));
+}
 
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,ap,tr,lo);
 
 @override
 String toString() {
@@ -629,7 +633,7 @@ abstract mixin class $OvaryMeasurementCopyWith<$Res>  {
   factory $OvaryMeasurementCopyWith(OvaryMeasurement value, $Res Function(OvaryMeasurement) _then) = _$OvaryMeasurementCopyWithImpl;
 @useResult
 $Res call({
- double ap, double tr, double lo
+ double? ap, double? tr, double? lo
 });
 
 
@@ -646,12 +650,12 @@ class _$OvaryMeasurementCopyWithImpl<$Res>
 
 /// Create a copy of OvaryMeasurement
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? ap = null,Object? tr = null,Object? lo = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? ap = freezed,Object? tr = freezed,Object? lo = freezed,}) {
   return _then(_self.copyWith(
-ap: null == ap ? _self.ap : ap // ignore: cast_nullable_to_non_nullable
-as double,tr: null == tr ? _self.tr : tr // ignore: cast_nullable_to_non_nullable
-as double,lo: null == lo ? _self.lo : lo // ignore: cast_nullable_to_non_nullable
-as double,
+ap: freezed == ap ? _self.ap : ap // ignore: cast_nullable_to_non_nullable
+as double?,tr: freezed == tr ? _self.tr : tr // ignore: cast_nullable_to_non_nullable
+as double?,lo: freezed == lo ? _self.lo : lo // ignore: cast_nullable_to_non_nullable
+as double?,
   ));
 }
 
@@ -698,10 +702,7 @@ return $default(_that);case _:
 final _that = this;
 switch (_that) {
 case _OvaryMeasurement():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -736,7 +737,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double ap,  double tr,  double lo)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double? ap,  double? tr,  double? lo)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _OvaryMeasurement() when $default != null:
 return $default(_that.ap,_that.tr,_that.lo);case _:
@@ -757,13 +758,10 @@ return $default(_that.ap,_that.tr,_that.lo);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double ap,  double tr,  double lo)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double? ap,  double? tr,  double? lo)  $default,) {final _that = this;
 switch (_that) {
 case _OvaryMeasurement():
-return $default(_that.ap,_that.tr,_that.lo);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that.ap,_that.tr,_that.lo);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -777,7 +775,7 @@ return $default(_that.ap,_that.tr,_that.lo);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double ap,  double tr,  double lo)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double? ap,  double? tr,  double? lo)?  $default,) {final _that = this;
 switch (_that) {
 case _OvaryMeasurement() when $default != null:
 return $default(_that.ap,_that.tr,_that.lo);case _:
@@ -792,15 +790,15 @@ return $default(_that.ap,_that.tr,_that.lo);case _:
 @JsonSerializable()
 
 class _OvaryMeasurement extends OvaryMeasurement {
-   _OvaryMeasurement({required this.ap, required this.tr, required this.lo}): super._();
+  const _OvaryMeasurement({this.ap, this.tr, this.lo}): super._();
   factory _OvaryMeasurement.fromJson(Map<String, dynamic> json) => _$OvaryMeasurementFromJson(json);
 
-/// [ap]: Antero-posterior diameter, mm.
-@override  double ap;
-/// [tr]: Transverse diameter, mm.
-@override  double tr;
-/// [lo]: Longitudinal diameter, mm.
-@override  double lo;
+/// Diámetro antero-posterior del ovario en mm.
+@override final  double? ap;
+/// Diámetro transversal del ovario en mm.
+@override final  double? tr;
+/// Diámetro longitudinal del ovario en mm.
+@override final  double? lo;
 
 /// Create a copy of OvaryMeasurement
 /// with the given fields replaced by the non-null parameter values.
@@ -813,7 +811,14 @@ Map<String, dynamic> toJson() {
   return _$OvaryMeasurementToJson(this, );
 }
 
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OvaryMeasurement&&(identical(other.ap, ap) || other.ap == ap)&&(identical(other.tr, tr) || other.tr == tr)&&(identical(other.lo, lo) || other.lo == lo));
+}
 
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,ap,tr,lo);
 
 @override
 String toString() {
@@ -828,7 +833,7 @@ abstract mixin class _$OvaryMeasurementCopyWith<$Res> implements $OvaryMeasureme
   factory _$OvaryMeasurementCopyWith(_OvaryMeasurement value, $Res Function(_OvaryMeasurement) _then) = __$OvaryMeasurementCopyWithImpl;
 @override @useResult
 $Res call({
- double ap, double tr, double lo
+ double? ap, double? tr, double? lo
 });
 
 
@@ -845,12 +850,12 @@ class __$OvaryMeasurementCopyWithImpl<$Res>
 
 /// Create a copy of OvaryMeasurement
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? ap = null,Object? tr = null,Object? lo = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? ap = freezed,Object? tr = freezed,Object? lo = freezed,}) {
   return _then(_OvaryMeasurement(
-ap: null == ap ? _self.ap : ap // ignore: cast_nullable_to_non_nullable
-as double,tr: null == tr ? _self.tr : tr // ignore: cast_nullable_to_non_nullable
-as double,lo: null == lo ? _self.lo : lo // ignore: cast_nullable_to_non_nullable
-as double,
+ap: freezed == ap ? _self.ap : ap // ignore: cast_nullable_to_non_nullable
+as double?,tr: freezed == tr ? _self.tr : tr // ignore: cast_nullable_to_non_nullable
+as double?,lo: freezed == lo ? _self.lo : lo // ignore: cast_nullable_to_non_nullable
+as double?,
   ));
 }
 
@@ -861,15 +866,11 @@ as double,
 /// @nodoc
 mixin _$Ovary {
 
-/// [side]: Ovary laterality.
- OvarySide get side;/// [side]: Ovary laterality.
- set side(OvarySide value);/// [type]: Morphological classification.
- OvaryType get type;/// [type]: Morphological classification.
- set type(OvaryType value);/// Ovarian diameter measurements (AP, TR, LO).
- OvaryMeasurement get measures;/// Ovarian diameter measurements (AP, TR, LO).
- set measures(OvaryMeasurement value);/// [measures]: Linear measurements (AP/TR/LO).
- String? get notes;/// [measures]: Linear measurements (AP/TR/LO).
- set notes(String? value);
+/// Lateralidad del ovario (derecha, izquierda, desconocido)
+@JsonKey(unknownEnumValue: OvarySide.unknown) OvarySide get side;/// Tipo morfológico del ovario (normal, poliquístico, otro, desconocido)
+@JsonKey(unknownEnumValue: OvaryType.unknown) OvaryType get type;/// Medición diametral ovárica (AP, TR, LO)
+ OvaryMeasurement get measures;/// Notas adicionales sobre evaluación del ovario
+ String? get notes;
 /// Create a copy of Ovary
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -880,7 +881,14 @@ $OvaryCopyWith<Ovary> get copyWith => _$OvaryCopyWithImpl<Ovary>(this as Ovary, 
   Map<String, dynamic> toJson();
 
 
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Ovary&&(identical(other.side, side) || other.side == side)&&(identical(other.type, type) || other.type == type)&&(identical(other.measures, measures) || other.measures == measures)&&(identical(other.notes, notes) || other.notes == notes));
+}
 
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,side,type,measures,notes);
 
 @override
 String toString() {
@@ -895,7 +903,7 @@ abstract mixin class $OvaryCopyWith<$Res>  {
   factory $OvaryCopyWith(Ovary value, $Res Function(Ovary) _then) = _$OvaryCopyWithImpl;
 @useResult
 $Res call({
- OvarySide side, OvaryType type, OvaryMeasurement measures, String? notes
+@JsonKey(unknownEnumValue: OvarySide.unknown) OvarySide side,@JsonKey(unknownEnumValue: OvaryType.unknown) OvaryType type, OvaryMeasurement measures, String? notes
 });
 
 
@@ -974,10 +982,7 @@ return $default(_that);case _:
 final _that = this;
 switch (_that) {
 case _Ovary():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -1012,7 +1017,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( OvarySide side,  OvaryType type,  OvaryMeasurement measures,  String? notes)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(unknownEnumValue: OvarySide.unknown)  OvarySide side, @JsonKey(unknownEnumValue: OvaryType.unknown)  OvaryType type,  OvaryMeasurement measures,  String? notes)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Ovary() when $default != null:
 return $default(_that.side,_that.type,_that.measures,_that.notes);case _:
@@ -1033,13 +1038,10 @@ return $default(_that.side,_that.type,_that.measures,_that.notes);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( OvarySide side,  OvaryType type,  OvaryMeasurement measures,  String? notes)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(unknownEnumValue: OvarySide.unknown)  OvarySide side, @JsonKey(unknownEnumValue: OvaryType.unknown)  OvaryType type,  OvaryMeasurement measures,  String? notes)  $default,) {final _that = this;
 switch (_that) {
 case _Ovary():
-return $default(_that.side,_that.type,_that.measures,_that.notes);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that.side,_that.type,_that.measures,_that.notes);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -1053,7 +1055,7 @@ return $default(_that.side,_that.type,_that.measures,_that.notes);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( OvarySide side,  OvaryType type,  OvaryMeasurement measures,  String? notes)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(unknownEnumValue: OvarySide.unknown)  OvarySide side, @JsonKey(unknownEnumValue: OvaryType.unknown)  OvaryType type,  OvaryMeasurement measures,  String? notes)?  $default,) {final _that = this;
 switch (_that) {
 case _Ovary() when $default != null:
 return $default(_that.side,_that.type,_that.measures,_that.notes);case _:
@@ -1067,18 +1069,18 @@ return $default(_that.side,_that.type,_that.measures,_that.notes);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _Ovary implements Ovary {
-   _Ovary({required this.side, required this.type, required this.measures, this.notes});
+class _Ovary extends Ovary {
+  const _Ovary({@JsonKey(unknownEnumValue: OvarySide.unknown) this.side = OvarySide.left, @JsonKey(unknownEnumValue: OvaryType.unknown) this.type = OvaryType.normal, required this.measures, this.notes}): super._();
   factory _Ovary.fromJson(Map<String, dynamic> json) => _$OvaryFromJson(json);
 
-/// [side]: Ovary laterality.
-@override  OvarySide side;
-/// [type]: Morphological classification.
-@override  OvaryType type;
-/// Ovarian diameter measurements (AP, TR, LO).
-@override  OvaryMeasurement measures;
-/// [measures]: Linear measurements (AP/TR/LO).
-@override  String? notes;
+/// Lateralidad del ovario (derecha, izquierda, desconocido)
+@override@JsonKey(unknownEnumValue: OvarySide.unknown) final  OvarySide side;
+/// Tipo morfológico del ovario (normal, poliquístico, otro, desconocido)
+@override@JsonKey(unknownEnumValue: OvaryType.unknown) final  OvaryType type;
+/// Medición diametral ovárica (AP, TR, LO)
+@override final  OvaryMeasurement measures;
+/// Notas adicionales sobre evaluación del ovario
+@override final  String? notes;
 
 /// Create a copy of Ovary
 /// with the given fields replaced by the non-null parameter values.
@@ -1091,7 +1093,14 @@ Map<String, dynamic> toJson() {
   return _$OvaryToJson(this, );
 }
 
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Ovary&&(identical(other.side, side) || other.side == side)&&(identical(other.type, type) || other.type == type)&&(identical(other.measures, measures) || other.measures == measures)&&(identical(other.notes, notes) || other.notes == notes));
+}
 
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,side,type,measures,notes);
 
 @override
 String toString() {
@@ -1106,7 +1115,7 @@ abstract mixin class _$OvaryCopyWith<$Res> implements $OvaryCopyWith<$Res> {
   factory _$OvaryCopyWith(_Ovary value, $Res Function(_Ovary) _then) = __$OvaryCopyWithImpl;
 @override @useResult
 $Res call({
- OvarySide side, OvaryType type, OvaryMeasurement measures, String? notes
+@JsonKey(unknownEnumValue: OvarySide.unknown) OvarySide side,@JsonKey(unknownEnumValue: OvaryType.unknown) OvaryType type, OvaryMeasurement measures, String? notes
 });
 
 
@@ -1689,7 +1698,11 @@ as String?,
 /// @nodoc
 mixin _$Findings {
 
- String? get uterusDiagnosis; set uterusDiagnosis(String? value); String? get conclusion; set conclusion(String? value);
+/// Diagnóstico uterino en texto libre (opcional).
+ String? get uterusDiagnosis;/// Diagnóstico uterino en texto libre (opcional).
+ set uterusDiagnosis(String? value);/// Conclusión clínica general en texto libre (opcional).
+ String? get conclusion;/// Conclusión clínica general en texto libre (opcional).
+ set conclusion(String? value);
 /// Create a copy of Findings
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1880,7 +1893,9 @@ class _Findings implements Findings {
    _Findings({this.uterusDiagnosis, this.conclusion});
   factory _Findings.fromJson(Map<String, dynamic> json) => _$FindingsFromJson(json);
 
+/// Diagnóstico uterino en texto libre (opcional).
 @override  String? uterusDiagnosis;
+/// Conclusión clínica general en texto libre (opcional).
 @override  String? conclusion;
 
 /// Create a copy of Findings

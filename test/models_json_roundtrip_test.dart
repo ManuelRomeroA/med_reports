@@ -22,7 +22,7 @@ void main() {
       name: 'Jane Doe',
       ci: '12345678',
       age: 32,
-      bloodType: 'O+',
+      bloodType: BloodType.op,
       fur: DateTime.parse('1990-01-02T00:00:00Z'),
       gesta: '1',
       para: '0',

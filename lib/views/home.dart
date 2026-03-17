@@ -28,22 +28,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    draft = ReportDraft(
-      patient: Patient(fur: DateTime.now()),
-      protocol: StudyProtocol(type: StudyType.pelvic),
-      rightOvary: Ovary(
-        side: OvarySide.right,
-        type: OvaryType.normal,
-        measures: OvaryMeasurement(ap: 0, tr: 0, lo: 0),
-      ),
-      leftOvary: Ovary(
-        side: OvarySide.left,
-        type: OvaryType.normal,
-        measures: OvaryMeasurement(ap: 0, tr: 0, lo: 0),
-      ),
-      uterineFindings: UterineFindings(),
-      // Otros campos según corresponda
-    );
+    draft = ReportDraft.initObject();
   }
 
   @override

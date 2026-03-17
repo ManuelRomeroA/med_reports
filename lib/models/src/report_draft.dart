@@ -44,4 +44,23 @@ abstract class ReportDraft with _$ReportDraft {
   /// Creates ReportDraft from JSON.
   factory ReportDraft.fromJson(Map<String, dynamic> json) =>
       _$ReportDraftFromJson(json);
+
+  static ReportDraft initObject() {
+    return ReportDraft(
+      rightOvary: Ovary(
+        side: OvarySide.right,
+        type: OvaryType.normal,
+        measures: OvaryMeasurement(),
+      ), // Asume constructor vacío
+      leftOvary: Ovary(
+        side: OvarySide.left,
+        type: OvaryType.normal,
+        measures: OvaryMeasurement(),
+      ), // Asume constructor vacío
+      protocol: StudyProtocol(), // Asume constructor vacío
+      patient: Patient(), // Asume constructor vacío
+      findings: Findings(), // Asume constructor vacío
+      // Puedes agregar más campos según tus necesidades
+    );
+  }
 }
