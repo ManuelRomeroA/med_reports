@@ -598,9 +598,14 @@ as String?,
 mixin _$OvaryMeasurement {
 
 /// Diámetro antero-posterior del ovario en mm.
- double? get ap;/// Diámetro transversal del ovario en mm.
- double? get tr;/// Diámetro longitudinal del ovario en mm.
- double? get lo;
+ double? get ap;/// Diámetro antero-posterior del ovario en mm.
+ set ap(double? value);/// Diámetro transversal del ovario en mm.
+ double? get tr;/// Diámetro transversal del ovario en mm.
+ set tr(double? value);/// Diámetro longitudinal del ovario en mm.
+ double? get lo;/// Diámetro longitudinal del ovario en mm.
+ set lo(double? value);/// Volumen ovárico calculado en mm³ (opcional).
+ double? get volume;/// Volumen ovárico calculado en mm³ (opcional).
+ set volume(double? value);
 /// Create a copy of OvaryMeasurement
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -611,18 +616,11 @@ $OvaryMeasurementCopyWith<OvaryMeasurement> get copyWith => _$OvaryMeasurementCo
   Map<String, dynamic> toJson();
 
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OvaryMeasurement&&(identical(other.ap, ap) || other.ap == ap)&&(identical(other.tr, tr) || other.tr == tr)&&(identical(other.lo, lo) || other.lo == lo));
-}
 
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,ap,tr,lo);
 
 @override
 String toString() {
-  return 'OvaryMeasurement(ap: $ap, tr: $tr, lo: $lo)';
+  return 'OvaryMeasurement(ap: $ap, tr: $tr, lo: $lo, volume: $volume)';
 }
 
 
@@ -633,7 +631,7 @@ abstract mixin class $OvaryMeasurementCopyWith<$Res>  {
   factory $OvaryMeasurementCopyWith(OvaryMeasurement value, $Res Function(OvaryMeasurement) _then) = _$OvaryMeasurementCopyWithImpl;
 @useResult
 $Res call({
- double? ap, double? tr, double? lo
+ double? ap, double? tr, double? lo, double? volume
 });
 
 
@@ -650,11 +648,12 @@ class _$OvaryMeasurementCopyWithImpl<$Res>
 
 /// Create a copy of OvaryMeasurement
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? ap = freezed,Object? tr = freezed,Object? lo = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? ap = freezed,Object? tr = freezed,Object? lo = freezed,Object? volume = freezed,}) {
   return _then(_self.copyWith(
 ap: freezed == ap ? _self.ap : ap // ignore: cast_nullable_to_non_nullable
 as double?,tr: freezed == tr ? _self.tr : tr // ignore: cast_nullable_to_non_nullable
 as double?,lo: freezed == lo ? _self.lo : lo // ignore: cast_nullable_to_non_nullable
+as double?,volume: freezed == volume ? _self.volume : volume // ignore: cast_nullable_to_non_nullable
 as double?,
   ));
 }
@@ -702,7 +701,10 @@ return $default(_that);case _:
 final _that = this;
 switch (_that) {
 case _OvaryMeasurement():
-return $default(_that);}
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -737,10 +739,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double? ap,  double? tr,  double? lo)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double? ap,  double? tr,  double? lo,  double? volume)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _OvaryMeasurement() when $default != null:
-return $default(_that.ap,_that.tr,_that.lo);case _:
+return $default(_that.ap,_that.tr,_that.lo,_that.volume);case _:
   return orElse();
 
 }
@@ -758,10 +760,13 @@ return $default(_that.ap,_that.tr,_that.lo);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double? ap,  double? tr,  double? lo)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double? ap,  double? tr,  double? lo,  double? volume)  $default,) {final _that = this;
 switch (_that) {
 case _OvaryMeasurement():
-return $default(_that.ap,_that.tr,_that.lo);}
+return $default(_that.ap,_that.tr,_that.lo,_that.volume);case _:
+  throw StateError('Unexpected subclass');
+
+}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -775,10 +780,10 @@ return $default(_that.ap,_that.tr,_that.lo);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double? ap,  double? tr,  double? lo)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double? ap,  double? tr,  double? lo,  double? volume)?  $default,) {final _that = this;
 switch (_that) {
 case _OvaryMeasurement() when $default != null:
-return $default(_that.ap,_that.tr,_that.lo);case _:
+return $default(_that.ap,_that.tr,_that.lo,_that.volume);case _:
   return null;
 
 }
@@ -789,16 +794,18 @@ return $default(_that.ap,_that.tr,_that.lo);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _OvaryMeasurement extends OvaryMeasurement {
-  const _OvaryMeasurement({this.ap, this.tr, this.lo}): super._();
+class _OvaryMeasurement implements OvaryMeasurement {
+   _OvaryMeasurement({this.ap, this.tr, this.lo, this.volume});
   factory _OvaryMeasurement.fromJson(Map<String, dynamic> json) => _$OvaryMeasurementFromJson(json);
 
 /// Diámetro antero-posterior del ovario en mm.
-@override final  double? ap;
+@override  double? ap;
 /// Diámetro transversal del ovario en mm.
-@override final  double? tr;
+@override  double? tr;
 /// Diámetro longitudinal del ovario en mm.
-@override final  double? lo;
+@override  double? lo;
+/// Volumen ovárico calculado en mm³ (opcional).
+@override  double? volume;
 
 /// Create a copy of OvaryMeasurement
 /// with the given fields replaced by the non-null parameter values.
@@ -811,18 +818,11 @@ Map<String, dynamic> toJson() {
   return _$OvaryMeasurementToJson(this, );
 }
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OvaryMeasurement&&(identical(other.ap, ap) || other.ap == ap)&&(identical(other.tr, tr) || other.tr == tr)&&(identical(other.lo, lo) || other.lo == lo));
-}
 
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,ap,tr,lo);
 
 @override
 String toString() {
-  return 'OvaryMeasurement(ap: $ap, tr: $tr, lo: $lo)';
+  return 'OvaryMeasurement(ap: $ap, tr: $tr, lo: $lo, volume: $volume)';
 }
 
 
@@ -833,7 +833,7 @@ abstract mixin class _$OvaryMeasurementCopyWith<$Res> implements $OvaryMeasureme
   factory _$OvaryMeasurementCopyWith(_OvaryMeasurement value, $Res Function(_OvaryMeasurement) _then) = __$OvaryMeasurementCopyWithImpl;
 @override @useResult
 $Res call({
- double? ap, double? tr, double? lo
+ double? ap, double? tr, double? lo, double? volume
 });
 
 
@@ -850,11 +850,12 @@ class __$OvaryMeasurementCopyWithImpl<$Res>
 
 /// Create a copy of OvaryMeasurement
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? ap = freezed,Object? tr = freezed,Object? lo = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? ap = freezed,Object? tr = freezed,Object? lo = freezed,Object? volume = freezed,}) {
   return _then(_OvaryMeasurement(
 ap: freezed == ap ? _self.ap : ap // ignore: cast_nullable_to_non_nullable
 as double?,tr: freezed == tr ? _self.tr : tr // ignore: cast_nullable_to_non_nullable
 as double?,lo: freezed == lo ? _self.lo : lo // ignore: cast_nullable_to_non_nullable
+as double?,volume: freezed == volume ? _self.volume : volume // ignore: cast_nullable_to_non_nullable
 as double?,
   ));
 }
@@ -867,10 +868,14 @@ as double?,
 mixin _$Ovary {
 
 /// Lateralidad del ovario (derecha, izquierda, desconocido)
-@JsonKey(unknownEnumValue: OvarySide.unknown) OvarySide get side;/// Tipo morfológico del ovario (normal, poliquístico, otro, desconocido)
-@JsonKey(unknownEnumValue: OvaryType.unknown) OvaryType get type;/// Medición diametral ovárica (AP, TR, LO)
- OvaryMeasurement get measures;/// Notas adicionales sobre evaluación del ovario
- String? get notes;
+@JsonKey(unknownEnumValue: OvarySide.unknown) OvarySide get side;/// Lateralidad del ovario (derecha, izquierda, desconocido)
+@JsonKey(unknownEnumValue: OvarySide.unknown) set side(OvarySide value);/// Tipo morfológico del ovario (normal, poliquístico, otro, desconocido)
+@JsonKey(unknownEnumValue: OvaryType.unknown) OvaryType get type;/// Tipo morfológico del ovario (normal, poliquístico, otro, desconocido)
+@JsonKey(unknownEnumValue: OvaryType.unknown) set type(OvaryType value);/// Medición diametral ovárica (AP, TR, LO)
+ OvaryMeasurement get measures;/// Medición diametral ovárica (AP, TR, LO)
+ set measures(OvaryMeasurement value);/// Notas adicionales sobre evaluación del ovario
+ String? get notes;/// Notas adicionales sobre evaluación del ovario
+ set notes(String? value);
 /// Create a copy of Ovary
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -881,14 +886,7 @@ $OvaryCopyWith<Ovary> get copyWith => _$OvaryCopyWithImpl<Ovary>(this as Ovary, 
   Map<String, dynamic> toJson();
 
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Ovary&&(identical(other.side, side) || other.side == side)&&(identical(other.type, type) || other.type == type)&&(identical(other.measures, measures) || other.measures == measures)&&(identical(other.notes, notes) || other.notes == notes));
-}
 
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,side,type,measures,notes);
 
 @override
 String toString() {
@@ -982,7 +980,10 @@ return $default(_that);case _:
 final _that = this;
 switch (_that) {
 case _Ovary():
-return $default(_that);}
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -1041,7 +1042,10 @@ return $default(_that.side,_that.type,_that.measures,_that.notes);case _:
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(unknownEnumValue: OvarySide.unknown)  OvarySide side, @JsonKey(unknownEnumValue: OvaryType.unknown)  OvaryType type,  OvaryMeasurement measures,  String? notes)  $default,) {final _that = this;
 switch (_that) {
 case _Ovary():
-return $default(_that.side,_that.type,_that.measures,_that.notes);}
+return $default(_that.side,_that.type,_that.measures,_that.notes);case _:
+  throw StateError('Unexpected subclass');
+
+}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -1069,18 +1073,18 @@ return $default(_that.side,_that.type,_that.measures,_that.notes);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _Ovary extends Ovary {
-  const _Ovary({@JsonKey(unknownEnumValue: OvarySide.unknown) this.side = OvarySide.left, @JsonKey(unknownEnumValue: OvaryType.unknown) this.type = OvaryType.normal, required this.measures, this.notes}): super._();
+class _Ovary implements Ovary {
+   _Ovary({@JsonKey(unknownEnumValue: OvarySide.unknown) this.side = OvarySide.left, @JsonKey(unknownEnumValue: OvaryType.unknown) this.type = OvaryType.normal, required this.measures, this.notes});
   factory _Ovary.fromJson(Map<String, dynamic> json) => _$OvaryFromJson(json);
 
 /// Lateralidad del ovario (derecha, izquierda, desconocido)
-@override@JsonKey(unknownEnumValue: OvarySide.unknown) final  OvarySide side;
+@override@JsonKey(unknownEnumValue: OvarySide.unknown)  OvarySide side;
 /// Tipo morfológico del ovario (normal, poliquístico, otro, desconocido)
-@override@JsonKey(unknownEnumValue: OvaryType.unknown) final  OvaryType type;
+@override@JsonKey(unknownEnumValue: OvaryType.unknown)  OvaryType type;
 /// Medición diametral ovárica (AP, TR, LO)
-@override final  OvaryMeasurement measures;
+@override  OvaryMeasurement measures;
 /// Notas adicionales sobre evaluación del ovario
-@override final  String? notes;
+@override  String? notes;
 
 /// Create a copy of Ovary
 /// with the given fields replaced by the non-null parameter values.
@@ -1093,14 +1097,7 @@ Map<String, dynamic> toJson() {
   return _$OvaryToJson(this, );
 }
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Ovary&&(identical(other.side, side) || other.side == side)&&(identical(other.type, type) || other.type == type)&&(identical(other.measures, measures) || other.measures == measures)&&(identical(other.notes, notes) || other.notes == notes));
-}
 
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,side,type,measures,notes);
 
 @override
 String toString() {
@@ -1440,11 +1437,7 @@ as String?,
 /// @nodoc
 mixin _$Nodules {
 
-/// Indicates if nodules are present (true) or absent (false).
- bool get has;/// Indicates if nodules are present (true) or absent (false).
- set has(bool value);/// Optional morphological description of nodules, if present.
- String? get description;/// Optional morphological description of nodules, if present.
- set description(String? value);
+ bool get has; set has(bool value); NoduleDetail? get detail; set detail(NoduleDetail? value);
 /// Create a copy of Nodules
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1459,7 +1452,7 @@ $NodulesCopyWith<Nodules> get copyWith => _$NodulesCopyWithImpl<Nodules>(this as
 
 @override
 String toString() {
-  return 'Nodules(has: $has, description: $description)';
+  return 'Nodules(has: $has, detail: $detail)';
 }
 
 
@@ -1470,11 +1463,11 @@ abstract mixin class $NodulesCopyWith<$Res>  {
   factory $NodulesCopyWith(Nodules value, $Res Function(Nodules) _then) = _$NodulesCopyWithImpl;
 @useResult
 $Res call({
- bool has, String? description
+ bool has, NoduleDetail? detail
 });
 
 
-
+$NoduleDetailCopyWith<$Res>? get detail;
 
 }
 /// @nodoc
@@ -1487,14 +1480,26 @@ class _$NodulesCopyWithImpl<$Res>
 
 /// Create a copy of Nodules
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? has = null,Object? description = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? has = null,Object? detail = freezed,}) {
   return _then(_self.copyWith(
 has: null == has ? _self.has : has // ignore: cast_nullable_to_non_nullable
-as bool,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String?,
+as bool,detail: freezed == detail ? _self.detail : detail // ignore: cast_nullable_to_non_nullable
+as NoduleDetail?,
   ));
 }
+/// Create a copy of Nodules
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$NoduleDetailCopyWith<$Res>? get detail {
+    if (_self.detail == null) {
+    return null;
+  }
 
+  return $NoduleDetailCopyWith<$Res>(_self.detail!, (value) {
+    return _then(_self.copyWith(detail: value));
+  });
+}
 }
 
 
@@ -1576,10 +1581,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool has,  String? description)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool has,  NoduleDetail? detail)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Nodules() when $default != null:
-return $default(_that.has,_that.description);case _:
+return $default(_that.has,_that.detail);case _:
   return orElse();
 
 }
@@ -1597,10 +1602,10 @@ return $default(_that.has,_that.description);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool has,  String? description)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool has,  NoduleDetail? detail)  $default,) {final _that = this;
 switch (_that) {
 case _Nodules():
-return $default(_that.has,_that.description);case _:
+return $default(_that.has,_that.detail);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1617,10 +1622,10 @@ return $default(_that.has,_that.description);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool has,  String? description)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool has,  NoduleDetail? detail)?  $default,) {final _that = this;
 switch (_that) {
 case _Nodules() when $default != null:
-return $default(_that.has,_that.description);case _:
+return $default(_that.has,_that.detail);case _:
   return null;
 
 }
@@ -1632,13 +1637,11 @@ return $default(_that.has,_that.description);case _:
 @JsonSerializable()
 
 class _Nodules implements Nodules {
-   _Nodules({required this.has, this.description});
+   _Nodules({this.has = false, this.detail});
   factory _Nodules.fromJson(Map<String, dynamic> json) => _$NodulesFromJson(json);
 
-/// Indicates if nodules are present (true) or absent (false).
-@override  bool has;
-/// Optional morphological description of nodules, if present.
-@override  String? description;
+@override@JsonKey()  bool has;
+@override  NoduleDetail? detail;
 
 /// Create a copy of Nodules
 /// with the given fields replaced by the non-null parameter values.
@@ -1655,7 +1658,7 @@ Map<String, dynamic> toJson() {
 
 @override
 String toString() {
-  return 'Nodules(has: $has, description: $description)';
+  return 'Nodules(has: $has, detail: $detail)';
 }
 
 
@@ -1666,11 +1669,11 @@ abstract mixin class _$NodulesCopyWith<$Res> implements $NodulesCopyWith<$Res> {
   factory _$NodulesCopyWith(_Nodules value, $Res Function(_Nodules) _then) = __$NodulesCopyWithImpl;
 @override @useResult
 $Res call({
- bool has, String? description
+ bool has, NoduleDetail? detail
 });
 
 
-
+@override $NoduleDetailCopyWith<$Res>? get detail;
 
 }
 /// @nodoc
@@ -1683,10 +1686,283 @@ class __$NodulesCopyWithImpl<$Res>
 
 /// Create a copy of Nodules
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? has = null,Object? description = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? has = null,Object? detail = freezed,}) {
   return _then(_Nodules(
 has: null == has ? _self.has : has // ignore: cast_nullable_to_non_nullable
-as bool,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as bool,detail: freezed == detail ? _self.detail : detail // ignore: cast_nullable_to_non_nullable
+as NoduleDetail?,
+  ));
+}
+
+/// Create a copy of Nodules
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$NoduleDetailCopyWith<$Res>? get detail {
+    if (_self.detail == null) {
+    return null;
+  }
+
+  return $NoduleDetailCopyWith<$Res>(_self.detail!, (value) {
+    return _then(_self.copyWith(detail: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$NoduleDetail {
+
+@JsonKey(defaultValue: NoduleLocation.unknown) NoduleLocation get location;@JsonKey(defaultValue: NoduleLocation.unknown) set location(NoduleLocation value); double get longitud; set longitud(double value); double get ap; set ap(double value); double get t; set t(double value); String? get description; set description(String? value);
+/// Create a copy of NoduleDetail
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$NoduleDetailCopyWith<NoduleDetail> get copyWith => _$NoduleDetailCopyWithImpl<NoduleDetail>(this as NoduleDetail, _$identity);
+
+  /// Serializes this NoduleDetail to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+
+
+@override
+String toString() {
+  return 'NoduleDetail(location: $location, longitud: $longitud, ap: $ap, t: $t, description: $description)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $NoduleDetailCopyWith<$Res>  {
+  factory $NoduleDetailCopyWith(NoduleDetail value, $Res Function(NoduleDetail) _then) = _$NoduleDetailCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(defaultValue: NoduleLocation.unknown) NoduleLocation location, double longitud, double ap, double t, String? description
+});
+
+
+
+
+}
+/// @nodoc
+class _$NoduleDetailCopyWithImpl<$Res>
+    implements $NoduleDetailCopyWith<$Res> {
+  _$NoduleDetailCopyWithImpl(this._self, this._then);
+
+  final NoduleDetail _self;
+  final $Res Function(NoduleDetail) _then;
+
+/// Create a copy of NoduleDetail
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? location = null,Object? longitud = null,Object? ap = null,Object? t = null,Object? description = freezed,}) {
+  return _then(_self.copyWith(
+location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
+as NoduleLocation,longitud: null == longitud ? _self.longitud : longitud // ignore: cast_nullable_to_non_nullable
+as double,ap: null == ap ? _self.ap : ap // ignore: cast_nullable_to_non_nullable
+as double,t: null == t ? _self.t : t // ignore: cast_nullable_to_non_nullable
+as double,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [NoduleDetail].
+extension NoduleDetailPatterns on NoduleDetail {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _NoduleDetail value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _NoduleDetail() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _NoduleDetail value)  $default,){
+final _that = this;
+switch (_that) {
+case _NoduleDetail():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _NoduleDetail value)?  $default,){
+final _that = this;
+switch (_that) {
+case _NoduleDetail() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(defaultValue: NoduleLocation.unknown)  NoduleLocation location,  double longitud,  double ap,  double t,  String? description)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _NoduleDetail() when $default != null:
+return $default(_that.location,_that.longitud,_that.ap,_that.t,_that.description);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(defaultValue: NoduleLocation.unknown)  NoduleLocation location,  double longitud,  double ap,  double t,  String? description)  $default,) {final _that = this;
+switch (_that) {
+case _NoduleDetail():
+return $default(_that.location,_that.longitud,_that.ap,_that.t,_that.description);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(defaultValue: NoduleLocation.unknown)  NoduleLocation location,  double longitud,  double ap,  double t,  String? description)?  $default,) {final _that = this;
+switch (_that) {
+case _NoduleDetail() when $default != null:
+return $default(_that.location,_that.longitud,_that.ap,_that.t,_that.description);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _NoduleDetail implements NoduleDetail {
+   _NoduleDetail({@JsonKey(defaultValue: NoduleLocation.unknown) this.location = NoduleLocation.unknown, this.longitud = 0.0, this.ap = 0.0, this.t = 0.0, this.description});
+  factory _NoduleDetail.fromJson(Map<String, dynamic> json) => _$NoduleDetailFromJson(json);
+
+@override@JsonKey(defaultValue: NoduleLocation.unknown)  NoduleLocation location;
+@override@JsonKey()  double longitud;
+@override@JsonKey()  double ap;
+@override@JsonKey()  double t;
+@override  String? description;
+
+/// Create a copy of NoduleDetail
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$NoduleDetailCopyWith<_NoduleDetail> get copyWith => __$NoduleDetailCopyWithImpl<_NoduleDetail>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$NoduleDetailToJson(this, );
+}
+
+
+
+@override
+String toString() {
+  return 'NoduleDetail(location: $location, longitud: $longitud, ap: $ap, t: $t, description: $description)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$NoduleDetailCopyWith<$Res> implements $NoduleDetailCopyWith<$Res> {
+  factory _$NoduleDetailCopyWith(_NoduleDetail value, $Res Function(_NoduleDetail) _then) = __$NoduleDetailCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(defaultValue: NoduleLocation.unknown) NoduleLocation location, double longitud, double ap, double t, String? description
+});
+
+
+
+
+}
+/// @nodoc
+class __$NoduleDetailCopyWithImpl<$Res>
+    implements _$NoduleDetailCopyWith<$Res> {
+  __$NoduleDetailCopyWithImpl(this._self, this._then);
+
+  final _NoduleDetail _self;
+  final $Res Function(_NoduleDetail) _then;
+
+/// Create a copy of NoduleDetail
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? location = null,Object? longitud = null,Object? ap = null,Object? t = null,Object? description = freezed,}) {
+  return _then(_NoduleDetail(
+location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
+as NoduleLocation,longitud: null == longitud ? _self.longitud : longitud // ignore: cast_nullable_to_non_nullable
+as double,ap: null == ap ? _self.ap : ap // ignore: cast_nullable_to_non_nullable
+as double,t: null == t ? _self.t : t // ignore: cast_nullable_to_non_nullable
+as double,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -2343,7 +2619,9 @@ mixin _$ReportDraft {
  Map<String, dynamic>? get meta;/// [meta]: Extra metadata (optional).
  set meta(Map<String, dynamic>? value);/// [uterineFindings]: Optional uterine findings.
  UterineFindings? get uterineFindings;/// [uterineFindings]: Optional uterine findings.
- set uterineFindings(UterineFindings? value);
+ set uterineFindings(UterineFindings? value);/// [nodules]: Optional nodules findings.
+ Nodules? get nodules;/// [nodules]: Optional nodules findings.
+ set nodules(Nodules? value);
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2358,7 +2636,7 @@ $ReportDraftCopyWith<ReportDraft> get copyWith => _$ReportDraftCopyWithImpl<Repo
 
 @override
 String toString() {
-  return 'ReportDraft(id: $id, createdAt: $createdAt, patient: $patient, protocol: $protocol, findings: $findings, bladder: $bladder, rightOvary: $rightOvary, leftOvary: $leftOvary, doctor: $doctor, clinic: $clinic, meta: $meta, uterineFindings: $uterineFindings)';
+  return 'ReportDraft(id: $id, createdAt: $createdAt, patient: $patient, protocol: $protocol, findings: $findings, bladder: $bladder, rightOvary: $rightOvary, leftOvary: $leftOvary, doctor: $doctor, clinic: $clinic, meta: $meta, uterineFindings: $uterineFindings, nodules: $nodules)';
 }
 
 
@@ -2369,11 +2647,11 @@ abstract mixin class $ReportDraftCopyWith<$Res>  {
   factory $ReportDraftCopyWith(ReportDraft value, $Res Function(ReportDraft) _then) = _$ReportDraftCopyWithImpl;
 @useResult
 $Res call({
- String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta, UterineFindings? uterineFindings
+ String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta, UterineFindings? uterineFindings, Nodules? nodules
 });
 
 
-$PatientCopyWith<$Res>? get patient;$StudyProtocolCopyWith<$Res>? get protocol;$FindingsCopyWith<$Res>? get findings;$BladderCopyWith<$Res>? get bladder;$OvaryCopyWith<$Res> get rightOvary;$OvaryCopyWith<$Res> get leftOvary;$UterineFindingsCopyWith<$Res>? get uterineFindings;
+$PatientCopyWith<$Res>? get patient;$StudyProtocolCopyWith<$Res>? get protocol;$FindingsCopyWith<$Res>? get findings;$BladderCopyWith<$Res>? get bladder;$OvaryCopyWith<$Res> get rightOvary;$OvaryCopyWith<$Res> get leftOvary;$UterineFindingsCopyWith<$Res>? get uterineFindings;$NodulesCopyWith<$Res>? get nodules;
 
 }
 /// @nodoc
@@ -2386,7 +2664,7 @@ class _$ReportDraftCopyWithImpl<$Res>
 
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,Object? uterineFindings = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,Object? uterineFindings = freezed,Object? nodules = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -2400,7 +2678,8 @@ as Ovary,doctor: freezed == doctor ? _self.doctor : doctor // ignore: cast_nulla
 as String?,clinic: freezed == clinic ? _self.clinic : clinic // ignore: cast_nullable_to_non_nullable
 as String?,meta: freezed == meta ? _self.meta : meta // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>?,uterineFindings: freezed == uterineFindings ? _self.uterineFindings : uterineFindings // ignore: cast_nullable_to_non_nullable
-as UterineFindings?,
+as UterineFindings?,nodules: freezed == nodules ? _self.nodules : nodules // ignore: cast_nullable_to_non_nullable
+as Nodules?,
   ));
 }
 /// Create a copy of ReportDraft
@@ -2480,6 +2759,18 @@ $UterineFindingsCopyWith<$Res>? get uterineFindings {
 
   return $UterineFindingsCopyWith<$Res>(_self.uterineFindings!, (value) {
     return _then(_self.copyWith(uterineFindings: value));
+  });
+}/// Create a copy of ReportDraft
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$NodulesCopyWith<$Res>? get nodules {
+    if (_self.nodules == null) {
+    return null;
+  }
+
+  return $NodulesCopyWith<$Res>(_self.nodules!, (value) {
+    return _then(_self.copyWith(nodules: value));
   });
 }
 }
@@ -2563,10 +2854,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings,  Nodules? nodules)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ReportDraft() when $default != null:
-return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings);case _:
+return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings,_that.nodules);case _:
   return orElse();
 
 }
@@ -2584,10 +2875,10 @@ return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.find
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings,  Nodules? nodules)  $default,) {final _that = this;
 switch (_that) {
 case _ReportDraft():
-return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings);case _:
+return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings,_that.nodules);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2604,10 +2895,10 @@ return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.find
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings,  Nodules? nodules)?  $default,) {final _that = this;
 switch (_that) {
 case _ReportDraft() when $default != null:
-return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings);case _:
+return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings,_that.nodules);case _:
   return null;
 
 }
@@ -2619,7 +2910,7 @@ return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.find
 @JsonSerializable()
 
 class _ReportDraft implements ReportDraft {
-   _ReportDraft({this.id, this.createdAt, this.patient, this.protocol, this.findings, this.bladder, required this.rightOvary, required this.leftOvary, this.doctor, this.clinic, this.meta, this.uterineFindings});
+   _ReportDraft({this.id, this.createdAt, this.patient, this.protocol, this.findings, this.bladder, required this.rightOvary, required this.leftOvary, this.doctor, this.clinic, this.meta, this.uterineFindings, this.nodules});
   factory _ReportDraft.fromJson(Map<String, dynamic> json) => _$ReportDraftFromJson(json);
 
 /// [id]: Draft unique identifier (optional).
@@ -2646,6 +2937,8 @@ class _ReportDraft implements ReportDraft {
 @override  Map<String, dynamic>? meta;
 /// [uterineFindings]: Optional uterine findings.
 @override  UterineFindings? uterineFindings;
+/// [nodules]: Optional nodules findings.
+@override  Nodules? nodules;
 
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
@@ -2662,7 +2955,7 @@ Map<String, dynamic> toJson() {
 
 @override
 String toString() {
-  return 'ReportDraft(id: $id, createdAt: $createdAt, patient: $patient, protocol: $protocol, findings: $findings, bladder: $bladder, rightOvary: $rightOvary, leftOvary: $leftOvary, doctor: $doctor, clinic: $clinic, meta: $meta, uterineFindings: $uterineFindings)';
+  return 'ReportDraft(id: $id, createdAt: $createdAt, patient: $patient, protocol: $protocol, findings: $findings, bladder: $bladder, rightOvary: $rightOvary, leftOvary: $leftOvary, doctor: $doctor, clinic: $clinic, meta: $meta, uterineFindings: $uterineFindings, nodules: $nodules)';
 }
 
 
@@ -2673,11 +2966,11 @@ abstract mixin class _$ReportDraftCopyWith<$Res> implements $ReportDraftCopyWith
   factory _$ReportDraftCopyWith(_ReportDraft value, $Res Function(_ReportDraft) _then) = __$ReportDraftCopyWithImpl;
 @override @useResult
 $Res call({
- String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta, UterineFindings? uterineFindings
+ String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta, UterineFindings? uterineFindings, Nodules? nodules
 });
 
 
-@override $PatientCopyWith<$Res>? get patient;@override $StudyProtocolCopyWith<$Res>? get protocol;@override $FindingsCopyWith<$Res>? get findings;@override $BladderCopyWith<$Res>? get bladder;@override $OvaryCopyWith<$Res> get rightOvary;@override $OvaryCopyWith<$Res> get leftOvary;@override $UterineFindingsCopyWith<$Res>? get uterineFindings;
+@override $PatientCopyWith<$Res>? get patient;@override $StudyProtocolCopyWith<$Res>? get protocol;@override $FindingsCopyWith<$Res>? get findings;@override $BladderCopyWith<$Res>? get bladder;@override $OvaryCopyWith<$Res> get rightOvary;@override $OvaryCopyWith<$Res> get leftOvary;@override $UterineFindingsCopyWith<$Res>? get uterineFindings;@override $NodulesCopyWith<$Res>? get nodules;
 
 }
 /// @nodoc
@@ -2690,7 +2983,7 @@ class __$ReportDraftCopyWithImpl<$Res>
 
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,Object? uterineFindings = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,Object? uterineFindings = freezed,Object? nodules = freezed,}) {
   return _then(_ReportDraft(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -2704,7 +2997,8 @@ as Ovary,doctor: freezed == doctor ? _self.doctor : doctor // ignore: cast_nulla
 as String?,clinic: freezed == clinic ? _self.clinic : clinic // ignore: cast_nullable_to_non_nullable
 as String?,meta: freezed == meta ? _self.meta : meta // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>?,uterineFindings: freezed == uterineFindings ? _self.uterineFindings : uterineFindings // ignore: cast_nullable_to_non_nullable
-as UterineFindings?,
+as UterineFindings?,nodules: freezed == nodules ? _self.nodules : nodules // ignore: cast_nullable_to_non_nullable
+as Nodules?,
   ));
 }
 
@@ -2785,6 +3079,18 @@ $UterineFindingsCopyWith<$Res>? get uterineFindings {
 
   return $UterineFindingsCopyWith<$Res>(_self.uterineFindings!, (value) {
     return _then(_self.copyWith(uterineFindings: value));
+  });
+}/// Create a copy of ReportDraft
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$NodulesCopyWith<$Res>? get nodules {
+    if (_self.nodules == null) {
+    return null;
+  }
+
+  return $NodulesCopyWith<$Res>(_self.nodules!, (value) {
+    return _then(_self.copyWith(nodules: value));
   });
 }
 }

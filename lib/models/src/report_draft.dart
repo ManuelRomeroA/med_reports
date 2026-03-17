@@ -39,6 +39,9 @@ abstract class ReportDraft with _$ReportDraft {
 
     /// [uterineFindings]: Optional uterine findings.
     UterineFindings? uterineFindings,
+
+    /// [nodules]: Optional nodules findings.
+    Nodules? nodules,
   }) = _ReportDraft;
 
   /// Creates ReportDraft from JSON.
@@ -60,7 +63,7 @@ abstract class ReportDraft with _$ReportDraft {
       protocol: StudyProtocol(), // Asume constructor vacío
       patient: Patient(), // Asume constructor vacío
       findings: Findings(), // Asume constructor vacío
-      // Puedes agregar más campos según tus necesidades
+      nodules: Nodules(), // Asume constructor vacío
     );
   }
 }

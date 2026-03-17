@@ -68,18 +68,12 @@ class _HomeViewState extends State<HomeView> {
                               child: OvaryWidget(
                                 titulo: "Ovario Derecho",
                                 ovary: draft.rightOvary,
-                                onChanged: (value) {
-                                  draft.rightOvary = value;
-                                },
                               ),
                             ),
                             Expanded(
                               child: OvaryWidget(
                                 titulo: "Ovario Izquierdo",
                                 ovary: draft.leftOvary,
-                                onChanged: (value) {
-                                  draft.leftOvary = value;
-                                },
                               ),
                             ),
                           ],

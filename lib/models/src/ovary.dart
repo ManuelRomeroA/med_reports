@@ -46,13 +46,11 @@ enum OvaryType {
 
 /// Contains ovary measurements (diameters in mm, computed volume).
 /// Medición ovárica: diámetros y volumen calculado (mm, mm³).
-@freezed
-sealed class OvaryMeasurement with _$OvaryMeasurement {
-  /// Diámetro antero-posterior del ovario en mm.
-  const OvaryMeasurement._();
 
-  /// Factory constructor: diámetros.
-  const factory OvaryMeasurement({
+@unfreezed
+abstract class OvaryMeasurement with _$OvaryMeasurement {
+  /// Main reason for the medical visit or exam (optional).
+  factory OvaryMeasurement({
     /// Diámetro antero-posterior del ovario en mm.
     double? ap,
 
@@ -61,27 +59,20 @@ sealed class OvaryMeasurement with _$OvaryMeasurement {
 
     /// Diámetro longitudinal del ovario en mm.
     double? lo,
-  }) = _OvaryMeasurement;
 
-  /// [volume]: Computed ovarian volume (mm³).
-  /// Returns calculated volume or 0.0 if any diameter is missing.
-  double get volume {
-    if (ap == null || tr == null || lo == null) return 0.0;
-    return (ap!) * (tr!) * (lo!) * 0.523;
-  }
+    /// Volumen ovárico calculado en mm³ (opcional).
+    double? volume,
+  }) = _OvaryMeasurement;
 
   /// Creates OvaryMeasurement from JSON.
   factory OvaryMeasurement.fromJson(Map<String, dynamic> json) =>
       _$OvaryMeasurementFromJson(json);
 }
 
-/// Represents a single ovary report entity for ultrasound.
-@freezed
-sealed class Ovary with _$Ovary {
-  const Ovary._();
-
-  /// Factory constructor: ovary entity.
-  const factory Ovary({
+@unfreezed
+abstract class Ovary with _$Ovary {
+  /// Main reason for the medical visit or exam (optional).
+  factory Ovary({
     /// Lateralidad del ovario (derecha, izquierda, desconocido)
     @JsonKey(unknownEnumValue: OvarySide.unknown)
     @Default(OvarySide.left)

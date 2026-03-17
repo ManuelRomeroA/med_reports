@@ -7,13 +7,7 @@ import 'package:med_reports/models/models.dart';
 class OvaryWidget extends StatefulWidget {
   final String titulo;
   final Ovary ovary;
-  final void Function(Ovary value) onChanged;
-  const OvaryWidget({
-    super.key,
-    required this.titulo,
-    required this.ovary,
-    required this.onChanged,
-  });
+  const OvaryWidget({super.key, required this.titulo, required this.ovary});
 
   @override
   State<OvaryWidget> createState() => _OvaryWidgetState();
@@ -31,6 +25,11 @@ class _OvaryWidgetState extends State<OvaryWidget> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    widget.ovary.measures.volume = calculateVolume(
+      widget.ovary.measures.ap,
+      widget.ovary.measures.tr,
+      widget.ovary.measures.lo,
+    );
 
     return Container(
       margin: const EdgeInsets.all(8),
@@ -72,10 +71,9 @@ class _OvaryWidgetState extends State<OvaryWidget> {
                       selected: widget.ovary.type == type,
                       selectedColor: kCafeVinoOscuro,
                       onTap: () {
-                        setState(() {
-                          ovary = ovary.copyWith(type: type);
-                          widget.onChanged(ovary);
-                        });
+                        widget.ovary.type = type;
+
+                        setState(() {});
                       },
                     ),
                   );
@@ -93,13 +91,9 @@ class _OvaryWidgetState extends State<OvaryWidget> {
                   labelText: "AP",
                   keyboardType: TextInputType.number,
                   hidePrefixSuffixActions: true,
-
                   onChanged: (value) {
                     if (value == null) return;
-                    ovary = ovary.copyWith(
-                      measures: ovary.measures.copyWith(ap: value.toDouble()),
-                    );
-                    widget.onChanged(ovary);
+                    widget.ovary.measures.ap = value.toDouble();
                     setState(() {});
                   },
                 ),
@@ -113,10 +107,7 @@ class _OvaryWidgetState extends State<OvaryWidget> {
                   hidePrefixSuffixActions: true,
                   onChanged: (value) {
                     if (value == null) return;
-                    ovary = ovary.copyWith(
-                      measures: ovary.measures.copyWith(tr: value.toDouble()),
-                    );
-                    widget.onChanged(ovary);
+                    widget.ovary.measures.tr = value.toDouble();
                     setState(() {});
                   },
                 ),
@@ -130,10 +121,7 @@ class _OvaryWidgetState extends State<OvaryWidget> {
                   hidePrefixSuffixActions: true,
                   onChanged: (value) {
                     if (value == null) return;
-                    ovary = ovary.copyWith(
-                      measures: ovary.measures.copyWith(lo: value.toDouble()),
-                    );
-                    widget.onChanged(ovary);
+                    widget.ovary.measures.lo = value.toDouble();
                     setState(() {});
                   },
                 ),
@@ -159,7 +147,9 @@ class _OvaryWidgetState extends State<OvaryWidget> {
                       ),
                     ),
                     Text(
-                      widget.ovary.measures.volume.toStringAsFixed(0),
+                      widget.ovary.measures.volume != null
+                          ? widget.ovary.measures.volume!.toStringAsFixed(1)
+                          : "0",
                       style: theme.textTheme.titleSmall?.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -178,13 +168,20 @@ class _OvaryWidgetState extends State<OvaryWidget> {
             labelText: "Hallazgos adicionales en este ovario",
             maxLines: 2,
             onChanged: (value) {
-              setState(() {
-                widget.onChanged(widget.ovary.copyWith(notes: value));
-              });
+              widget.ovary.notes = value;
+              setState(() {});
             },
           ),
         ],
       ),
     );
+  }
+
+  double calculateVolume(double? ap, double? tr, double? lo) {
+    // Fórmula para calcular el volumen del ovario: (AP x TR x LO) / 2
+    if (ap == null || tr == null || lo == null) {
+      return 0;
+    }
+    return (ap * tr * lo) / 2;
   }
 }

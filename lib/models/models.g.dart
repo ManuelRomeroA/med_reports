@@ -100,10 +100,16 @@ _OvaryMeasurement _$OvaryMeasurementFromJson(Map<String, dynamic> json) =>
       ap: (json['ap'] as num?)?.toDouble(),
       tr: (json['tr'] as num?)?.toDouble(),
       lo: (json['lo'] as num?)?.toDouble(),
+      volume: (json['volume'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$OvaryMeasurementToJson(_OvaryMeasurement instance) =>
-    <String, dynamic>{'ap': instance.ap, 'tr': instance.tr, 'lo': instance.lo};
+    <String, dynamic>{
+      'ap': instance.ap,
+      'tr': instance.tr,
+      'lo': instance.lo,
+      'volume': instance.volume,
+    };
 
 _Ovary _$OvaryFromJson(Map<String, dynamic> json) => _Ovary(
   side:
@@ -189,13 +195,44 @@ const _$OvaryDiagnosisEnumMap = {
 };
 
 _Nodules _$NodulesFromJson(Map<String, dynamic> json) => _Nodules(
-  has: json['has'] as bool,
-  description: json['description'] as String?,
+  has: json['has'] as bool? ?? false,
+  detail: json['detail'] == null
+      ? null
+      : NoduleDetail.fromJson(json['detail'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$NodulesToJson(_Nodules instance) => <String, dynamic>{
   'has': instance.has,
-  'description': instance.description,
+  'detail': instance.detail,
+};
+
+_NoduleDetail _$NoduleDetailFromJson(Map<String, dynamic> json) =>
+    _NoduleDetail(
+      location:
+          $enumDecodeNullable(_$NoduleLocationEnumMap, json['location']) ??
+          NoduleLocation.unknown,
+      longitud: (json['longitud'] as num?)?.toDouble() ?? 0.0,
+      ap: (json['ap'] as num?)?.toDouble() ?? 0.0,
+      t: (json['t'] as num?)?.toDouble() ?? 0.0,
+      description: json['description'] as String?,
+    );
+
+Map<String, dynamic> _$NoduleDetailToJson(_NoduleDetail instance) =>
+    <String, dynamic>{
+      'location': _$NoduleLocationEnumMap[instance.location]!,
+      'longitud': instance.longitud,
+      'ap': instance.ap,
+      't': instance.t,
+      'description': instance.description,
+    };
+
+const _$NoduleLocationEnumMap = {
+  NoduleLocation.unknown: 'DESCONOCIDO',
+  NoduleLocation.background: 'FONDO',
+  NoduleLocation.anteriorWall: 'PARED ANTERIOR',
+  NoduleLocation.posteriorWall: 'PARED POSTERIOR',
+  NoduleLocation.lateral: 'LATERAL',
+  NoduleLocation.others: 'OTROS',
 };
 
 _Findings _$FindingsFromJson(Map<String, dynamic> json) => _Findings(
@@ -257,6 +294,9 @@ _ReportDraft _$ReportDraftFromJson(Map<String, dynamic> json) => _ReportDraft(
       : UterineFindings.fromJson(
           json['uterineFindings'] as Map<String, dynamic>,
         ),
+  nodules: json['nodules'] == null
+      ? null
+      : Nodules.fromJson(json['nodules'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$ReportDraftToJson(_ReportDraft instance) =>
@@ -273,6 +313,7 @@ Map<String, dynamic> _$ReportDraftToJson(_ReportDraft instance) =>
       'clinic': instance.clinic,
       'meta': instance.meta,
       'uterineFindings': instance.uterineFindings,
+      'nodules': instance.nodules,
     };
 
 _UterineFindings _$UterineFindingsFromJson(Map<String, dynamic> json) =>
