@@ -1,5 +1,7 @@
 part of 'models.dart';
 
+/// Modelo para representar la identidad clínica y demográfica del paciente.
+/// Incluye motivo principal de consulta y datos generales.
 @unfreezed
 abstract class Patient with _$Patient {
   /// Main reason for the medical visit or exam (optional).
@@ -44,7 +46,7 @@ abstract class Patient with _$Patient {
     /// Referral source or referring medical provider (optional).
     String? reference,
 
-    /// Patient demographic and clinical identity model.
+    /// Motivo principal para la consulta o la realización del examen (opcional).
     String? motivo,
   }) = _Patient;
 

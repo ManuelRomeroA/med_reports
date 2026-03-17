@@ -5,7 +5,13 @@ part of 'models.dart';
 abstract class Findings with _$Findings {
   /// Optional text description detailing the uterine diagnosis.
   /// Optional overall conclusion in free-text form summarizing findings.
-  factory Findings({String? uterusDiagnosis, String? conclusion}) = _Findings;
+  factory Findings({
+    /// Diagnóstico uterino en texto libre (opcional).
+    String? uterusDiagnosis,
+
+    /// Conclusión clínica general en texto libre (opcional).
+    String? conclusion,
+  }) = _Findings;
 
   /// Creates Findings from JSON.
   factory Findings.fromJson(Map<String, dynamic> json) =>

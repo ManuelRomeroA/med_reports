@@ -48,12 +48,12 @@ enum OvaryDiagnosis {
 /// Stores wall regularity, Douglas pouch status, wall thickness, and diagnosis fields.
 @unfreezed
 abstract class Bladder with _$Bladder {
-  /// [regularity]: Wall regularity status.
-  /// [wallMm]: Wall thickness in millimeters (optional).
-  /// [douglasPouch]: Douglas pouch status.
-  /// [diagnosis]: Bladder diagnosis (optional).
-  /// [ovaryDiagnosis]: Ovary diagnosis in bladder context (optional).
-  /// [conclusion]: Free-text conclusion or comment (optional).
+  /// Estado de la pared vesical.
+  /// Espesor de la pared vesical en milímetros (opcional).
+  /// Estado del fondo de saco de Douglas.
+  /// Diagnóstico vesical (opcional).
+  /// Diagnóstico ovárico en contexto vesical (opcional).
+  /// Conclusión o comentario libre del estudio (opcional).
   factory Bladder({
     /// State of bladder wall regularity.
     required Regularity regularity,
