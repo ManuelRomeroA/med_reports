@@ -9,55 +9,47 @@ part of 'models.dart';
 enum UterusLocalization {
   /// Unknown or unspecified value; use when no data is available.
   @JsonValue('DESCONOCIDO')
-  unknow,
-
-  /// Uterus located towards the anterior region of the pelvis.
-  @JsonValue('ANTERIOR')
-  anterior,
-
-  /// Uterus located towards the posterior region of the pelvis.
-  @JsonValue('POSTERIOR')
-  posterior,
+  unknown,
 
   /// Uterus located in the central area of the pelvis.
   @JsonValue('CENTRAL')
   central,
 
-  /// Uterus displaced towards one of the lateral regions of the pelvis.
-  @JsonValue('LATERAL')
-  lateral;
+  /// [right]: Uterus displaced towards the right side of the pelvis.
+  @JsonValue('DERECHA')
+  right,
+
+  /// [left]: Uterus displaced towards the left side of the pelvis.
+  @JsonValue('IZQUIERDA')
+  left;
 
   @override
-  String toString() => _$UterusLocalizationEnumMap[this] ?? 'UNKNOWN';
+  String toString() => _$UterusLocalizationEnumMap[this] ?? 'DESCONOCIDO';
 }
 
 /// Describes the axis and usual position of the uterus within the pelvis.
 enum UterusPosition {
   /// Unknown or unspecified value.
   @JsonValue('DESCONOCIDO')
-  unknow,
+  unknown,
 
-  /// Anteverted uterus; common physiological position.
-  @JsonValue('ANTEVERTIDO')
-  anteverted,
+  /// Anteverted uterus; the most common position, with the fundus tilted forward towards the bladder.
+  @JsonValue('AVF')
+  avf,
 
   /// Retroverted uterus; may be associated with pelvic symptoms or infertility.
-  @JsonValue('RETROVERTIDO')
-  retroverted,
-
-  /// Uterus in a neutral position, neither anteverted nor retroverted.
-  @JsonValue('POSICIÓN MEDIA')
-  midposition;
+  @JsonValue('RVF')
+  rvf;
 
   @override
-  String toString() => _$UterusPositionEnumMap[this] ?? 'UNKNOWN';
+  String toString() => _$UterusPositionEnumMap[this] ?? 'DESCONOCIDO';
 }
 
 /// Describes the appearance of the uterine surface during ultrasound evaluation.
 enum UterusSurface {
   /// Unknown or unspecified value.
   @JsonValue('DESCONOCIDO')
-  unknow,
+  unknown,
 
   /// Smooth and regular uterine surface, without pathological protrusions.
   @JsonValue('REGULAR')
@@ -68,14 +60,14 @@ enum UterusSurface {
   irregular;
 
   @override
-  String toString() => _$UterusSurfaceEnumMap[this] ?? 'UNKNOWN';
+  String toString() => _$UterusSurfaceEnumMap[this] ?? 'DESCONOCIDO';
 }
 
 /// Characterizes the ultrasound pattern of the myometrium, useful in uterine pathology.
 enum MyometriumType {
   /// Unknown or unspecified value.
   @JsonValue('DESCONOCIDO')
-  unknow,
+  unknown,
 
   /// Homogeneous appearance, without evident lesions.
   @JsonValue('HOMOGÉNEO')
@@ -83,60 +75,38 @@ enum MyometriumType {
 
   /// Heterogeneous myometrial echotexture, common in benign pathology.
   @JsonValue('HETEROGÉNEO')
-  heterogeneous,
-
-  /// Suspicion or presence of adenomyosis (zonal thickening or cystic lesions).
-  @JsonValue('ADENOMIOSIS')
-  adenomyosis,
-
-  /// Presence of leiomyomas (uterine fibroids), benign and common.
-  @JsonValue('LEIOMIOMA')
-  leiomyoma,
-
-  /// Other non-specific myometrial alteration.
-  @JsonValue('OTRO')
-  other;
+  heterogeneous;
 
   @override
-  String toString() => _$MyometriumTypeEnumMap[this] ?? 'UNKNOWN';
+  String toString() => _$MyometriumTypeEnumMap[this] ?? 'DESCONOCIDO';
 }
+
+final endometrios = ['MENST', 'PROLI', 'SECRE', 'ATROF'];
 
 /// Describes the appearance of the endometrium in transvaginal or abdominal ultrasound.
 enum EndometriumAspect {
   /// Unknown or unspecified value.
   @JsonValue('DESCONOCIDO')
-  unknow,
+  unknown,
 
-  /// Thin endometrium, common in postmenopause or certain phases of the cycle.
-  @JsonValue('DELGADO')
-  thin,
+  /// Thin or atrophic endometrium, often seen in postmenopausal
+  @JsonValue('MENST')
+  menst,
 
-  /// Thick or hypertrophic endometrium, possibly associated with hyperplasia or cancer.
-  @JsonValue('ENGROSADO')
-  thick,
+  /// Proliferative endometrium, with a trilaminar pattern typical of the follicular phase.
+  @JsonValue('PROLI')
+  proli,
 
-  /// Regular/physiological appearance according to the normal uterine cycle.
-  @JsonValue('REGULAR')
-  regular,
+  /// Secretory endometrium, with a homogeneous echotexture and increased thickness.
+  @JsonValue('SECRE')
+  secre,
 
-  /// Irregular endometrium, suggesting functional or neoplastic pathology.
-  @JsonValue('IRREGULAR')
-  irregular,
-
-  /// Cystic changes, typical of endometritis, postmenopause, or hormonal treatment.
-  @JsonValue('QUÍSTICO')
-  cystic,
-
-  /// Presence of endometrial polyp.
-  @JsonValue('PÓLIPO')
-  polyp,
-
-  /// Other non-specific endometrial appearance.
-  @JsonValue('OTRO')
-  other;
+  /// Atrophic endometrium, with a thin and hypoechoic appearance, common in postmenop
+  @JsonValue('ATROF')
+  atrof;
 
   @override
-  String toString() => _$EndometriumAspectEnumMap[this] ?? 'UNKNOWN';
+  String toString() => _$EndometriumAspectEnumMap[this] ?? 'DESCONOCIDO';
 }
 
 /// Model for the clinical section of uterine findings in an ultrasound report.
@@ -159,28 +129,28 @@ abstract class UterineFindings with _$UterineFindings {
     double? volume,
 
     /// Anatomical localization of the uterus in the pelvis.
-    @JsonKey(unknownEnumValue: UterusLocalization.unknow)
-    @Default(UterusLocalization.unknow)
+    @JsonKey(unknownEnumValue: UterusLocalization.central)
+    @Default(UterusLocalization.central)
     UterusLocalization localization,
 
     /// Physiological or pathological position of the uterus.
-    @JsonKey(unknownEnumValue: UterusPosition.unknow)
-    @Default(UterusPosition.unknow)
+    @JsonKey(unknownEnumValue: UterusPosition.avf)
+    @Default(UterusPosition.avf)
     UterusPosition position,
 
     /// Appearance of the uterine surface on ultrasound.
-    @JsonKey(unknownEnumValue: UterusSurface.unknow)
-    @Default(UterusSurface.unknow)
+    @JsonKey(unknownEnumValue: UterusSurface.regular)
+    @Default(UterusSurface.regular)
     UterusSurface surface,
 
     /// Type or ultrasound pattern of the observed myometrium.
-    @JsonKey(unknownEnumValue: MyometriumType.unknow)
-    @Default(MyometriumType.unknow)
+    @JsonKey(unknownEnumValue: MyometriumType.homogeneous)
+    @Default(MyometriumType.homogeneous)
     MyometriumType myometrium,
 
     /// Appearance of the endometrium detected in the study.
-    @JsonKey(unknownEnumValue: EndometriumAspect.unknow)
-    @Default(EndometriumAspect.unknow)
+    @JsonKey(unknownEnumValue: EndometriumAspect.proli)
+    @Default(EndometriumAspect.proli)
     EndometriumAspect endometrium,
   }) = _UterineFindings;
 

@@ -13,25 +13,6 @@ class UteroWidget extends StatefulWidget {
 }
 
 class _UteroWidgetState extends State<UteroWidget> {
-  // Valores de los inputs
-  String longitud = '';
-  String ap = '';
-  String transverso = '';
-  String volumen = '0';
-
-  // Selecciones
-  String localizacion = 'CENTRAL';
-  String posicion = 'AVF';
-  String superficie = 'REGULAR';
-  String miometrio = 'HOMOGENEO';
-  String endometrio = 'PROLI';
-
-  final localizaciones = ['CENTRAL', 'DERECHA', 'IZQUIERDA'];
-  final posiciones = ['AVF', 'RVF'];
-  final superficies = ['REGULAR', 'IRREGULAR'];
-  final miometrios = ['HOMOGENEO', 'HETEROGENIO'];
-  final endometrios = ['MENST', 'PROLI', 'SECRE', 'ATROF'];
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -95,11 +76,13 @@ class _UteroWidgetState extends State<UteroWidget> {
                           Expanded(
                             child: ThemedTextInput(
                               labelText: "L",
-                              // value:
-                              //     widget.draft?.longitud?.toString() ??
-                              //     longitud,
+                              value: widget.draft.uterineFindings?.longitud
+                                  ?.toString(),
                               keyboardType: TextInputType.number,
-                              onChanged: (v) => setState(() => longitud = v),
+                              onChanged: (v) => setState(
+                                () => widget.draft.uterineFindings?.longitud =
+                                    double.tryParse(v),
+                              ),
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -113,10 +96,14 @@ class _UteroWidgetState extends State<UteroWidget> {
                           const SizedBox(width: 8),
                           Expanded(
                             child: ThemedTextInput(
-                              value: ap,
+                              value: widget.draft.uterineFindings?.ap
+                                  ?.toString(),
                               labelText: "AP",
                               keyboardType: TextInputType.number,
-                              onChanged: (v) => setState(() => ap = v),
+                              onChanged: (v) => setState(
+                                () => widget.draft.uterineFindings?.ap =
+                                    double.tryParse(v),
+                              ),
                             ),
                           ),
                         ],
@@ -132,10 +119,14 @@ class _UteroWidgetState extends State<UteroWidget> {
                         children: [
                           Expanded(
                             child: ThemedTextInput(
-                              value: transverso,
+                              value: widget.draft.uterineFindings?.transverse
+                                  ?.toString(),
                               labelText: "T",
                               keyboardType: TextInputType.number,
-                              onChanged: (v) => setState(() => transverso = v),
+                              onChanged: (v) => setState(
+                                () => widget.draft.uterineFindings?.transverse =
+                                    double.tryParse(v),
+                              ),
                             ),
                           ),
                           const SizedBox(width: 20),
@@ -173,7 +164,8 @@ class _UteroWidgetState extends State<UteroWidget> {
                         crossAxisAlignment: .end,
                         children: [
                           Text(
-                            volumen,
+                            widget.draft.uterineFindings?.volume?.toString() ??
+                                '',
                             style: theme.textTheme.headlineLarge?.copyWith(
                               color: Colors.grey,
                               fontWeight: FontWeight.bold,
@@ -218,17 +210,37 @@ class _UteroWidgetState extends State<UteroWidget> {
                         crossAxisAlignment: .center,
                         spacing: 8,
 
-                        children: localizaciones.map((loc) {
-                          return SelectedButton(
-                            label: loc,
-                            selected: localizacion == loc,
-                            selectedColor: localizacion == loc
-                                ? kCafeVinoOscuro
-                                : theme.inputDecorationTheme.fillColor ??
-                                      const Color(0xFFF8FAFC),
-                            onTap: () => setState(() => localizacion = loc),
-                          );
-                        }).toList(),
+                        children: UterusLocalization.values
+                            .where((loc) => loc != UterusLocalization.unknown)
+                            .map((loc) {
+                              return SelectedButton(
+                                label: loc.toString(),
+                                selected:
+                                    widget
+                                        .draft
+                                        .uterineFindings
+                                        ?.localization ==
+                                    loc,
+                                selectedColor:
+                                    widget
+                                            .draft
+                                            .uterineFindings
+                                            ?.localization ==
+                                        loc
+                                    ? kCafeVinoOscuro
+                                    : theme.inputDecorationTheme.fillColor ??
+                                          const Color(0xFFF8FAFC),
+                                onTap: () => setState(
+                                  () =>
+                                      widget
+                                              .draft
+                                              .uterineFindings
+                                              ?.localization =
+                                          loc,
+                                ),
+                              );
+                            })
+                            .toList(),
                       ),
                     ],
                   ),
@@ -250,17 +262,27 @@ class _UteroWidgetState extends State<UteroWidget> {
                         mainAxisAlignment: .center,
                         crossAxisAlignment: .center,
                         spacing: 8,
-                        children: posiciones.map((pos) {
-                          return SelectedButton(
-                            label: pos,
-                            selected: posicion == pos,
-                            selectedColor: posicion == pos
-                                ? kCafeVinoOscuro
-                                : theme.inputDecorationTheme.fillColor ??
-                                      const Color(0xFFF8FAFC),
-                            onTap: () => setState(() => posicion = pos),
-                          );
-                        }).toList(),
+                        children: UterusPosition.values
+                            .where((pos) => pos != UterusPosition.unknown)
+                            .map((pos) {
+                              return SelectedButton(
+                                label: pos.toString(),
+                                selected:
+                                    widget.draft.uterineFindings?.position ==
+                                    pos,
+                                selectedColor:
+                                    widget.draft.uterineFindings?.position ==
+                                        pos
+                                    ? kCafeVinoOscuro
+                                    : theme.inputDecorationTheme.fillColor ??
+                                          const Color(0xFFF8FAFC),
+                                onTap: () => setState(
+                                  () => widget.draft.uterineFindings?.position =
+                                      pos,
+                                ),
+                              );
+                            })
+                            .toList(),
                       ),
                     ],
                   ),
@@ -279,19 +301,28 @@ class _UteroWidgetState extends State<UteroWidget> {
                       ),
                       const SizedBox(height: 8),
                       Row(
-                        mainAxisAlignment: .center,
-                        crossAxisAlignment: .center,
-                        children: superficies.map((sup) {
-                          return SelectedButton(
-                            label: sup,
-                            selected: superficie == sup,
-                            selectedColor: superficie == sup
-                                ? kCafeVinoOscuro
-                                : theme.inputDecorationTheme.fillColor ??
-                                      const Color(0xFFF8FAFC),
-                            onTap: () => setState(() => superficie = sup),
-                          );
-                        }).toList(),
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: UterusSurface.values
+                            .where((sup) => sup != UterusSurface.unknown)
+                            .map((sup) {
+                              return SelectedButton(
+                                label: sup.toString(),
+                                selected:
+                                    widget.draft.uterineFindings?.surface ==
+                                    sup,
+                                selectedColor:
+                                    widget.draft.uterineFindings?.surface == sup
+                                    ? kCafeVinoOscuro
+                                    : theme.inputDecorationTheme.fillColor ??
+                                          const Color(0xFFF8FAFC),
+                                onTap: () => setState(
+                                  () => widget.draft.uterineFindings?.surface =
+                                      sup,
+                                ),
+                              );
+                            })
+                            .toList(),
                       ),
                     ],
                   ),
@@ -322,19 +353,39 @@ class _UteroWidgetState extends State<UteroWidget> {
                         mainAxisAlignment: .center,
                         crossAxisAlignment: .center,
                         spacing: 8,
-                        children: miometrios.map((mio) {
-                          return Expanded(
-                            child: SelectedButton(
-                              label: mio,
-                              selected: miometrio == mio,
-                              selectedColor: miometrio == mio
-                                  ? kRosaVieja
-                                  : theme.inputDecorationTheme.fillColor ??
-                                        const Color(0xFFF8FAFC),
-                              onTap: () => setState(() => miometrio = mio),
-                            ),
-                          );
-                        }).toList(),
+                        children: MyometriumType.values
+                            .where((mio) => mio != MyometriumType.unknown)
+                            .map((mio) {
+                              return Expanded(
+                                child: SelectedButton(
+                                  label: mio.toString(),
+                                  selected:
+                                      widget
+                                          .draft
+                                          .uterineFindings
+                                          ?.myometrium ==
+                                      mio,
+                                  selectedColor:
+                                      widget
+                                              .draft
+                                              .uterineFindings
+                                              ?.myometrium ==
+                                          mio
+                                      ? kRosaVieja
+                                      : theme.inputDecorationTheme.fillColor ??
+                                            const Color(0xFFF8FAFC),
+                                  onTap: () => setState(
+                                    () =>
+                                        widget
+                                                .draft
+                                                .uterineFindings
+                                                ?.myometrium =
+                                            mio,
+                                  ),
+                                ),
+                              );
+                            })
+                            .toList(),
                       ),
                     ],
                   ),
@@ -357,19 +408,39 @@ class _UteroWidgetState extends State<UteroWidget> {
                         mainAxisAlignment: .center,
                         crossAxisAlignment: .center,
                         spacing: 8,
-                        children: endometrios.map((endo) {
-                          return Expanded(
-                            child: SelectedButton(
-                              label: endo,
-                              selected: endometrio == endo,
-                              selectedColor: endometrio == endo
-                                  ? kRosaVieja
-                                  : theme.inputDecorationTheme.fillColor ??
-                                        const Color(0xFFF8FAFC),
-                              onTap: () => setState(() => endometrio = endo),
-                            ),
-                          );
-                        }).toList(),
+                        children: EndometriumAspect.values
+                            .where((endo) => endo != EndometriumAspect.unknown)
+                            .map((endo) {
+                              return Expanded(
+                                child: SelectedButton(
+                                  label: endo.toString(),
+                                  selected:
+                                      widget
+                                          .draft
+                                          .uterineFindings
+                                          ?.endometrium ==
+                                      endo,
+                                  selectedColor:
+                                      widget
+                                              .draft
+                                              .uterineFindings
+                                              ?.endometrium ==
+                                          endo
+                                      ? kRosaVieja
+                                      : theme.inputDecorationTheme.fillColor ??
+                                            const Color(0xFFF8FAFC),
+                                  onTap: () => setState(
+                                    () =>
+                                        widget
+                                                .draft
+                                                .uterineFindings
+                                                ?.endometrium =
+                                            endo,
+                                  ),
+                                ),
+                              );
+                            })
+                            .toList(),
                       ),
                     ],
                   ),

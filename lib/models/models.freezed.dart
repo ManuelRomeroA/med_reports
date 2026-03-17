@@ -2326,7 +2326,9 @@ mixin _$ReportDraft {
  String? get clinic;/// [clinic]: Site or clinic (optional).
  set clinic(String? value);/// [meta]: Extra metadata (optional).
  Map<String, dynamic>? get meta;/// [meta]: Extra metadata (optional).
- set meta(Map<String, dynamic>? value);
+ set meta(Map<String, dynamic>? value);/// [uterineFindings]: Optional uterine findings.
+ UterineFindings? get uterineFindings;/// [uterineFindings]: Optional uterine findings.
+ set uterineFindings(UterineFindings? value);
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2341,7 +2343,7 @@ $ReportDraftCopyWith<ReportDraft> get copyWith => _$ReportDraftCopyWithImpl<Repo
 
 @override
 String toString() {
-  return 'ReportDraft(id: $id, createdAt: $createdAt, patient: $patient, protocol: $protocol, findings: $findings, bladder: $bladder, rightOvary: $rightOvary, leftOvary: $leftOvary, doctor: $doctor, clinic: $clinic, meta: $meta)';
+  return 'ReportDraft(id: $id, createdAt: $createdAt, patient: $patient, protocol: $protocol, findings: $findings, bladder: $bladder, rightOvary: $rightOvary, leftOvary: $leftOvary, doctor: $doctor, clinic: $clinic, meta: $meta, uterineFindings: $uterineFindings)';
 }
 
 
@@ -2352,11 +2354,11 @@ abstract mixin class $ReportDraftCopyWith<$Res>  {
   factory $ReportDraftCopyWith(ReportDraft value, $Res Function(ReportDraft) _then) = _$ReportDraftCopyWithImpl;
 @useResult
 $Res call({
- String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta
+ String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta, UterineFindings? uterineFindings
 });
 
 
-$PatientCopyWith<$Res>? get patient;$StudyProtocolCopyWith<$Res>? get protocol;$FindingsCopyWith<$Res>? get findings;$BladderCopyWith<$Res>? get bladder;$OvaryCopyWith<$Res> get rightOvary;$OvaryCopyWith<$Res> get leftOvary;
+$PatientCopyWith<$Res>? get patient;$StudyProtocolCopyWith<$Res>? get protocol;$FindingsCopyWith<$Res>? get findings;$BladderCopyWith<$Res>? get bladder;$OvaryCopyWith<$Res> get rightOvary;$OvaryCopyWith<$Res> get leftOvary;$UterineFindingsCopyWith<$Res>? get uterineFindings;
 
 }
 /// @nodoc
@@ -2369,7 +2371,7 @@ class _$ReportDraftCopyWithImpl<$Res>
 
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,Object? uterineFindings = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -2382,7 +2384,8 @@ as Ovary,leftOvary: null == leftOvary ? _self.leftOvary : leftOvary // ignore: c
 as Ovary,doctor: freezed == doctor ? _self.doctor : doctor // ignore: cast_nullable_to_non_nullable
 as String?,clinic: freezed == clinic ? _self.clinic : clinic // ignore: cast_nullable_to_non_nullable
 as String?,meta: freezed == meta ? _self.meta : meta // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,
+as Map<String, dynamic>?,uterineFindings: freezed == uterineFindings ? _self.uterineFindings : uterineFindings // ignore: cast_nullable_to_non_nullable
+as UterineFindings?,
   ));
 }
 /// Create a copy of ReportDraft
@@ -2450,6 +2453,18 @@ $OvaryCopyWith<$Res> get leftOvary {
   
   return $OvaryCopyWith<$Res>(_self.leftOvary, (value) {
     return _then(_self.copyWith(leftOvary: value));
+  });
+}/// Create a copy of ReportDraft
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UterineFindingsCopyWith<$Res>? get uterineFindings {
+    if (_self.uterineFindings == null) {
+    return null;
+  }
+
+  return $UterineFindingsCopyWith<$Res>(_self.uterineFindings!, (value) {
+    return _then(_self.copyWith(uterineFindings: value));
   });
 }
 }
@@ -2533,10 +2548,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ReportDraft() when $default != null:
-return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta);case _:
+return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings);case _:
   return orElse();
 
 }
@@ -2554,10 +2569,10 @@ return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.find
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings)  $default,) {final _that = this;
 switch (_that) {
 case _ReportDraft():
-return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta);case _:
+return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2574,10 +2589,10 @@ return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.find
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings)?  $default,) {final _that = this;
 switch (_that) {
 case _ReportDraft() when $default != null:
-return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta);case _:
+return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings);case _:
   return null;
 
 }
@@ -2589,7 +2604,7 @@ return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.find
 @JsonSerializable()
 
 class _ReportDraft implements ReportDraft {
-   _ReportDraft({this.id, this.createdAt, this.patient, this.protocol, this.findings, this.bladder, required this.rightOvary, required this.leftOvary, this.doctor, this.clinic, this.meta});
+   _ReportDraft({this.id, this.createdAt, this.patient, this.protocol, this.findings, this.bladder, required this.rightOvary, required this.leftOvary, this.doctor, this.clinic, this.meta, this.uterineFindings});
   factory _ReportDraft.fromJson(Map<String, dynamic> json) => _$ReportDraftFromJson(json);
 
 /// [id]: Draft unique identifier (optional).
@@ -2614,6 +2629,8 @@ class _ReportDraft implements ReportDraft {
 @override  String? clinic;
 /// [meta]: Extra metadata (optional).
 @override  Map<String, dynamic>? meta;
+/// [uterineFindings]: Optional uterine findings.
+@override  UterineFindings? uterineFindings;
 
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
@@ -2630,7 +2647,7 @@ Map<String, dynamic> toJson() {
 
 @override
 String toString() {
-  return 'ReportDraft(id: $id, createdAt: $createdAt, patient: $patient, protocol: $protocol, findings: $findings, bladder: $bladder, rightOvary: $rightOvary, leftOvary: $leftOvary, doctor: $doctor, clinic: $clinic, meta: $meta)';
+  return 'ReportDraft(id: $id, createdAt: $createdAt, patient: $patient, protocol: $protocol, findings: $findings, bladder: $bladder, rightOvary: $rightOvary, leftOvary: $leftOvary, doctor: $doctor, clinic: $clinic, meta: $meta, uterineFindings: $uterineFindings)';
 }
 
 
@@ -2641,11 +2658,11 @@ abstract mixin class _$ReportDraftCopyWith<$Res> implements $ReportDraftCopyWith
   factory _$ReportDraftCopyWith(_ReportDraft value, $Res Function(_ReportDraft) _then) = __$ReportDraftCopyWithImpl;
 @override @useResult
 $Res call({
- String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta
+ String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta, UterineFindings? uterineFindings
 });
 
 
-@override $PatientCopyWith<$Res>? get patient;@override $StudyProtocolCopyWith<$Res>? get protocol;@override $FindingsCopyWith<$Res>? get findings;@override $BladderCopyWith<$Res>? get bladder;@override $OvaryCopyWith<$Res> get rightOvary;@override $OvaryCopyWith<$Res> get leftOvary;
+@override $PatientCopyWith<$Res>? get patient;@override $StudyProtocolCopyWith<$Res>? get protocol;@override $FindingsCopyWith<$Res>? get findings;@override $BladderCopyWith<$Res>? get bladder;@override $OvaryCopyWith<$Res> get rightOvary;@override $OvaryCopyWith<$Res> get leftOvary;@override $UterineFindingsCopyWith<$Res>? get uterineFindings;
 
 }
 /// @nodoc
@@ -2658,7 +2675,7 @@ class __$ReportDraftCopyWithImpl<$Res>
 
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,Object? uterineFindings = freezed,}) {
   return _then(_ReportDraft(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -2671,7 +2688,8 @@ as Ovary,leftOvary: null == leftOvary ? _self.leftOvary : leftOvary // ignore: c
 as Ovary,doctor: freezed == doctor ? _self.doctor : doctor // ignore: cast_nullable_to_non_nullable
 as String?,clinic: freezed == clinic ? _self.clinic : clinic // ignore: cast_nullable_to_non_nullable
 as String?,meta: freezed == meta ? _self.meta : meta // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,
+as Map<String, dynamic>?,uterineFindings: freezed == uterineFindings ? _self.uterineFindings : uterineFindings // ignore: cast_nullable_to_non_nullable
+as UterineFindings?,
   ));
 }
 
@@ -2741,6 +2759,18 @@ $OvaryCopyWith<$Res> get leftOvary {
   return $OvaryCopyWith<$Res>(_self.leftOvary, (value) {
     return _then(_self.copyWith(leftOvary: value));
   });
+}/// Create a copy of ReportDraft
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UterineFindingsCopyWith<$Res>? get uterineFindings {
+    if (_self.uterineFindings == null) {
+    return null;
+  }
+
+  return $UterineFindingsCopyWith<$Res>(_self.uterineFindings!, (value) {
+    return _then(_self.copyWith(uterineFindings: value));
+  });
 }
 }
 
@@ -2759,16 +2789,16 @@ mixin _$UterineFindings {
  set other(double? value);/// Calculated uterine volume in cubic millimeters; evaluates growth, hypertrophy, or reduction.
  double? get volume;/// Calculated uterine volume in cubic millimeters; evaluates growth, hypertrophy, or reduction.
  set volume(double? value);/// Anatomical localization of the uterus in the pelvis.
-@JsonKey(unknownEnumValue: UterusLocalization.unknow) UterusLocalization get localization;/// Anatomical localization of the uterus in the pelvis.
-@JsonKey(unknownEnumValue: UterusLocalization.unknow) set localization(UterusLocalization value);/// Physiological or pathological position of the uterus.
-@JsonKey(unknownEnumValue: UterusPosition.unknow) UterusPosition get position;/// Physiological or pathological position of the uterus.
-@JsonKey(unknownEnumValue: UterusPosition.unknow) set position(UterusPosition value);/// Appearance of the uterine surface on ultrasound.
-@JsonKey(unknownEnumValue: UterusSurface.unknow) UterusSurface get surface;/// Appearance of the uterine surface on ultrasound.
-@JsonKey(unknownEnumValue: UterusSurface.unknow) set surface(UterusSurface value);/// Type or ultrasound pattern of the observed myometrium.
-@JsonKey(unknownEnumValue: MyometriumType.unknow) MyometriumType get myometrium;/// Type or ultrasound pattern of the observed myometrium.
-@JsonKey(unknownEnumValue: MyometriumType.unknow) set myometrium(MyometriumType value);/// Appearance of the endometrium detected in the study.
-@JsonKey(unknownEnumValue: EndometriumAspect.unknow) EndometriumAspect get endometrium;/// Appearance of the endometrium detected in the study.
-@JsonKey(unknownEnumValue: EndometriumAspect.unknow) set endometrium(EndometriumAspect value);
+@JsonKey(unknownEnumValue: UterusLocalization.central) UterusLocalization get localization;/// Anatomical localization of the uterus in the pelvis.
+@JsonKey(unknownEnumValue: UterusLocalization.central) set localization(UterusLocalization value);/// Physiological or pathological position of the uterus.
+@JsonKey(unknownEnumValue: UterusPosition.avf) UterusPosition get position;/// Physiological or pathological position of the uterus.
+@JsonKey(unknownEnumValue: UterusPosition.avf) set position(UterusPosition value);/// Appearance of the uterine surface on ultrasound.
+@JsonKey(unknownEnumValue: UterusSurface.regular) UterusSurface get surface;/// Appearance of the uterine surface on ultrasound.
+@JsonKey(unknownEnumValue: UterusSurface.regular) set surface(UterusSurface value);/// Type or ultrasound pattern of the observed myometrium.
+@JsonKey(unknownEnumValue: MyometriumType.homogeneous) MyometriumType get myometrium;/// Type or ultrasound pattern of the observed myometrium.
+@JsonKey(unknownEnumValue: MyometriumType.homogeneous) set myometrium(MyometriumType value);/// Appearance of the endometrium detected in the study.
+@JsonKey(unknownEnumValue: EndometriumAspect.proli) EndometriumAspect get endometrium;/// Appearance of the endometrium detected in the study.
+@JsonKey(unknownEnumValue: EndometriumAspect.proli) set endometrium(EndometriumAspect value);
 /// Create a copy of UterineFindings
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2794,7 +2824,7 @@ abstract mixin class $UterineFindingsCopyWith<$Res>  {
   factory $UterineFindingsCopyWith(UterineFindings value, $Res Function(UterineFindings) _then) = _$UterineFindingsCopyWithImpl;
 @useResult
 $Res call({
- double? longitud, double? ap, double? transverse, double? other, double? volume,@JsonKey(unknownEnumValue: UterusLocalization.unknow) UterusLocalization localization,@JsonKey(unknownEnumValue: UterusPosition.unknow) UterusPosition position,@JsonKey(unknownEnumValue: UterusSurface.unknow) UterusSurface surface,@JsonKey(unknownEnumValue: MyometriumType.unknow) MyometriumType myometrium,@JsonKey(unknownEnumValue: EndometriumAspect.unknow) EndometriumAspect endometrium
+ double? longitud, double? ap, double? transverse, double? other, double? volume,@JsonKey(unknownEnumValue: UterusLocalization.central) UterusLocalization localization,@JsonKey(unknownEnumValue: UterusPosition.avf) UterusPosition position,@JsonKey(unknownEnumValue: UterusSurface.regular) UterusSurface surface,@JsonKey(unknownEnumValue: MyometriumType.homogeneous) MyometriumType myometrium,@JsonKey(unknownEnumValue: EndometriumAspect.proli) EndometriumAspect endometrium
 });
 
 
@@ -2908,7 +2938,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double? longitud,  double? ap,  double? transverse,  double? other,  double? volume, @JsonKey(unknownEnumValue: UterusLocalization.unknow)  UterusLocalization localization, @JsonKey(unknownEnumValue: UterusPosition.unknow)  UterusPosition position, @JsonKey(unknownEnumValue: UterusSurface.unknow)  UterusSurface surface, @JsonKey(unknownEnumValue: MyometriumType.unknow)  MyometriumType myometrium, @JsonKey(unknownEnumValue: EndometriumAspect.unknow)  EndometriumAspect endometrium)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double? longitud,  double? ap,  double? transverse,  double? other,  double? volume, @JsonKey(unknownEnumValue: UterusLocalization.central)  UterusLocalization localization, @JsonKey(unknownEnumValue: UterusPosition.avf)  UterusPosition position, @JsonKey(unknownEnumValue: UterusSurface.regular)  UterusSurface surface, @JsonKey(unknownEnumValue: MyometriumType.homogeneous)  MyometriumType myometrium, @JsonKey(unknownEnumValue: EndometriumAspect.proli)  EndometriumAspect endometrium)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UterineFindings() when $default != null:
 return $default(_that.longitud,_that.ap,_that.transverse,_that.other,_that.volume,_that.localization,_that.position,_that.surface,_that.myometrium,_that.endometrium);case _:
@@ -2929,7 +2959,7 @@ return $default(_that.longitud,_that.ap,_that.transverse,_that.other,_that.volum
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double? longitud,  double? ap,  double? transverse,  double? other,  double? volume, @JsonKey(unknownEnumValue: UterusLocalization.unknow)  UterusLocalization localization, @JsonKey(unknownEnumValue: UterusPosition.unknow)  UterusPosition position, @JsonKey(unknownEnumValue: UterusSurface.unknow)  UterusSurface surface, @JsonKey(unknownEnumValue: MyometriumType.unknow)  MyometriumType myometrium, @JsonKey(unknownEnumValue: EndometriumAspect.unknow)  EndometriumAspect endometrium)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double? longitud,  double? ap,  double? transverse,  double? other,  double? volume, @JsonKey(unknownEnumValue: UterusLocalization.central)  UterusLocalization localization, @JsonKey(unknownEnumValue: UterusPosition.avf)  UterusPosition position, @JsonKey(unknownEnumValue: UterusSurface.regular)  UterusSurface surface, @JsonKey(unknownEnumValue: MyometriumType.homogeneous)  MyometriumType myometrium, @JsonKey(unknownEnumValue: EndometriumAspect.proli)  EndometriumAspect endometrium)  $default,) {final _that = this;
 switch (_that) {
 case _UterineFindings():
 return $default(_that.longitud,_that.ap,_that.transverse,_that.other,_that.volume,_that.localization,_that.position,_that.surface,_that.myometrium,_that.endometrium);case _:
@@ -2949,7 +2979,7 @@ return $default(_that.longitud,_that.ap,_that.transverse,_that.other,_that.volum
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double? longitud,  double? ap,  double? transverse,  double? other,  double? volume, @JsonKey(unknownEnumValue: UterusLocalization.unknow)  UterusLocalization localization, @JsonKey(unknownEnumValue: UterusPosition.unknow)  UterusPosition position, @JsonKey(unknownEnumValue: UterusSurface.unknow)  UterusSurface surface, @JsonKey(unknownEnumValue: MyometriumType.unknow)  MyometriumType myometrium, @JsonKey(unknownEnumValue: EndometriumAspect.unknow)  EndometriumAspect endometrium)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double? longitud,  double? ap,  double? transverse,  double? other,  double? volume, @JsonKey(unknownEnumValue: UterusLocalization.central)  UterusLocalization localization, @JsonKey(unknownEnumValue: UterusPosition.avf)  UterusPosition position, @JsonKey(unknownEnumValue: UterusSurface.regular)  UterusSurface surface, @JsonKey(unknownEnumValue: MyometriumType.homogeneous)  MyometriumType myometrium, @JsonKey(unknownEnumValue: EndometriumAspect.proli)  EndometriumAspect endometrium)?  $default,) {final _that = this;
 switch (_that) {
 case _UterineFindings() when $default != null:
 return $default(_that.longitud,_that.ap,_that.transverse,_that.other,_that.volume,_that.localization,_that.position,_that.surface,_that.myometrium,_that.endometrium);case _:
@@ -2964,7 +2994,7 @@ return $default(_that.longitud,_that.ap,_that.transverse,_that.other,_that.volum
 @JsonSerializable()
 
 class _UterineFindings implements UterineFindings {
-   _UterineFindings({this.longitud, this.ap, this.transverse, this.other, this.volume, @JsonKey(unknownEnumValue: UterusLocalization.unknow) this.localization = UterusLocalization.unknow, @JsonKey(unknownEnumValue: UterusPosition.unknow) this.position = UterusPosition.unknow, @JsonKey(unknownEnumValue: UterusSurface.unknow) this.surface = UterusSurface.unknow, @JsonKey(unknownEnumValue: MyometriumType.unknow) this.myometrium = MyometriumType.unknow, @JsonKey(unknownEnumValue: EndometriumAspect.unknow) this.endometrium = EndometriumAspect.unknow});
+   _UterineFindings({this.longitud, this.ap, this.transverse, this.other, this.volume, @JsonKey(unknownEnumValue: UterusLocalization.central) this.localization = UterusLocalization.central, @JsonKey(unknownEnumValue: UterusPosition.avf) this.position = UterusPosition.avf, @JsonKey(unknownEnumValue: UterusSurface.regular) this.surface = UterusSurface.regular, @JsonKey(unknownEnumValue: MyometriumType.homogeneous) this.myometrium = MyometriumType.homogeneous, @JsonKey(unknownEnumValue: EndometriumAspect.proli) this.endometrium = EndometriumAspect.proli});
   factory _UterineFindings.fromJson(Map<String, dynamic> json) => _$UterineFindingsFromJson(json);
 
 /// Longitudinal uterine diameter in millimeters; measures the maximum axis of the uterus.
@@ -2978,15 +3008,15 @@ class _UterineFindings implements UterineFindings {
 /// Calculated uterine volume in cubic millimeters; evaluates growth, hypertrophy, or reduction.
 @override  double? volume;
 /// Anatomical localization of the uterus in the pelvis.
-@override@JsonKey(unknownEnumValue: UterusLocalization.unknow)  UterusLocalization localization;
+@override@JsonKey(unknownEnumValue: UterusLocalization.central)  UterusLocalization localization;
 /// Physiological or pathological position of the uterus.
-@override@JsonKey(unknownEnumValue: UterusPosition.unknow)  UterusPosition position;
+@override@JsonKey(unknownEnumValue: UterusPosition.avf)  UterusPosition position;
 /// Appearance of the uterine surface on ultrasound.
-@override@JsonKey(unknownEnumValue: UterusSurface.unknow)  UterusSurface surface;
+@override@JsonKey(unknownEnumValue: UterusSurface.regular)  UterusSurface surface;
 /// Type or ultrasound pattern of the observed myometrium.
-@override@JsonKey(unknownEnumValue: MyometriumType.unknow)  MyometriumType myometrium;
+@override@JsonKey(unknownEnumValue: MyometriumType.homogeneous)  MyometriumType myometrium;
 /// Appearance of the endometrium detected in the study.
-@override@JsonKey(unknownEnumValue: EndometriumAspect.unknow)  EndometriumAspect endometrium;
+@override@JsonKey(unknownEnumValue: EndometriumAspect.proli)  EndometriumAspect endometrium;
 
 /// Create a copy of UterineFindings
 /// with the given fields replaced by the non-null parameter values.
@@ -3014,7 +3044,7 @@ abstract mixin class _$UterineFindingsCopyWith<$Res> implements $UterineFindings
   factory _$UterineFindingsCopyWith(_UterineFindings value, $Res Function(_UterineFindings) _then) = __$UterineFindingsCopyWithImpl;
 @override @useResult
 $Res call({
- double? longitud, double? ap, double? transverse, double? other, double? volume,@JsonKey(unknownEnumValue: UterusLocalization.unknow) UterusLocalization localization,@JsonKey(unknownEnumValue: UterusPosition.unknow) UterusPosition position,@JsonKey(unknownEnumValue: UterusSurface.unknow) UterusSurface surface,@JsonKey(unknownEnumValue: MyometriumType.unknow) MyometriumType myometrium,@JsonKey(unknownEnumValue: EndometriumAspect.unknow) EndometriumAspect endometrium
+ double? longitud, double? ap, double? transverse, double? other, double? volume,@JsonKey(unknownEnumValue: UterusLocalization.central) UterusLocalization localization,@JsonKey(unknownEnumValue: UterusPosition.avf) UterusPosition position,@JsonKey(unknownEnumValue: UterusSurface.regular) UterusSurface surface,@JsonKey(unknownEnumValue: MyometriumType.homogeneous) MyometriumType myometrium,@JsonKey(unknownEnumValue: EndometriumAspect.proli) EndometriumAspect endometrium
 });
 
 

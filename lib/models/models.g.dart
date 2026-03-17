@@ -235,6 +235,11 @@ _ReportDraft _$ReportDraftFromJson(Map<String, dynamic> json) => _ReportDraft(
   doctor: json['doctor'] as String?,
   clinic: json['clinic'] as String?,
   meta: json['meta'] as Map<String, dynamic>?,
+  uterineFindings: json['uterineFindings'] == null
+      ? null
+      : UterineFindings.fromJson(
+          json['uterineFindings'] as Map<String, dynamic>,
+        ),
 );
 
 Map<String, dynamic> _$ReportDraftToJson(_ReportDraft instance) =>
@@ -250,6 +255,7 @@ Map<String, dynamic> _$ReportDraftToJson(_ReportDraft instance) =>
       'doctor': instance.doctor,
       'clinic': instance.clinic,
       'meta': instance.meta,
+      'uterineFindings': instance.uterineFindings,
     };
 
 _UterineFindings _$UterineFindingsFromJson(Map<String, dynamic> json) =>
@@ -263,37 +269,37 @@ _UterineFindings _$UterineFindingsFromJson(Map<String, dynamic> json) =>
           $enumDecodeNullable(
             _$UterusLocalizationEnumMap,
             json['localization'],
-            unknownValue: UterusLocalization.unknow,
+            unknownValue: UterusLocalization.central,
           ) ??
-          UterusLocalization.unknow,
+          UterusLocalization.central,
       position:
           $enumDecodeNullable(
             _$UterusPositionEnumMap,
             json['position'],
-            unknownValue: UterusPosition.unknow,
+            unknownValue: UterusPosition.avf,
           ) ??
-          UterusPosition.unknow,
+          UterusPosition.avf,
       surface:
           $enumDecodeNullable(
             _$UterusSurfaceEnumMap,
             json['surface'],
-            unknownValue: UterusSurface.unknow,
+            unknownValue: UterusSurface.regular,
           ) ??
-          UterusSurface.unknow,
+          UterusSurface.regular,
       myometrium:
           $enumDecodeNullable(
             _$MyometriumTypeEnumMap,
             json['myometrium'],
-            unknownValue: MyometriumType.unknow,
+            unknownValue: MyometriumType.homogeneous,
           ) ??
-          MyometriumType.unknow,
+          MyometriumType.homogeneous,
       endometrium:
           $enumDecodeNullable(
             _$EndometriumAspectEnumMap,
             json['endometrium'],
-            unknownValue: EndometriumAspect.unknow,
+            unknownValue: EndometriumAspect.proli,
           ) ??
-          EndometriumAspect.unknow,
+          EndometriumAspect.proli,
     );
 
 Map<String, dynamic> _$UterineFindingsToJson(_UterineFindings instance) =>
@@ -311,42 +317,34 @@ Map<String, dynamic> _$UterineFindingsToJson(_UterineFindings instance) =>
     };
 
 const _$UterusLocalizationEnumMap = {
-  UterusLocalization.unknow: 'DESCONOCIDO',
-  UterusLocalization.anterior: 'ANTERIOR',
-  UterusLocalization.posterior: 'POSTERIOR',
+  UterusLocalization.unknown: 'DESCONOCIDO',
   UterusLocalization.central: 'CENTRAL',
-  UterusLocalization.lateral: 'LATERAL',
+  UterusLocalization.right: 'DERECHA',
+  UterusLocalization.left: 'IZQUIERDA',
 };
 
 const _$UterusPositionEnumMap = {
-  UterusPosition.unknow: 'DESCONOCIDO',
-  UterusPosition.anteverted: 'ANTEVERTIDO',
-  UterusPosition.retroverted: 'RETROVERTIDO',
-  UterusPosition.midposition: 'POSICIÓN MEDIA',
+  UterusPosition.unknown: 'DESCONOCIDO',
+  UterusPosition.avf: 'AVF',
+  UterusPosition.rvf: 'RVF',
 };
 
 const _$UterusSurfaceEnumMap = {
-  UterusSurface.unknow: 'DESCONOCIDO',
+  UterusSurface.unknown: 'DESCONOCIDO',
   UterusSurface.regular: 'REGULAR',
   UterusSurface.irregular: 'IRREGULAR',
 };
 
 const _$MyometriumTypeEnumMap = {
-  MyometriumType.unknow: 'DESCONOCIDO',
+  MyometriumType.unknown: 'DESCONOCIDO',
   MyometriumType.homogeneous: 'HOMOGÉNEO',
   MyometriumType.heterogeneous: 'HETEROGÉNEO',
-  MyometriumType.adenomyosis: 'ADENOMIOSIS',
-  MyometriumType.leiomyoma: 'LEIOMIOMA',
-  MyometriumType.other: 'OTRO',
 };
 
 const _$EndometriumAspectEnumMap = {
-  EndometriumAspect.unknow: 'DESCONOCIDO',
-  EndometriumAspect.thin: 'DELGADO',
-  EndometriumAspect.thick: 'ENGROSADO',
-  EndometriumAspect.regular: 'REGULAR',
-  EndometriumAspect.irregular: 'IRREGULAR',
-  EndometriumAspect.cystic: 'QUÍSTICO',
-  EndometriumAspect.polyp: 'PÓLIPO',
-  EndometriumAspect.other: 'OTRO',
+  EndometriumAspect.unknown: 'DESCONOCIDO',
+  EndometriumAspect.menst: 'MENST',
+  EndometriumAspect.proli: 'PROLI',
+  EndometriumAspect.secre: 'SECRE',
+  EndometriumAspect.atrof: 'ATROF',
 };

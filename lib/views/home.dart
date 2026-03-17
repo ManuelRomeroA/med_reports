@@ -41,6 +41,7 @@ class _HomeViewState extends State<HomeView> {
         type: OvaryType.normal,
         measures: OvaryMeasurement(ap: 0, tr: 0, lo: 0),
       ),
+      uterineFindings: UterineFindings(),
       // Otros campos según corresponda
     );
   }

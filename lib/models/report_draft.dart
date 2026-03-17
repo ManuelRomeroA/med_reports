@@ -36,6 +36,9 @@ abstract class ReportDraft with _$ReportDraft {
 
     /// [meta]: Extra metadata (optional).
     Map<String, dynamic>? meta,
+
+    /// [uterineFindings]: Optional uterine findings.
+    UterineFindings? uterineFindings,
   }) = _ReportDraft;
 
   /// Creates ReportDraft from JSON.
