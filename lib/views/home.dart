@@ -27,6 +27,12 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(
+      "Vaginal state: ${draft.vaginalState?.status}, note: ${draft.vaginalState?.note}",
+    );
+    debugPrint(
+      "Cervical state: ${draft.cervixState?.status}, note: ${draft.cervixState?.note}",
+    );
     return Scaffold(
       backgroundColor: Theme.of(context).inputDecorationTheme.fillColor,
       body: SingleChildScrollView(
@@ -78,20 +84,17 @@ class _HomeViewState extends State<HomeView> {
                           spacing: 24,
                           children: [
                             Expanded(
-                              child: StateSelector(
+                              child: StateSelector<VaginalStatus>(
                                 titulo: "ESTADO VAGINAL",
                                 draft: draft,
-                                onChanged: () {},
-                                campo: "vaginalState",
+                                object: draft.vaginalState!,
                               ),
                             ),
                             Expanded(
-                              child: StateSelector(
+                              child: StateSelector<CervicalStatus>(
                                 titulo: "CUELLO UTERINO",
                                 draft: draft,
-                                onChanged: () {},
-
-                                campo: "cervixState",
+                                object: draft.cervixState!,
                               ),
                             ),
                           ],

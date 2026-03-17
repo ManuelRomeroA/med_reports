@@ -3,22 +3,16 @@ import 'package:layrz_theme/layrz_theme.dart';
 import 'package:med_reports/models/models.dart';
 import 'package:med_reports/components/general/selected_button.dart';
 
-/**
- * Selector de estado (vaginal/cervical) que opera sobre un draft mutable.
- * Recibe draft, onChanged y un campo destino en el draft (campo).
- */
-class StateSelector extends StatefulWidget {
+class StateSelector<T> extends StatefulWidget {
   final String titulo;
   final ReportDraft draft;
-  final VoidCallback onChanged;
-  final String campo; // ej: "vaginalState" o "cervixState"
+  final T object;
 
   const StateSelector({
     super.key,
     required this.titulo,
     required this.draft,
-    required this.onChanged,
-    required this.campo,
+    required this.object,
   });
 
   @override
@@ -26,9 +20,6 @@ class StateSelector extends StatefulWidget {
 }
 
 class _StateSelectorState extends State<StateSelector> {
-  // El estado lo guarda el draft, identificador: widget.campo
-  // Para demo: sólo referencia a draft.findings?.uterusDiagnosis como ejemplo
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -37,7 +28,6 @@ class _StateSelectorState extends State<StateSelector> {
       margin: const EdgeInsets.all(12),
       padding: const EdgeInsets.all(20),
       height: 210,
-
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(18),
@@ -58,36 +48,35 @@ class _StateSelectorState extends State<StateSelector> {
           ),
           const SizedBox(height: 18),
           Row(
-            children: ["NORMAL", "OTROS"].map((op) {
-              // Demo: ejemplo refactorización draft, borra state local, cambia el campo dinámico (findings.uterusDiagnosis por defecto)
-              final value = widget.draft.findings?.uterusDiagnosis ?? "NORMAL";
-              final selected = value == op;
-              return Expanded(
-                child: SelectedButton(
-                  label: op,
-                  selected: selected,
-                  selectedColor: theme.colorScheme.primary,
-                  onTap: () => setState(() {
-                    if (widget.draft.findings == null)
-                      widget.draft.findings = Findings();
-                    widget.draft.findings?.uterusDiagnosis = op;
-                    widget.onChanged();
-                  }),
-                ),
-              );
-            }).toList(),
+            children: StateValue.values
+                .where((value) => value != StateValue.unknown)
+                .map((value) {
+                  return Expanded(
+                    child: SelectedButton(
+                      label: value.toString(),
+                      selected: value == widget.object.status,
+                      selectedColor: theme.colorScheme.primary,
+                      onTap: () {
+                        widget.object.status = value;
+                        if (value == StateValue.normal) {
+                          widget.object.note = null;
+                        }
+                        setState(() {});
+                      },
+                    ),
+                  );
+                })
+                .toList(),
           ),
-          if ((widget.draft.findings?.uterusDiagnosis ?? "") == "OTROS") ...[
+          if (widget.object.status == StateValue.other) ...[
             const SizedBox(height: 12),
             ThemedTextInput(
-              value: widget.draft.findings?.conclusion ?? "",
+              value: widget.object.note ?? "",
               labelText: "Describa hallazgo...",
               onChanged: (value) {
-                if (widget.draft.findings == null)
-                  widget.draft.findings = Findings();
-                widget.draft.findings?.conclusion = value;
+                if (widget.object.note == null) widget.object.note = "";
+                widget.object.note = value;
                 setState(() {});
-                widget.onChanged();
               },
             ),
           ],

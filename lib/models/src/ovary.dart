@@ -74,7 +74,7 @@ abstract class Ovary with _$Ovary {
   /// Main reason for the medical visit or exam (optional).
   factory Ovary({
     /// Lateralidad del ovario (derecha, izquierda, desconocido)
-    @JsonKey(unknownEnumValue: OvarySide.unknown) OvarySide side,
+    @JsonKey(unknownEnumValue: OvarySide.unknown) required OvarySide side,
 
     /// Tipo morfológico del ovario (normal, poliquístico, otro, desconocido)
     @JsonKey(unknownEnumValue: OvaryType.unknown)

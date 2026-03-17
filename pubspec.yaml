@@ -14,7 +14,7 @@ dependencies:
   layrz_theme: ^7.5.17
   layrz_icons: ^1.0.5
   freezed_annotation: ^3.1.0
-  json_annotation: ^4.9.0
+  json_annotation: ^4.11.0
   pdf: ^3.11.3
   printing: ^5.10.1
 

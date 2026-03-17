@@ -42,6 +42,12 @@ abstract class ReportDraft with _$ReportDraft {
 
     /// [nodules]: Optional nodules findings.
     Nodules? nodules,
+
+    /// [vaginalState]: Optional vaginal status.
+    VaginalStatus? vaginalState,
+
+    /// [cervixState]: Optional cervical status.
+    CervicalStatus? cervixState,
   }) = _ReportDraft;
 
   /// Creates ReportDraft from JSON.
@@ -63,6 +69,8 @@ abstract class ReportDraft with _$ReportDraft {
       findings: Findings(), // Asume constructor vacío
       nodules: Nodules(), // Asume constructor vacío
       uterineFindings: UterineFindings(),
+      vaginalState: VaginalStatus(), // Asume constructor vacío
+      cervixState: CervicalStatus(), // Asume constructor vacío
     );
   }
 }

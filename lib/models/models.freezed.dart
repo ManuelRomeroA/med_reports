@@ -1074,7 +1074,7 @@ return $default(_that.side,_that.type,_that.measures,_that.notes);case _:
 @JsonSerializable()
 
 class _Ovary implements Ovary {
-   _Ovary({@JsonKey(unknownEnumValue: OvarySide.unknown) this.side = OvarySide.left, @JsonKey(unknownEnumValue: OvaryType.unknown) this.type = OvaryType.normal, required this.measures, this.notes});
+   _Ovary({@JsonKey(unknownEnumValue: OvarySide.unknown) required this.side, @JsonKey(unknownEnumValue: OvaryType.unknown) this.type = OvaryType.normal, required this.measures, this.notes});
   factory _Ovary.fromJson(Map<String, dynamic> json) => _$OvaryFromJson(json);
 
 /// Lateralidad del ovario (derecha, izquierda, desconocido)
@@ -2621,7 +2621,11 @@ mixin _$ReportDraft {
  UterineFindings? get uterineFindings;/// [uterineFindings]: Optional uterine findings.
  set uterineFindings(UterineFindings? value);/// [nodules]: Optional nodules findings.
  Nodules? get nodules;/// [nodules]: Optional nodules findings.
- set nodules(Nodules? value);
+ set nodules(Nodules? value);/// [vaginalState]: Optional vaginal status.
+ VaginalStatus? get vaginalState;/// [vaginalState]: Optional vaginal status.
+ set vaginalState(VaginalStatus? value);/// [cervixState]: Optional cervical status.
+ CervicalStatus? get cervixState;/// [cervixState]: Optional cervical status.
+ set cervixState(CervicalStatus? value);
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2636,7 +2640,7 @@ $ReportDraftCopyWith<ReportDraft> get copyWith => _$ReportDraftCopyWithImpl<Repo
 
 @override
 String toString() {
-  return 'ReportDraft(id: $id, createdAt: $createdAt, patient: $patient, protocol: $protocol, findings: $findings, bladder: $bladder, rightOvary: $rightOvary, leftOvary: $leftOvary, doctor: $doctor, clinic: $clinic, meta: $meta, uterineFindings: $uterineFindings, nodules: $nodules)';
+  return 'ReportDraft(id: $id, createdAt: $createdAt, patient: $patient, protocol: $protocol, findings: $findings, bladder: $bladder, rightOvary: $rightOvary, leftOvary: $leftOvary, doctor: $doctor, clinic: $clinic, meta: $meta, uterineFindings: $uterineFindings, nodules: $nodules, vaginalState: $vaginalState, cervixState: $cervixState)';
 }
 
 
@@ -2647,11 +2651,11 @@ abstract mixin class $ReportDraftCopyWith<$Res>  {
   factory $ReportDraftCopyWith(ReportDraft value, $Res Function(ReportDraft) _then) = _$ReportDraftCopyWithImpl;
 @useResult
 $Res call({
- String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta, UterineFindings? uterineFindings, Nodules? nodules
+ String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta, UterineFindings? uterineFindings, Nodules? nodules, VaginalStatus? vaginalState, CervicalStatus? cervixState
 });
 
 
-$PatientCopyWith<$Res>? get patient;$StudyProtocolCopyWith<$Res>? get protocol;$FindingsCopyWith<$Res>? get findings;$BladderCopyWith<$Res>? get bladder;$OvaryCopyWith<$Res> get rightOvary;$OvaryCopyWith<$Res> get leftOvary;$UterineFindingsCopyWith<$Res>? get uterineFindings;$NodulesCopyWith<$Res>? get nodules;
+$PatientCopyWith<$Res>? get patient;$StudyProtocolCopyWith<$Res>? get protocol;$FindingsCopyWith<$Res>? get findings;$BladderCopyWith<$Res>? get bladder;$OvaryCopyWith<$Res> get rightOvary;$OvaryCopyWith<$Res> get leftOvary;$UterineFindingsCopyWith<$Res>? get uterineFindings;$NodulesCopyWith<$Res>? get nodules;$VaginalStatusCopyWith<$Res>? get vaginalState;$CervicalStatusCopyWith<$Res>? get cervixState;
 
 }
 /// @nodoc
@@ -2664,7 +2668,7 @@ class _$ReportDraftCopyWithImpl<$Res>
 
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,Object? uterineFindings = freezed,Object? nodules = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,Object? uterineFindings = freezed,Object? nodules = freezed,Object? vaginalState = freezed,Object? cervixState = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -2679,7 +2683,9 @@ as String?,clinic: freezed == clinic ? _self.clinic : clinic // ignore: cast_nul
 as String?,meta: freezed == meta ? _self.meta : meta // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>?,uterineFindings: freezed == uterineFindings ? _self.uterineFindings : uterineFindings // ignore: cast_nullable_to_non_nullable
 as UterineFindings?,nodules: freezed == nodules ? _self.nodules : nodules // ignore: cast_nullable_to_non_nullable
-as Nodules?,
+as Nodules?,vaginalState: freezed == vaginalState ? _self.vaginalState : vaginalState // ignore: cast_nullable_to_non_nullable
+as VaginalStatus?,cervixState: freezed == cervixState ? _self.cervixState : cervixState // ignore: cast_nullable_to_non_nullable
+as CervicalStatus?,
   ));
 }
 /// Create a copy of ReportDraft
@@ -2771,6 +2777,30 @@ $NodulesCopyWith<$Res>? get nodules {
 
   return $NodulesCopyWith<$Res>(_self.nodules!, (value) {
     return _then(_self.copyWith(nodules: value));
+  });
+}/// Create a copy of ReportDraft
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$VaginalStatusCopyWith<$Res>? get vaginalState {
+    if (_self.vaginalState == null) {
+    return null;
+  }
+
+  return $VaginalStatusCopyWith<$Res>(_self.vaginalState!, (value) {
+    return _then(_self.copyWith(vaginalState: value));
+  });
+}/// Create a copy of ReportDraft
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CervicalStatusCopyWith<$Res>? get cervixState {
+    if (_self.cervixState == null) {
+    return null;
+  }
+
+  return $CervicalStatusCopyWith<$Res>(_self.cervixState!, (value) {
+    return _then(_self.copyWith(cervixState: value));
   });
 }
 }
@@ -2854,10 +2884,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings,  Nodules? nodules)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings,  Nodules? nodules,  VaginalStatus? vaginalState,  CervicalStatus? cervixState)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ReportDraft() when $default != null:
-return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings,_that.nodules);case _:
+return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings,_that.nodules,_that.vaginalState,_that.cervixState);case _:
   return orElse();
 
 }
@@ -2875,10 +2905,10 @@ return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.find
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings,  Nodules? nodules)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings,  Nodules? nodules,  VaginalStatus? vaginalState,  CervicalStatus? cervixState)  $default,) {final _that = this;
 switch (_that) {
 case _ReportDraft():
-return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings,_that.nodules);case _:
+return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings,_that.nodules,_that.vaginalState,_that.cervixState);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2895,10 +2925,10 @@ return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.find
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings,  Nodules? nodules)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings,  Nodules? nodules,  VaginalStatus? vaginalState,  CervicalStatus? cervixState)?  $default,) {final _that = this;
 switch (_that) {
 case _ReportDraft() when $default != null:
-return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings,_that.nodules);case _:
+return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings,_that.nodules,_that.vaginalState,_that.cervixState);case _:
   return null;
 
 }
@@ -2910,7 +2940,7 @@ return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.find
 @JsonSerializable()
 
 class _ReportDraft implements ReportDraft {
-   _ReportDraft({this.id, this.createdAt, this.patient, this.protocol, this.findings, this.bladder, required this.rightOvary, required this.leftOvary, this.doctor, this.clinic, this.meta, this.uterineFindings, this.nodules});
+   _ReportDraft({this.id, this.createdAt, this.patient, this.protocol, this.findings, this.bladder, required this.rightOvary, required this.leftOvary, this.doctor, this.clinic, this.meta, this.uterineFindings, this.nodules, this.vaginalState, this.cervixState});
   factory _ReportDraft.fromJson(Map<String, dynamic> json) => _$ReportDraftFromJson(json);
 
 /// [id]: Draft unique identifier (optional).
@@ -2939,6 +2969,10 @@ class _ReportDraft implements ReportDraft {
 @override  UterineFindings? uterineFindings;
 /// [nodules]: Optional nodules findings.
 @override  Nodules? nodules;
+/// [vaginalState]: Optional vaginal status.
+@override  VaginalStatus? vaginalState;
+/// [cervixState]: Optional cervical status.
+@override  CervicalStatus? cervixState;
 
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
@@ -2955,7 +2989,7 @@ Map<String, dynamic> toJson() {
 
 @override
 String toString() {
-  return 'ReportDraft(id: $id, createdAt: $createdAt, patient: $patient, protocol: $protocol, findings: $findings, bladder: $bladder, rightOvary: $rightOvary, leftOvary: $leftOvary, doctor: $doctor, clinic: $clinic, meta: $meta, uterineFindings: $uterineFindings, nodules: $nodules)';
+  return 'ReportDraft(id: $id, createdAt: $createdAt, patient: $patient, protocol: $protocol, findings: $findings, bladder: $bladder, rightOvary: $rightOvary, leftOvary: $leftOvary, doctor: $doctor, clinic: $clinic, meta: $meta, uterineFindings: $uterineFindings, nodules: $nodules, vaginalState: $vaginalState, cervixState: $cervixState)';
 }
 
 
@@ -2966,11 +3000,11 @@ abstract mixin class _$ReportDraftCopyWith<$Res> implements $ReportDraftCopyWith
   factory _$ReportDraftCopyWith(_ReportDraft value, $Res Function(_ReportDraft) _then) = __$ReportDraftCopyWithImpl;
 @override @useResult
 $Res call({
- String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta, UterineFindings? uterineFindings, Nodules? nodules
+ String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta, UterineFindings? uterineFindings, Nodules? nodules, VaginalStatus? vaginalState, CervicalStatus? cervixState
 });
 
 
-@override $PatientCopyWith<$Res>? get patient;@override $StudyProtocolCopyWith<$Res>? get protocol;@override $FindingsCopyWith<$Res>? get findings;@override $BladderCopyWith<$Res>? get bladder;@override $OvaryCopyWith<$Res> get rightOvary;@override $OvaryCopyWith<$Res> get leftOvary;@override $UterineFindingsCopyWith<$Res>? get uterineFindings;@override $NodulesCopyWith<$Res>? get nodules;
+@override $PatientCopyWith<$Res>? get patient;@override $StudyProtocolCopyWith<$Res>? get protocol;@override $FindingsCopyWith<$Res>? get findings;@override $BladderCopyWith<$Res>? get bladder;@override $OvaryCopyWith<$Res> get rightOvary;@override $OvaryCopyWith<$Res> get leftOvary;@override $UterineFindingsCopyWith<$Res>? get uterineFindings;@override $NodulesCopyWith<$Res>? get nodules;@override $VaginalStatusCopyWith<$Res>? get vaginalState;@override $CervicalStatusCopyWith<$Res>? get cervixState;
 
 }
 /// @nodoc
@@ -2983,7 +3017,7 @@ class __$ReportDraftCopyWithImpl<$Res>
 
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,Object? uterineFindings = freezed,Object? nodules = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,Object? uterineFindings = freezed,Object? nodules = freezed,Object? vaginalState = freezed,Object? cervixState = freezed,}) {
   return _then(_ReportDraft(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -2998,7 +3032,9 @@ as String?,clinic: freezed == clinic ? _self.clinic : clinic // ignore: cast_nul
 as String?,meta: freezed == meta ? _self.meta : meta // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>?,uterineFindings: freezed == uterineFindings ? _self.uterineFindings : uterineFindings // ignore: cast_nullable_to_non_nullable
 as UterineFindings?,nodules: freezed == nodules ? _self.nodules : nodules // ignore: cast_nullable_to_non_nullable
-as Nodules?,
+as Nodules?,vaginalState: freezed == vaginalState ? _self.vaginalState : vaginalState // ignore: cast_nullable_to_non_nullable
+as VaginalStatus?,cervixState: freezed == cervixState ? _self.cervixState : cervixState // ignore: cast_nullable_to_non_nullable
+as CervicalStatus?,
   ));
 }
 
@@ -3091,6 +3127,30 @@ $NodulesCopyWith<$Res>? get nodules {
 
   return $NodulesCopyWith<$Res>(_self.nodules!, (value) {
     return _then(_self.copyWith(nodules: value));
+  });
+}/// Create a copy of ReportDraft
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$VaginalStatusCopyWith<$Res>? get vaginalState {
+    if (_self.vaginalState == null) {
+    return null;
+  }
+
+  return $VaginalStatusCopyWith<$Res>(_self.vaginalState!, (value) {
+    return _then(_self.copyWith(vaginalState: value));
+  });
+}/// Create a copy of ReportDraft
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CervicalStatusCopyWith<$Res>? get cervixState {
+    if (_self.cervixState == null) {
+    return null;
+  }
+
+  return $CervicalStatusCopyWith<$Res>(_self.cervixState!, (value) {
+    return _then(_self.copyWith(cervixState: value));
   });
 }
 }
@@ -3395,6 +3455,522 @@ as UterusPosition,surface: null == surface ? _self.surface : surface // ignore: 
 as UterusSurface,myometrium: null == myometrium ? _self.myometrium : myometrium // ignore: cast_nullable_to_non_nullable
 as MyometriumType,endometrium: null == endometrium ? _self.endometrium : endometrium // ignore: cast_nullable_to_non_nullable
 as EndometriumAspect,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$VaginalStatus {
+
+/// [status] represents the current vaginal status of the patient
+@JsonKey(unknownEnumValue: StateValue.unknown) StateValue get status;/// [status] represents the current vaginal status of the patient
+@JsonKey(unknownEnumValue: StateValue.unknown) set status(StateValue value);/// [note] in case [status] is not normal, this field can be used to provide additional details or observations about the vaginal status.
+ String? get note;/// [note] in case [status] is not normal, this field can be used to provide additional details or observations about the vaginal status.
+ set note(String? value);
+/// Create a copy of VaginalStatus
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$VaginalStatusCopyWith<VaginalStatus> get copyWith => _$VaginalStatusCopyWithImpl<VaginalStatus>(this as VaginalStatus, _$identity);
+
+  /// Serializes this VaginalStatus to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+
+
+@override
+String toString() {
+  return 'VaginalStatus(status: $status, note: $note)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $VaginalStatusCopyWith<$Res>  {
+  factory $VaginalStatusCopyWith(VaginalStatus value, $Res Function(VaginalStatus) _then) = _$VaginalStatusCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(unknownEnumValue: StateValue.unknown) StateValue status, String? note
+});
+
+
+
+
+}
+/// @nodoc
+class _$VaginalStatusCopyWithImpl<$Res>
+    implements $VaginalStatusCopyWith<$Res> {
+  _$VaginalStatusCopyWithImpl(this._self, this._then);
+
+  final VaginalStatus _self;
+  final $Res Function(VaginalStatus) _then;
+
+/// Create a copy of VaginalStatus
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? note = freezed,}) {
+  return _then(_self.copyWith(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as StateValue,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [VaginalStatus].
+extension VaginalStatusPatterns on VaginalStatus {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _VaginalStatus value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _VaginalStatus() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _VaginalStatus value)  $default,){
+final _that = this;
+switch (_that) {
+case _VaginalStatus():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _VaginalStatus value)?  $default,){
+final _that = this;
+switch (_that) {
+case _VaginalStatus() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(unknownEnumValue: StateValue.unknown)  StateValue status,  String? note)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _VaginalStatus() when $default != null:
+return $default(_that.status,_that.note);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(unknownEnumValue: StateValue.unknown)  StateValue status,  String? note)  $default,) {final _that = this;
+switch (_that) {
+case _VaginalStatus():
+return $default(_that.status,_that.note);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(unknownEnumValue: StateValue.unknown)  StateValue status,  String? note)?  $default,) {final _that = this;
+switch (_that) {
+case _VaginalStatus() when $default != null:
+return $default(_that.status,_that.note);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _VaginalStatus implements VaginalStatus {
+   _VaginalStatus({@JsonKey(unknownEnumValue: StateValue.unknown) this.status = StateValue.normal, this.note});
+  factory _VaginalStatus.fromJson(Map<String, dynamic> json) => _$VaginalStatusFromJson(json);
+
+/// [status] represents the current vaginal status of the patient
+@override@JsonKey(unknownEnumValue: StateValue.unknown)  StateValue status;
+/// [note] in case [status] is not normal, this field can be used to provide additional details or observations about the vaginal status.
+@override  String? note;
+
+/// Create a copy of VaginalStatus
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$VaginalStatusCopyWith<_VaginalStatus> get copyWith => __$VaginalStatusCopyWithImpl<_VaginalStatus>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$VaginalStatusToJson(this, );
+}
+
+
+
+@override
+String toString() {
+  return 'VaginalStatus(status: $status, note: $note)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$VaginalStatusCopyWith<$Res> implements $VaginalStatusCopyWith<$Res> {
+  factory _$VaginalStatusCopyWith(_VaginalStatus value, $Res Function(_VaginalStatus) _then) = __$VaginalStatusCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(unknownEnumValue: StateValue.unknown) StateValue status, String? note
+});
+
+
+
+
+}
+/// @nodoc
+class __$VaginalStatusCopyWithImpl<$Res>
+    implements _$VaginalStatusCopyWith<$Res> {
+  __$VaginalStatusCopyWithImpl(this._self, this._then);
+
+  final _VaginalStatus _self;
+  final $Res Function(_VaginalStatus) _then;
+
+/// Create a copy of VaginalStatus
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? note = freezed,}) {
+  return _then(_VaginalStatus(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as StateValue,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$CervicalStatus {
+
+/// [status] represents the current cervical status of the patient
+@JsonKey(unknownEnumValue: StateValue.unknown) StateValue get status;/// [status] represents the current cervical status of the patient
+@JsonKey(unknownEnumValue: StateValue.unknown) set status(StateValue value);/// [note] in case [status] is not normal, this field can be used to provide additional details or observations about the cervical status.
+ String? get note;/// [note] in case [status] is not normal, this field can be used to provide additional details or observations about the cervical status.
+ set note(String? value);
+/// Create a copy of CervicalStatus
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CervicalStatusCopyWith<CervicalStatus> get copyWith => _$CervicalStatusCopyWithImpl<CervicalStatus>(this as CervicalStatus, _$identity);
+
+  /// Serializes this CervicalStatus to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+
+
+@override
+String toString() {
+  return 'CervicalStatus(status: $status, note: $note)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CervicalStatusCopyWith<$Res>  {
+  factory $CervicalStatusCopyWith(CervicalStatus value, $Res Function(CervicalStatus) _then) = _$CervicalStatusCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(unknownEnumValue: StateValue.unknown) StateValue status, String? note
+});
+
+
+
+
+}
+/// @nodoc
+class _$CervicalStatusCopyWithImpl<$Res>
+    implements $CervicalStatusCopyWith<$Res> {
+  _$CervicalStatusCopyWithImpl(this._self, this._then);
+
+  final CervicalStatus _self;
+  final $Res Function(CervicalStatus) _then;
+
+/// Create a copy of CervicalStatus
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? note = freezed,}) {
+  return _then(_self.copyWith(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as StateValue,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [CervicalStatus].
+extension CervicalStatusPatterns on CervicalStatus {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _CervicalStatus value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _CervicalStatus() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _CervicalStatus value)  $default,){
+final _that = this;
+switch (_that) {
+case _CervicalStatus():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _CervicalStatus value)?  $default,){
+final _that = this;
+switch (_that) {
+case _CervicalStatus() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(unknownEnumValue: StateValue.unknown)  StateValue status,  String? note)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _CervicalStatus() when $default != null:
+return $default(_that.status,_that.note);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(unknownEnumValue: StateValue.unknown)  StateValue status,  String? note)  $default,) {final _that = this;
+switch (_that) {
+case _CervicalStatus():
+return $default(_that.status,_that.note);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(unknownEnumValue: StateValue.unknown)  StateValue status,  String? note)?  $default,) {final _that = this;
+switch (_that) {
+case _CervicalStatus() when $default != null:
+return $default(_that.status,_that.note);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _CervicalStatus implements CervicalStatus {
+   _CervicalStatus({@JsonKey(unknownEnumValue: StateValue.unknown) this.status = StateValue.normal, this.note});
+  factory _CervicalStatus.fromJson(Map<String, dynamic> json) => _$CervicalStatusFromJson(json);
+
+/// [status] represents the current cervical status of the patient
+@override@JsonKey(unknownEnumValue: StateValue.unknown)  StateValue status;
+/// [note] in case [status] is not normal, this field can be used to provide additional details or observations about the cervical status.
+@override  String? note;
+
+/// Create a copy of CervicalStatus
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$CervicalStatusCopyWith<_CervicalStatus> get copyWith => __$CervicalStatusCopyWithImpl<_CervicalStatus>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CervicalStatusToJson(this, );
+}
+
+
+
+@override
+String toString() {
+  return 'CervicalStatus(status: $status, note: $note)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$CervicalStatusCopyWith<$Res> implements $CervicalStatusCopyWith<$Res> {
+  factory _$CervicalStatusCopyWith(_CervicalStatus value, $Res Function(_CervicalStatus) _then) = __$CervicalStatusCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(unknownEnumValue: StateValue.unknown) StateValue status, String? note
+});
+
+
+
+
+}
+/// @nodoc
+class __$CervicalStatusCopyWithImpl<$Res>
+    implements _$CervicalStatusCopyWith<$Res> {
+  __$CervicalStatusCopyWithImpl(this._self, this._then);
+
+  final _CervicalStatus _self;
+  final $Res Function(_CervicalStatus) _then;
+
+/// Create a copy of CervicalStatus
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? note = freezed,}) {
+  return _then(_CervicalStatus(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as StateValue,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

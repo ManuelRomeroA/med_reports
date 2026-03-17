@@ -112,13 +112,11 @@ Map<String, dynamic> _$OvaryMeasurementToJson(_OvaryMeasurement instance) =>
     };
 
 _Ovary _$OvaryFromJson(Map<String, dynamic> json) => _Ovary(
-  side:
-      $enumDecodeNullable(
-        _$OvarySideEnumMap,
-        json['side'],
-        unknownValue: OvarySide.unknown,
-      ) ??
-      OvarySide.left,
+  side: $enumDecode(
+    _$OvarySideEnumMap,
+    json['side'],
+    unknownValue: OvarySide.unknown,
+  ),
   type:
       $enumDecodeNullable(
         _$OvaryTypeEnumMap,
@@ -297,6 +295,12 @@ _ReportDraft _$ReportDraftFromJson(Map<String, dynamic> json) => _ReportDraft(
   nodules: json['nodules'] == null
       ? null
       : Nodules.fromJson(json['nodules'] as Map<String, dynamic>),
+  vaginalState: json['vaginalState'] == null
+      ? null
+      : VaginalStatus.fromJson(json['vaginalState'] as Map<String, dynamic>),
+  cervixState: json['cervixState'] == null
+      ? null
+      : CervicalStatus.fromJson(json['cervixState'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$ReportDraftToJson(_ReportDraft instance) =>
@@ -314,6 +318,8 @@ Map<String, dynamic> _$ReportDraftToJson(_ReportDraft instance) =>
       'meta': instance.meta,
       'uterineFindings': instance.uterineFindings,
       'nodules': instance.nodules,
+      'vaginalState': instance.vaginalState,
+      'cervixState': instance.cervixState,
     };
 
 _UterineFindings _$UterineFindingsFromJson(Map<String, dynamic> json) =>
@@ -406,3 +412,45 @@ const _$EndometriumAspectEnumMap = {
   EndometriumAspect.secre: 'SECRE',
   EndometriumAspect.atrof: 'ATROF',
 };
+
+_VaginalStatus _$VaginalStatusFromJson(Map<String, dynamic> json) =>
+    _VaginalStatus(
+      status:
+          $enumDecodeNullable(
+            _$StateValueEnumMap,
+            json['status'],
+            unknownValue: StateValue.unknown,
+          ) ??
+          StateValue.normal,
+      note: json['note'] as String?,
+    );
+
+Map<String, dynamic> _$VaginalStatusToJson(_VaginalStatus instance) =>
+    <String, dynamic>{
+      'status': _$StateValueEnumMap[instance.status]!,
+      'note': instance.note,
+    };
+
+const _$StateValueEnumMap = {
+  StateValue.normal: 'NORMAL',
+  StateValue.other: 'OTRO',
+  StateValue.unknown: 'DESCONOCIDO',
+};
+
+_CervicalStatus _$CervicalStatusFromJson(Map<String, dynamic> json) =>
+    _CervicalStatus(
+      status:
+          $enumDecodeNullable(
+            _$StateValueEnumMap,
+            json['status'],
+            unknownValue: StateValue.unknown,
+          ) ??
+          StateValue.normal,
+      note: json['note'] as String?,
+    );
+
+Map<String, dynamic> _$CervicalStatusToJson(_CervicalStatus instance) =>
+    <String, dynamic>{
+      'status': _$StateValueEnumMap[instance.status]!,
+      'note': instance.note,
+    };

@@ -18,6 +18,11 @@ part 'src/findings.dart';
 part 'src/report.dart';
 part 'src/report_draft.dart';
 part 'src/uterine_findings.dart';
+part 'src/vaginal_status.dart';
+part 'src/cervical_status.dart';
+
+/// enums
+part 'enums/state_value.dart';
 
 part 'models.freezed.dart';
 part 'models.g.dart';
