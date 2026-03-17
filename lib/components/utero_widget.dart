@@ -95,7 +95,9 @@ class _UteroWidgetState extends State<UteroWidget> {
                           Expanded(
                             child: ThemedTextInput(
                               labelText: "L",
-                              value: widget.draft,
+                              // value:
+                              //     widget.draft?.longitud?.toString() ??
+                              //     longitud,
                               keyboardType: TextInputType.number,
                               onChanged: (v) => setState(() => longitud = v),
                             ),

@@ -259,11 +259,41 @@ _UterineFindings _$UterineFindingsFromJson(Map<String, dynamic> json) =>
       transverse: (json['transverse'] as num?)?.toDouble(),
       other: (json['other'] as num?)?.toDouble(),
       volume: (json['volume'] as num?)?.toDouble(),
-      localization: json['localization'] as String?,
-      position: json['position'] as String?,
-      surface: json['surface'] as String?,
-      myometrium: json['myometrium'] as String?,
-      endometrium: json['endometrium'] as String?,
+      localization:
+          $enumDecodeNullable(
+            _$UterusLocalizationEnumMap,
+            json['localization'],
+            unknownValue: UterusLocalization.unknow,
+          ) ??
+          UterusLocalization.unknow,
+      position:
+          $enumDecodeNullable(
+            _$UterusPositionEnumMap,
+            json['position'],
+            unknownValue: UterusPosition.unknow,
+          ) ??
+          UterusPosition.unknow,
+      surface:
+          $enumDecodeNullable(
+            _$UterusSurfaceEnumMap,
+            json['surface'],
+            unknownValue: UterusSurface.unknow,
+          ) ??
+          UterusSurface.unknow,
+      myometrium:
+          $enumDecodeNullable(
+            _$MyometriumTypeEnumMap,
+            json['myometrium'],
+            unknownValue: MyometriumType.unknow,
+          ) ??
+          MyometriumType.unknow,
+      endometrium:
+          $enumDecodeNullable(
+            _$EndometriumAspectEnumMap,
+            json['endometrium'],
+            unknownValue: EndometriumAspect.unknow,
+          ) ??
+          EndometriumAspect.unknow,
     );
 
 Map<String, dynamic> _$UterineFindingsToJson(_UterineFindings instance) =>
@@ -273,9 +303,50 @@ Map<String, dynamic> _$UterineFindingsToJson(_UterineFindings instance) =>
       'transverse': instance.transverse,
       'other': instance.other,
       'volume': instance.volume,
-      'localization': instance.localization,
-      'position': instance.position,
-      'surface': instance.surface,
-      'myometrium': instance.myometrium,
-      'endometrium': instance.endometrium,
+      'localization': _$UterusLocalizationEnumMap[instance.localization]!,
+      'position': _$UterusPositionEnumMap[instance.position]!,
+      'surface': _$UterusSurfaceEnumMap[instance.surface]!,
+      'myometrium': _$MyometriumTypeEnumMap[instance.myometrium]!,
+      'endometrium': _$EndometriumAspectEnumMap[instance.endometrium]!,
     };
+
+const _$UterusLocalizationEnumMap = {
+  UterusLocalization.unknow: 'DESCONOCIDO',
+  UterusLocalization.anterior: 'ANTERIOR',
+  UterusLocalization.posterior: 'POSTERIOR',
+  UterusLocalization.central: 'CENTRAL',
+  UterusLocalization.lateral: 'LATERAL',
+};
+
+const _$UterusPositionEnumMap = {
+  UterusPosition.unknow: 'DESCONOCIDO',
+  UterusPosition.anteverted: 'ANTEVERTIDO',
+  UterusPosition.retroverted: 'RETROVERTIDO',
+  UterusPosition.midposition: 'POSICIÓN MEDIA',
+};
+
+const _$UterusSurfaceEnumMap = {
+  UterusSurface.unknow: 'DESCONOCIDO',
+  UterusSurface.regular: 'REGULAR',
+  UterusSurface.irregular: 'IRREGULAR',
+};
+
+const _$MyometriumTypeEnumMap = {
+  MyometriumType.unknow: 'DESCONOCIDO',
+  MyometriumType.homogeneous: 'HOMOGÉNEO',
+  MyometriumType.heterogeneous: 'HETEROGÉNEO',
+  MyometriumType.adenomyosis: 'ADENOMIOSIS',
+  MyometriumType.leiomyoma: 'LEIOMIOMA',
+  MyometriumType.other: 'OTRO',
+};
+
+const _$EndometriumAspectEnumMap = {
+  EndometriumAspect.unknow: 'DESCONOCIDO',
+  EndometriumAspect.thin: 'DELGADO',
+  EndometriumAspect.thick: 'ENGROSADO',
+  EndometriumAspect.regular: 'REGULAR',
+  EndometriumAspect.irregular: 'IRREGULAR',
+  EndometriumAspect.cystic: 'QUÍSTICO',
+  EndometriumAspect.polyp: 'PÓLIPO',
+  EndometriumAspect.other: 'OTRO',
+};
