@@ -12,9 +12,6 @@
 .swiftpm/
 migrate_working_dir/
 
-# Ensure .atl (AI/skill data) is not committed
-.atl/
-
 # IntelliJ related
 *.iml
 *.ipr
