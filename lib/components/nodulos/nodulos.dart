@@ -39,11 +39,9 @@ class _NodulesWidgetState extends State<NodulesWidget> {
               Expanded(
                 child: Text(
                   'HALLAZGOS EN MIOMETRIO (NÓDULOS)',
-                  style: TextStyle(
+                  style: theme.textTheme.titleMedium?.copyWith(
                     color: theme.colorScheme.primary,
                     fontWeight: FontWeight.bold,
-                    letterSpacing: 1,
-                    fontSize: 15,
                   ),
                 ),
               ),

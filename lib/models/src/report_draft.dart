@@ -19,9 +19,6 @@ abstract class ReportDraft with _$ReportDraft {
     /// [findings]: Clinical findings (optional).
     Findings? findings,
 
-    /// [bladder]: Optional bladder findings.
-    Bladder? bladder,
-
     /// [rightOvary]: Data for right ovary (required).
     required Ovary rightOvary,
 
@@ -48,6 +45,9 @@ abstract class ReportDraft with _$ReportDraft {
 
     /// [cervixState]: Optional cervical status.
     CervicalStatus? cervixState,
+
+    /// [bladder]: Optional bladder findings.
+    Bladder? bladder,
   }) = _ReportDraft;
 
   /// Creates ReportDraft from JSON.
@@ -56,21 +56,16 @@ abstract class ReportDraft with _$ReportDraft {
 
   static ReportDraft initObject() {
     return ReportDraft(
-      rightOvary: Ovary(
-        side: OvarySide.right,
-        measures: OvaryMeasurement(),
-      ), // Asume constructor vacío
-      leftOvary: Ovary(
-        side: OvarySide.left,
-        measures: OvaryMeasurement(),
-      ), // Asume constructor vacío
-      protocol: StudyProtocol(), // Asume constructor vacío
-      patient: Patient(), // Asume constructor vacío
-      findings: Findings(), // Asume constructor vacío
-      nodules: Nodules(), // Asume constructor vacío
+      rightOvary: Ovary(side: OvarySide.right, measures: OvaryMeasurement()),
+      leftOvary: Ovary(side: OvarySide.left, measures: OvaryMeasurement()),
+      protocol: StudyProtocol(),
+      patient: Patient(),
+      findings: Findings(),
+      nodules: Nodules(),
       uterineFindings: UterineFindings(),
-      vaginalState: VaginalStatus(), // Asume constructor vacío
-      cervixState: CervicalStatus(), // Asume constructor vacío
+      vaginalState: VaginalStatus(),
+      cervixState: CervicalStatus(),
+      bladder: Bladder(),
     );
   }
 }

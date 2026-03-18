@@ -1155,18 +1155,18 @@ $OvaryMeasurementCopyWith<$Res> get measures {
 /// @nodoc
 mixin _$Bladder {
 
-/// State of bladder wall regularity.
- Regularity get regularity;/// State of bladder wall regularity.
- set regularity(Regularity value);/// Measured bladder wall thickness in millimeters (optional).
- double? get wallMm;/// Measured bladder wall thickness in millimeters (optional).
- set wallMm(double? value);/// Status of Douglas pouch (free or occupied).
- DouglasPouch get douglasPouch;/// Status of Douglas pouch (free or occupied).
- set douglasPouch(DouglasPouch value);/// Diagnosis related to the bladder, if any (optional).
- BladderDiagnosis? get diagnosis;/// Diagnosis related to the bladder, if any (optional).
- set diagnosis(BladderDiagnosis? value);/// Ovary diagnosis contextually relevant to the bladder (optional).
- OvaryDiagnosis? get ovaryDiagnosis;/// Ovary diagnosis contextually relevant to the bladder (optional).
- set ovaryDiagnosis(OvaryDiagnosis? value);/// Free-text conclusion or imaging comment (optional).
- String? get conclusion;/// Free-text conclusion or imaging comment (optional).
+/// [regularity]: Regularity of the bladder wall (required).
+@JsonKey(unknownEnumValue: Regularity.regular) Regularity get regularity;/// [regularity]: Regularity of the bladder wall (required).
+@JsonKey(unknownEnumValue: Regularity.regular) set regularity(Regularity value);/// [douglasPouch]: Status of Douglas pouch (free or occupied).
+@JsonKey(unknownEnumValue: DouglasPouch.free) DouglasPouch get douglasPouch;/// [douglasPouch]: Status of Douglas pouch (free or occupied).
+@JsonKey(unknownEnumValue: DouglasPouch.free) set douglasPouch(DouglasPouch value);/// [diagnosis]: Diagnosis related to the bladder, if any (optional).
+@JsonKey(unknownEnumValue: BladderDiagnostic.other) BladderDiagnostic? get diagnosis;/// [diagnosis]: Diagnosis related to the bladder, if any (optional).
+@JsonKey(unknownEnumValue: BladderDiagnostic.other) set diagnosis(BladderDiagnostic? value);/// [ovaryDiagnosis]: Ovary diagnosis contextually relevant to the bladder (optional).
+@JsonKey(unknownEnumValue: OvaryDiagnostic.other) OvaryDiagnostic? get ovaryDiagnosis;/// [ovaryDiagnosis]: Ovary diagnosis contextually relevant to the bladder (optional).
+@JsonKey(unknownEnumValue: OvaryDiagnostic.other) set ovaryDiagnosis(OvaryDiagnostic? value);/// [wallMm]: Thickness of the bladder wall in millimeters (optional).
+ double? get wallMm;/// [wallMm]: Thickness of the bladder wall in millimeters (optional).
+ set wallMm(double? value);/// [conclusion]: Free-text conclusion or imaging comment (optional).
+ String? get conclusion;/// [conclusion]: Free-text conclusion or imaging comment (optional).
  set conclusion(String? value);
 /// Create a copy of Bladder
 /// with the given fields replaced by the non-null parameter values.
@@ -1182,7 +1182,7 @@ $BladderCopyWith<Bladder> get copyWith => _$BladderCopyWithImpl<Bladder>(this as
 
 @override
 String toString() {
-  return 'Bladder(regularity: $regularity, wallMm: $wallMm, douglasPouch: $douglasPouch, diagnosis: $diagnosis, ovaryDiagnosis: $ovaryDiagnosis, conclusion: $conclusion)';
+  return 'Bladder(regularity: $regularity, douglasPouch: $douglasPouch, diagnosis: $diagnosis, ovaryDiagnosis: $ovaryDiagnosis, wallMm: $wallMm, conclusion: $conclusion)';
 }
 
 
@@ -1193,7 +1193,7 @@ abstract mixin class $BladderCopyWith<$Res>  {
   factory $BladderCopyWith(Bladder value, $Res Function(Bladder) _then) = _$BladderCopyWithImpl;
 @useResult
 $Res call({
- Regularity regularity, double? wallMm, DouglasPouch douglasPouch, BladderDiagnosis? diagnosis, OvaryDiagnosis? ovaryDiagnosis, String? conclusion
+@JsonKey(unknownEnumValue: Regularity.regular) Regularity regularity,@JsonKey(unknownEnumValue: DouglasPouch.free) DouglasPouch douglasPouch,@JsonKey(unknownEnumValue: BladderDiagnostic.other) BladderDiagnostic? diagnosis,@JsonKey(unknownEnumValue: OvaryDiagnostic.other) OvaryDiagnostic? ovaryDiagnosis, double? wallMm, String? conclusion
 });
 
 
@@ -1210,14 +1210,14 @@ class _$BladderCopyWithImpl<$Res>
 
 /// Create a copy of Bladder
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? regularity = null,Object? wallMm = freezed,Object? douglasPouch = null,Object? diagnosis = freezed,Object? ovaryDiagnosis = freezed,Object? conclusion = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? regularity = null,Object? douglasPouch = null,Object? diagnosis = freezed,Object? ovaryDiagnosis = freezed,Object? wallMm = freezed,Object? conclusion = freezed,}) {
   return _then(_self.copyWith(
 regularity: null == regularity ? _self.regularity : regularity // ignore: cast_nullable_to_non_nullable
-as Regularity,wallMm: freezed == wallMm ? _self.wallMm : wallMm // ignore: cast_nullable_to_non_nullable
-as double?,douglasPouch: null == douglasPouch ? _self.douglasPouch : douglasPouch // ignore: cast_nullable_to_non_nullable
+as Regularity,douglasPouch: null == douglasPouch ? _self.douglasPouch : douglasPouch // ignore: cast_nullable_to_non_nullable
 as DouglasPouch,diagnosis: freezed == diagnosis ? _self.diagnosis : diagnosis // ignore: cast_nullable_to_non_nullable
-as BladderDiagnosis?,ovaryDiagnosis: freezed == ovaryDiagnosis ? _self.ovaryDiagnosis : ovaryDiagnosis // ignore: cast_nullable_to_non_nullable
-as OvaryDiagnosis?,conclusion: freezed == conclusion ? _self.conclusion : conclusion // ignore: cast_nullable_to_non_nullable
+as BladderDiagnostic?,ovaryDiagnosis: freezed == ovaryDiagnosis ? _self.ovaryDiagnosis : ovaryDiagnosis // ignore: cast_nullable_to_non_nullable
+as OvaryDiagnostic?,wallMm: freezed == wallMm ? _self.wallMm : wallMm // ignore: cast_nullable_to_non_nullable
+as double?,conclusion: freezed == conclusion ? _self.conclusion : conclusion // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -1303,10 +1303,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Regularity regularity,  double? wallMm,  DouglasPouch douglasPouch,  BladderDiagnosis? diagnosis,  OvaryDiagnosis? ovaryDiagnosis,  String? conclusion)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(unknownEnumValue: Regularity.regular)  Regularity regularity, @JsonKey(unknownEnumValue: DouglasPouch.free)  DouglasPouch douglasPouch, @JsonKey(unknownEnumValue: BladderDiagnostic.other)  BladderDiagnostic? diagnosis, @JsonKey(unknownEnumValue: OvaryDiagnostic.other)  OvaryDiagnostic? ovaryDiagnosis,  double? wallMm,  String? conclusion)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Bladder() when $default != null:
-return $default(_that.regularity,_that.wallMm,_that.douglasPouch,_that.diagnosis,_that.ovaryDiagnosis,_that.conclusion);case _:
+return $default(_that.regularity,_that.douglasPouch,_that.diagnosis,_that.ovaryDiagnosis,_that.wallMm,_that.conclusion);case _:
   return orElse();
 
 }
@@ -1324,10 +1324,10 @@ return $default(_that.regularity,_that.wallMm,_that.douglasPouch,_that.diagnosis
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Regularity regularity,  double? wallMm,  DouglasPouch douglasPouch,  BladderDiagnosis? diagnosis,  OvaryDiagnosis? ovaryDiagnosis,  String? conclusion)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(unknownEnumValue: Regularity.regular)  Regularity regularity, @JsonKey(unknownEnumValue: DouglasPouch.free)  DouglasPouch douglasPouch, @JsonKey(unknownEnumValue: BladderDiagnostic.other)  BladderDiagnostic? diagnosis, @JsonKey(unknownEnumValue: OvaryDiagnostic.other)  OvaryDiagnostic? ovaryDiagnosis,  double? wallMm,  String? conclusion)  $default,) {final _that = this;
 switch (_that) {
 case _Bladder():
-return $default(_that.regularity,_that.wallMm,_that.douglasPouch,_that.diagnosis,_that.ovaryDiagnosis,_that.conclusion);case _:
+return $default(_that.regularity,_that.douglasPouch,_that.diagnosis,_that.ovaryDiagnosis,_that.wallMm,_that.conclusion);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1344,10 +1344,10 @@ return $default(_that.regularity,_that.wallMm,_that.douglasPouch,_that.diagnosis
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Regularity regularity,  double? wallMm,  DouglasPouch douglasPouch,  BladderDiagnosis? diagnosis,  OvaryDiagnosis? ovaryDiagnosis,  String? conclusion)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(unknownEnumValue: Regularity.regular)  Regularity regularity, @JsonKey(unknownEnumValue: DouglasPouch.free)  DouglasPouch douglasPouch, @JsonKey(unknownEnumValue: BladderDiagnostic.other)  BladderDiagnostic? diagnosis, @JsonKey(unknownEnumValue: OvaryDiagnostic.other)  OvaryDiagnostic? ovaryDiagnosis,  double? wallMm,  String? conclusion)?  $default,) {final _that = this;
 switch (_that) {
 case _Bladder() when $default != null:
-return $default(_that.regularity,_that.wallMm,_that.douglasPouch,_that.diagnosis,_that.ovaryDiagnosis,_that.conclusion);case _:
+return $default(_that.regularity,_that.douglasPouch,_that.diagnosis,_that.ovaryDiagnosis,_that.wallMm,_that.conclusion);case _:
   return null;
 
 }
@@ -1359,20 +1359,20 @@ return $default(_that.regularity,_that.wallMm,_that.douglasPouch,_that.diagnosis
 @JsonSerializable()
 
 class _Bladder implements Bladder {
-   _Bladder({required this.regularity, this.wallMm, required this.douglasPouch, this.diagnosis, this.ovaryDiagnosis, this.conclusion});
+   _Bladder({@JsonKey(unknownEnumValue: Regularity.regular) this.regularity = Regularity.regular, @JsonKey(unknownEnumValue: DouglasPouch.free) this.douglasPouch = DouglasPouch.free, @JsonKey(unknownEnumValue: BladderDiagnostic.other) this.diagnosis = BladderDiagnostic.other, @JsonKey(unknownEnumValue: OvaryDiagnostic.other) this.ovaryDiagnosis = OvaryDiagnostic.other, this.wallMm, this.conclusion});
   factory _Bladder.fromJson(Map<String, dynamic> json) => _$BladderFromJson(json);
 
-/// State of bladder wall regularity.
-@override  Regularity regularity;
-/// Measured bladder wall thickness in millimeters (optional).
+/// [regularity]: Regularity of the bladder wall (required).
+@override@JsonKey(unknownEnumValue: Regularity.regular)  Regularity regularity;
+/// [douglasPouch]: Status of Douglas pouch (free or occupied).
+@override@JsonKey(unknownEnumValue: DouglasPouch.free)  DouglasPouch douglasPouch;
+/// [diagnosis]: Diagnosis related to the bladder, if any (optional).
+@override@JsonKey(unknownEnumValue: BladderDiagnostic.other)  BladderDiagnostic? diagnosis;
+/// [ovaryDiagnosis]: Ovary diagnosis contextually relevant to the bladder (optional).
+@override@JsonKey(unknownEnumValue: OvaryDiagnostic.other)  OvaryDiagnostic? ovaryDiagnosis;
+/// [wallMm]: Thickness of the bladder wall in millimeters (optional).
 @override  double? wallMm;
-/// Status of Douglas pouch (free or occupied).
-@override  DouglasPouch douglasPouch;
-/// Diagnosis related to the bladder, if any (optional).
-@override  BladderDiagnosis? diagnosis;
-/// Ovary diagnosis contextually relevant to the bladder (optional).
-@override  OvaryDiagnosis? ovaryDiagnosis;
-/// Free-text conclusion or imaging comment (optional).
+/// [conclusion]: Free-text conclusion or imaging comment (optional).
 @override  String? conclusion;
 
 /// Create a copy of Bladder
@@ -1390,7 +1390,7 @@ Map<String, dynamic> toJson() {
 
 @override
 String toString() {
-  return 'Bladder(regularity: $regularity, wallMm: $wallMm, douglasPouch: $douglasPouch, diagnosis: $diagnosis, ovaryDiagnosis: $ovaryDiagnosis, conclusion: $conclusion)';
+  return 'Bladder(regularity: $regularity, douglasPouch: $douglasPouch, diagnosis: $diagnosis, ovaryDiagnosis: $ovaryDiagnosis, wallMm: $wallMm, conclusion: $conclusion)';
 }
 
 
@@ -1401,7 +1401,7 @@ abstract mixin class _$BladderCopyWith<$Res> implements $BladderCopyWith<$Res> {
   factory _$BladderCopyWith(_Bladder value, $Res Function(_Bladder) _then) = __$BladderCopyWithImpl;
 @override @useResult
 $Res call({
- Regularity regularity, double? wallMm, DouglasPouch douglasPouch, BladderDiagnosis? diagnosis, OvaryDiagnosis? ovaryDiagnosis, String? conclusion
+@JsonKey(unknownEnumValue: Regularity.regular) Regularity regularity,@JsonKey(unknownEnumValue: DouglasPouch.free) DouglasPouch douglasPouch,@JsonKey(unknownEnumValue: BladderDiagnostic.other) BladderDiagnostic? diagnosis,@JsonKey(unknownEnumValue: OvaryDiagnostic.other) OvaryDiagnostic? ovaryDiagnosis, double? wallMm, String? conclusion
 });
 
 
@@ -1418,14 +1418,14 @@ class __$BladderCopyWithImpl<$Res>
 
 /// Create a copy of Bladder
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? regularity = null,Object? wallMm = freezed,Object? douglasPouch = null,Object? diagnosis = freezed,Object? ovaryDiagnosis = freezed,Object? conclusion = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? regularity = null,Object? douglasPouch = null,Object? diagnosis = freezed,Object? ovaryDiagnosis = freezed,Object? wallMm = freezed,Object? conclusion = freezed,}) {
   return _then(_Bladder(
 regularity: null == regularity ? _self.regularity : regularity // ignore: cast_nullable_to_non_nullable
-as Regularity,wallMm: freezed == wallMm ? _self.wallMm : wallMm // ignore: cast_nullable_to_non_nullable
-as double?,douglasPouch: null == douglasPouch ? _self.douglasPouch : douglasPouch // ignore: cast_nullable_to_non_nullable
+as Regularity,douglasPouch: null == douglasPouch ? _self.douglasPouch : douglasPouch // ignore: cast_nullable_to_non_nullable
 as DouglasPouch,diagnosis: freezed == diagnosis ? _self.diagnosis : diagnosis // ignore: cast_nullable_to_non_nullable
-as BladderDiagnosis?,ovaryDiagnosis: freezed == ovaryDiagnosis ? _self.ovaryDiagnosis : ovaryDiagnosis // ignore: cast_nullable_to_non_nullable
-as OvaryDiagnosis?,conclusion: freezed == conclusion ? _self.conclusion : conclusion // ignore: cast_nullable_to_non_nullable
+as BladderDiagnostic?,ovaryDiagnosis: freezed == ovaryDiagnosis ? _self.ovaryDiagnosis : ovaryDiagnosis // ignore: cast_nullable_to_non_nullable
+as OvaryDiagnostic?,wallMm: freezed == wallMm ? _self.wallMm : wallMm // ignore: cast_nullable_to_non_nullable
+as double?,conclusion: freezed == conclusion ? _self.conclusion : conclusion // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -2605,9 +2605,7 @@ mixin _$ReportDraft {
  StudyProtocol? get protocol;/// [protocol]: Study protocol data (optional).
  set protocol(StudyProtocol? value);/// [findings]: Clinical findings (optional).
  Findings? get findings;/// [findings]: Clinical findings (optional).
- set findings(Findings? value);/// [bladder]: Optional bladder findings.
- Bladder? get bladder;/// [bladder]: Optional bladder findings.
- set bladder(Bladder? value);/// [rightOvary]: Data for right ovary (required).
+ set findings(Findings? value);/// [rightOvary]: Data for right ovary (required).
  Ovary get rightOvary;/// [rightOvary]: Data for right ovary (required).
  set rightOvary(Ovary value);/// [leftOvary]: Data for left ovary (required).
  Ovary get leftOvary;/// [leftOvary]: Data for left ovary (required).
@@ -2625,7 +2623,9 @@ mixin _$ReportDraft {
  VaginalStatus? get vaginalState;/// [vaginalState]: Optional vaginal status.
  set vaginalState(VaginalStatus? value);/// [cervixState]: Optional cervical status.
  CervicalStatus? get cervixState;/// [cervixState]: Optional cervical status.
- set cervixState(CervicalStatus? value);
+ set cervixState(CervicalStatus? value);/// [bladder]: Optional bladder findings.
+ Bladder? get bladder;/// [bladder]: Optional bladder findings.
+ set bladder(Bladder? value);
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2640,7 +2640,7 @@ $ReportDraftCopyWith<ReportDraft> get copyWith => _$ReportDraftCopyWithImpl<Repo
 
 @override
 String toString() {
-  return 'ReportDraft(id: $id, createdAt: $createdAt, patient: $patient, protocol: $protocol, findings: $findings, bladder: $bladder, rightOvary: $rightOvary, leftOvary: $leftOvary, doctor: $doctor, clinic: $clinic, meta: $meta, uterineFindings: $uterineFindings, nodules: $nodules, vaginalState: $vaginalState, cervixState: $cervixState)';
+  return 'ReportDraft(id: $id, createdAt: $createdAt, patient: $patient, protocol: $protocol, findings: $findings, rightOvary: $rightOvary, leftOvary: $leftOvary, doctor: $doctor, clinic: $clinic, meta: $meta, uterineFindings: $uterineFindings, nodules: $nodules, vaginalState: $vaginalState, cervixState: $cervixState, bladder: $bladder)';
 }
 
 
@@ -2651,11 +2651,11 @@ abstract mixin class $ReportDraftCopyWith<$Res>  {
   factory $ReportDraftCopyWith(ReportDraft value, $Res Function(ReportDraft) _then) = _$ReportDraftCopyWithImpl;
 @useResult
 $Res call({
- String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta, UterineFindings? uterineFindings, Nodules? nodules, VaginalStatus? vaginalState, CervicalStatus? cervixState
+ String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta, UterineFindings? uterineFindings, Nodules? nodules, VaginalStatus? vaginalState, CervicalStatus? cervixState, Bladder? bladder
 });
 
 
-$PatientCopyWith<$Res>? get patient;$StudyProtocolCopyWith<$Res>? get protocol;$FindingsCopyWith<$Res>? get findings;$BladderCopyWith<$Res>? get bladder;$OvaryCopyWith<$Res> get rightOvary;$OvaryCopyWith<$Res> get leftOvary;$UterineFindingsCopyWith<$Res>? get uterineFindings;$NodulesCopyWith<$Res>? get nodules;$VaginalStatusCopyWith<$Res>? get vaginalState;$CervicalStatusCopyWith<$Res>? get cervixState;
+$PatientCopyWith<$Res>? get patient;$StudyProtocolCopyWith<$Res>? get protocol;$FindingsCopyWith<$Res>? get findings;$OvaryCopyWith<$Res> get rightOvary;$OvaryCopyWith<$Res> get leftOvary;$UterineFindingsCopyWith<$Res>? get uterineFindings;$NodulesCopyWith<$Res>? get nodules;$VaginalStatusCopyWith<$Res>? get vaginalState;$CervicalStatusCopyWith<$Res>? get cervixState;$BladderCopyWith<$Res>? get bladder;
 
 }
 /// @nodoc
@@ -2668,15 +2668,14 @@ class _$ReportDraftCopyWithImpl<$Res>
 
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,Object? uterineFindings = freezed,Object? nodules = freezed,Object? vaginalState = freezed,Object? cervixState = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,Object? uterineFindings = freezed,Object? nodules = freezed,Object? vaginalState = freezed,Object? cervixState = freezed,Object? bladder = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,patient: freezed == patient ? _self.patient : patient // ignore: cast_nullable_to_non_nullable
 as Patient?,protocol: freezed == protocol ? _self.protocol : protocol // ignore: cast_nullable_to_non_nullable
 as StudyProtocol?,findings: freezed == findings ? _self.findings : findings // ignore: cast_nullable_to_non_nullable
-as Findings?,bladder: freezed == bladder ? _self.bladder : bladder // ignore: cast_nullable_to_non_nullable
-as Bladder?,rightOvary: null == rightOvary ? _self.rightOvary : rightOvary // ignore: cast_nullable_to_non_nullable
+as Findings?,rightOvary: null == rightOvary ? _self.rightOvary : rightOvary // ignore: cast_nullable_to_non_nullable
 as Ovary,leftOvary: null == leftOvary ? _self.leftOvary : leftOvary // ignore: cast_nullable_to_non_nullable
 as Ovary,doctor: freezed == doctor ? _self.doctor : doctor // ignore: cast_nullable_to_non_nullable
 as String?,clinic: freezed == clinic ? _self.clinic : clinic // ignore: cast_nullable_to_non_nullable
@@ -2685,7 +2684,8 @@ as Map<String, dynamic>?,uterineFindings: freezed == uterineFindings ? _self.ute
 as UterineFindings?,nodules: freezed == nodules ? _self.nodules : nodules // ignore: cast_nullable_to_non_nullable
 as Nodules?,vaginalState: freezed == vaginalState ? _self.vaginalState : vaginalState // ignore: cast_nullable_to_non_nullable
 as VaginalStatus?,cervixState: freezed == cervixState ? _self.cervixState : cervixState // ignore: cast_nullable_to_non_nullable
-as CervicalStatus?,
+as CervicalStatus?,bladder: freezed == bladder ? _self.bladder : bladder // ignore: cast_nullable_to_non_nullable
+as Bladder?,
   ));
 }
 /// Create a copy of ReportDraft
@@ -2723,18 +2723,6 @@ $FindingsCopyWith<$Res>? get findings {
 
   return $FindingsCopyWith<$Res>(_self.findings!, (value) {
     return _then(_self.copyWith(findings: value));
-  });
-}/// Create a copy of ReportDraft
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$BladderCopyWith<$Res>? get bladder {
-    if (_self.bladder == null) {
-    return null;
-  }
-
-  return $BladderCopyWith<$Res>(_self.bladder!, (value) {
-    return _then(_self.copyWith(bladder: value));
   });
 }/// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
@@ -2801,6 +2789,18 @@ $CervicalStatusCopyWith<$Res>? get cervixState {
 
   return $CervicalStatusCopyWith<$Res>(_self.cervixState!, (value) {
     return _then(_self.copyWith(cervixState: value));
+  });
+}/// Create a copy of ReportDraft
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BladderCopyWith<$Res>? get bladder {
+    if (_self.bladder == null) {
+    return null;
+  }
+
+  return $BladderCopyWith<$Res>(_self.bladder!, (value) {
+    return _then(_self.copyWith(bladder: value));
   });
 }
 }
@@ -2884,10 +2884,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings,  Nodules? nodules,  VaginalStatus? vaginalState,  CervicalStatus? cervixState)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings,  Nodules? nodules,  VaginalStatus? vaginalState,  CervicalStatus? cervixState,  Bladder? bladder)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ReportDraft() when $default != null:
-return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings,_that.nodules,_that.vaginalState,_that.cervixState);case _:
+return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings,_that.nodules,_that.vaginalState,_that.cervixState,_that.bladder);case _:
   return orElse();
 
 }
@@ -2905,10 +2905,10 @@ return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.find
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings,  Nodules? nodules,  VaginalStatus? vaginalState,  CervicalStatus? cervixState)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings,  Nodules? nodules,  VaginalStatus? vaginalState,  CervicalStatus? cervixState,  Bladder? bladder)  $default,) {final _that = this;
 switch (_that) {
 case _ReportDraft():
-return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings,_that.nodules,_that.vaginalState,_that.cervixState);case _:
+return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings,_that.nodules,_that.vaginalState,_that.cervixState,_that.bladder);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2925,10 +2925,10 @@ return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.find
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Bladder? bladder,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings,  Nodules? nodules,  VaginalStatus? vaginalState,  CervicalStatus? cervixState)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  DateTime? createdAt,  Patient? patient,  StudyProtocol? protocol,  Findings? findings,  Ovary rightOvary,  Ovary leftOvary,  String? doctor,  String? clinic,  Map<String, dynamic>? meta,  UterineFindings? uterineFindings,  Nodules? nodules,  VaginalStatus? vaginalState,  CervicalStatus? cervixState,  Bladder? bladder)?  $default,) {final _that = this;
 switch (_that) {
 case _ReportDraft() when $default != null:
-return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.bladder,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings,_that.nodules,_that.vaginalState,_that.cervixState);case _:
+return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.findings,_that.rightOvary,_that.leftOvary,_that.doctor,_that.clinic,_that.meta,_that.uterineFindings,_that.nodules,_that.vaginalState,_that.cervixState,_that.bladder);case _:
   return null;
 
 }
@@ -2940,7 +2940,7 @@ return $default(_that.id,_that.createdAt,_that.patient,_that.protocol,_that.find
 @JsonSerializable()
 
 class _ReportDraft implements ReportDraft {
-   _ReportDraft({this.id, this.createdAt, this.patient, this.protocol, this.findings, this.bladder, required this.rightOvary, required this.leftOvary, this.doctor, this.clinic, this.meta, this.uterineFindings, this.nodules, this.vaginalState, this.cervixState});
+   _ReportDraft({this.id, this.createdAt, this.patient, this.protocol, this.findings, required this.rightOvary, required this.leftOvary, this.doctor, this.clinic, this.meta, this.uterineFindings, this.nodules, this.vaginalState, this.cervixState, this.bladder});
   factory _ReportDraft.fromJson(Map<String, dynamic> json) => _$ReportDraftFromJson(json);
 
 /// [id]: Draft unique identifier (optional).
@@ -2953,8 +2953,6 @@ class _ReportDraft implements ReportDraft {
 @override  StudyProtocol? protocol;
 /// [findings]: Clinical findings (optional).
 @override  Findings? findings;
-/// [bladder]: Optional bladder findings.
-@override  Bladder? bladder;
 /// [rightOvary]: Data for right ovary (required).
 @override  Ovary rightOvary;
 /// [leftOvary]: Data for left ovary (required).
@@ -2973,6 +2971,8 @@ class _ReportDraft implements ReportDraft {
 @override  VaginalStatus? vaginalState;
 /// [cervixState]: Optional cervical status.
 @override  CervicalStatus? cervixState;
+/// [bladder]: Optional bladder findings.
+@override  Bladder? bladder;
 
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
@@ -2989,7 +2989,7 @@ Map<String, dynamic> toJson() {
 
 @override
 String toString() {
-  return 'ReportDraft(id: $id, createdAt: $createdAt, patient: $patient, protocol: $protocol, findings: $findings, bladder: $bladder, rightOvary: $rightOvary, leftOvary: $leftOvary, doctor: $doctor, clinic: $clinic, meta: $meta, uterineFindings: $uterineFindings, nodules: $nodules, vaginalState: $vaginalState, cervixState: $cervixState)';
+  return 'ReportDraft(id: $id, createdAt: $createdAt, patient: $patient, protocol: $protocol, findings: $findings, rightOvary: $rightOvary, leftOvary: $leftOvary, doctor: $doctor, clinic: $clinic, meta: $meta, uterineFindings: $uterineFindings, nodules: $nodules, vaginalState: $vaginalState, cervixState: $cervixState, bladder: $bladder)';
 }
 
 
@@ -3000,11 +3000,11 @@ abstract mixin class _$ReportDraftCopyWith<$Res> implements $ReportDraftCopyWith
   factory _$ReportDraftCopyWith(_ReportDraft value, $Res Function(_ReportDraft) _then) = __$ReportDraftCopyWithImpl;
 @override @useResult
 $Res call({
- String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Bladder? bladder, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta, UterineFindings? uterineFindings, Nodules? nodules, VaginalStatus? vaginalState, CervicalStatus? cervixState
+ String? id, DateTime? createdAt, Patient? patient, StudyProtocol? protocol, Findings? findings, Ovary rightOvary, Ovary leftOvary, String? doctor, String? clinic, Map<String, dynamic>? meta, UterineFindings? uterineFindings, Nodules? nodules, VaginalStatus? vaginalState, CervicalStatus? cervixState, Bladder? bladder
 });
 
 
-@override $PatientCopyWith<$Res>? get patient;@override $StudyProtocolCopyWith<$Res>? get protocol;@override $FindingsCopyWith<$Res>? get findings;@override $BladderCopyWith<$Res>? get bladder;@override $OvaryCopyWith<$Res> get rightOvary;@override $OvaryCopyWith<$Res> get leftOvary;@override $UterineFindingsCopyWith<$Res>? get uterineFindings;@override $NodulesCopyWith<$Res>? get nodules;@override $VaginalStatusCopyWith<$Res>? get vaginalState;@override $CervicalStatusCopyWith<$Res>? get cervixState;
+@override $PatientCopyWith<$Res>? get patient;@override $StudyProtocolCopyWith<$Res>? get protocol;@override $FindingsCopyWith<$Res>? get findings;@override $OvaryCopyWith<$Res> get rightOvary;@override $OvaryCopyWith<$Res> get leftOvary;@override $UterineFindingsCopyWith<$Res>? get uterineFindings;@override $NodulesCopyWith<$Res>? get nodules;@override $VaginalStatusCopyWith<$Res>? get vaginalState;@override $CervicalStatusCopyWith<$Res>? get cervixState;@override $BladderCopyWith<$Res>? get bladder;
 
 }
 /// @nodoc
@@ -3017,15 +3017,14 @@ class __$ReportDraftCopyWithImpl<$Res>
 
 /// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? bladder = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,Object? uterineFindings = freezed,Object? nodules = freezed,Object? vaginalState = freezed,Object? cervixState = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? createdAt = freezed,Object? patient = freezed,Object? protocol = freezed,Object? findings = freezed,Object? rightOvary = null,Object? leftOvary = null,Object? doctor = freezed,Object? clinic = freezed,Object? meta = freezed,Object? uterineFindings = freezed,Object? nodules = freezed,Object? vaginalState = freezed,Object? cervixState = freezed,Object? bladder = freezed,}) {
   return _then(_ReportDraft(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,patient: freezed == patient ? _self.patient : patient // ignore: cast_nullable_to_non_nullable
 as Patient?,protocol: freezed == protocol ? _self.protocol : protocol // ignore: cast_nullable_to_non_nullable
 as StudyProtocol?,findings: freezed == findings ? _self.findings : findings // ignore: cast_nullable_to_non_nullable
-as Findings?,bladder: freezed == bladder ? _self.bladder : bladder // ignore: cast_nullable_to_non_nullable
-as Bladder?,rightOvary: null == rightOvary ? _self.rightOvary : rightOvary // ignore: cast_nullable_to_non_nullable
+as Findings?,rightOvary: null == rightOvary ? _self.rightOvary : rightOvary // ignore: cast_nullable_to_non_nullable
 as Ovary,leftOvary: null == leftOvary ? _self.leftOvary : leftOvary // ignore: cast_nullable_to_non_nullable
 as Ovary,doctor: freezed == doctor ? _self.doctor : doctor // ignore: cast_nullable_to_non_nullable
 as String?,clinic: freezed == clinic ? _self.clinic : clinic // ignore: cast_nullable_to_non_nullable
@@ -3034,7 +3033,8 @@ as Map<String, dynamic>?,uterineFindings: freezed == uterineFindings ? _self.ute
 as UterineFindings?,nodules: freezed == nodules ? _self.nodules : nodules // ignore: cast_nullable_to_non_nullable
 as Nodules?,vaginalState: freezed == vaginalState ? _self.vaginalState : vaginalState // ignore: cast_nullable_to_non_nullable
 as VaginalStatus?,cervixState: freezed == cervixState ? _self.cervixState : cervixState // ignore: cast_nullable_to_non_nullable
-as CervicalStatus?,
+as CervicalStatus?,bladder: freezed == bladder ? _self.bladder : bladder // ignore: cast_nullable_to_non_nullable
+as Bladder?,
   ));
 }
 
@@ -3073,18 +3073,6 @@ $FindingsCopyWith<$Res>? get findings {
 
   return $FindingsCopyWith<$Res>(_self.findings!, (value) {
     return _then(_self.copyWith(findings: value));
-  });
-}/// Create a copy of ReportDraft
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$BladderCopyWith<$Res>? get bladder {
-    if (_self.bladder == null) {
-    return null;
-  }
-
-  return $BladderCopyWith<$Res>(_self.bladder!, (value) {
-    return _then(_self.copyWith(bladder: value));
   });
 }/// Create a copy of ReportDraft
 /// with the given fields replaced by the non-null parameter values.
@@ -3151,6 +3139,18 @@ $CervicalStatusCopyWith<$Res>? get cervixState {
 
   return $CervicalStatusCopyWith<$Res>(_self.cervixState!, (value) {
     return _then(_self.copyWith(cervixState: value));
+  });
+}/// Create a copy of ReportDraft
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BladderCopyWith<$Res>? get bladder {
+    if (_self.bladder == null) {
+    return null;
+  }
+
+  return $BladderCopyWith<$Res>(_self.bladder!, (value) {
+    return _then(_self.copyWith(bladder: value));
   });
 }
 }

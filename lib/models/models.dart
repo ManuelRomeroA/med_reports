@@ -23,6 +23,9 @@ part 'src/cervical_status.dart';
 
 /// enums
 part 'enums/state_value.dart';
+part 'enums/bladder_diagnostic.dart';
+part 'enums/ovary_diagnostic.dart';
+part 'enums/regularity.dart';
 
 part 'models.freezed.dart';
 part 'models.g.dart';

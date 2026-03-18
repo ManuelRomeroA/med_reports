@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:layrz_theme/layrz_theme.dart';
 import 'package:med_reports/components/general/selected_button.dart';
 import 'package:med_reports/main.dart';
 import 'package:med_reports/models/models.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class BladderWidget extends StatefulWidget {
   final ReportDraft draft;
@@ -15,13 +20,6 @@ class BladderWidget extends StatefulWidget {
 class _BladderWidgetState extends State<BladderWidget> {
   @override
   Widget build(BuildContext context) {
-    widget.draft.bladder ??= Bladder(
-      regularity: Regularity.regular,
-      wallMm: 0.0,
-      douglasPouch: DouglasPouch.free,
-      diagnosis: BladderDiagnosis.normal,
-      ovaryDiagnosis: OvaryDiagnosis.normales,
-    );
     final theme = Theme.of(context);
 
     return Container(
@@ -44,11 +42,9 @@ class _BladderWidgetState extends State<BladderWidget> {
               const SizedBox(width: 8),
               Text(
                 "VEJIGA",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                style: theme.textTheme.titleMedium?.copyWith(
                   color: theme.colorScheme.primary,
-                  fontSize: 16,
-                  letterSpacing: 1,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
@@ -59,13 +55,13 @@ class _BladderWidgetState extends State<BladderWidget> {
 
           // Regularidad
           Row(
-            children: [Regularity.regular, Regularity.irregular].map((reg) {
+            children: Regularity.values.map((reg) {
               final selected = widget.draft.bladder?.regularity == reg;
               return Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: SelectedButton(
-                    label: reg == Regularity.regular ? "REGULAR" : "IRREGULAR",
+                    label: reg.toString(),
                     selected: selected,
                     selectedColor: kCafeVinoOscuro,
                     onTap: () {
@@ -79,12 +75,14 @@ class _BladderWidgetState extends State<BladderWidget> {
           const SizedBox(height: 18),
 
           // Pared
-          ThemedTextInput(
-            value: widget.draft.bladder?.wallMm?.toString() ?? "",
+          ThemedNumberInput(
             labelText: "PARED (MM)",
+            value: widget.draft.bladder?.wallMm,
             keyboardType: TextInputType.number,
+            hidePrefixSuffixActions: true,
             onChanged: (value) {
-              widget.draft.bladder?.wallMm = double.tryParse(value);
+              if (value == null) return;
+              widget.draft.bladder?.wallMm = value.toDouble();
               setState(() {});
             },
           ),
@@ -93,24 +91,23 @@ class _BladderWidgetState extends State<BladderWidget> {
           // Fondo de saco Douglas
           Text(
             "FONDO DE SACO DOUGLAS",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            style: theme.textTheme.titleMedium?.copyWith(
               color: theme.colorScheme.primary.withValues(alpha: 0.7),
-              fontSize: 13,
-              letterSpacing: 1,
+
+              fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 8),
           Divider(color: theme.colorScheme.primary.withValues(alpha: 0.15)),
           const SizedBox(height: 12),
           Row(
-            children: [DouglasPouch.free, DouglasPouch.occupied].map((pouch) {
+            children: DouglasPouch.values.map((pouch) {
               final selected = widget.draft.bladder?.douglasPouch == pouch;
               return Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: SelectedButton(
-                    label: pouch == DouglasPouch.free ? "LIBRE" : "OCUPADO",
+                    label: pouch.toString(),
                     selected: selected,
                     selectedColor: kCafeVinoOscuro,
                     onTap: () {
@@ -136,11 +133,9 @@ class _BladderWidgetState extends State<BladderWidget> {
               const SizedBox(width: 8),
               Text(
                 "SUGESTIVO DE",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                style: theme.textTheme.titleMedium?.copyWith(
                   color: theme.colorScheme.primary.withValues(alpha: 0.7),
-                  fontSize: 13,
-                  letterSpacing: 1,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
@@ -162,26 +157,14 @@ class _BladderWidgetState extends State<BladderWidget> {
                 // Diagnóstico útero
                 Text(
                   "DIAGNÓSTICO ÚTERO",
-                  style: TextStyle(
+                  style: theme.textTheme.titleSmall?.copyWith(
                     color: theme.colorScheme.primary.withValues(alpha: 0.7),
                     fontWeight: FontWeight.bold,
-                    fontSize: 12,
                   ),
                 ),
                 const SizedBox(height: 6),
-                DropdownButtonFormField<BladderDiagnosis>(
+                DropdownButtonFormField<BladderDiagnostic>(
                   initialValue: widget.draft.bladder?.diagnosis,
-                  items: BladderDiagnosis.values
-                      .map(
-                        (d) => DropdownMenuItem(
-                          value: d,
-                          child: Text(d.name.toUpperCase()),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (value) => setState(() {
-                    widget.draft.bladder?.diagnosis = value;
-                  }),
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(borderSide: BorderSide.none),
                     filled: true,
@@ -191,28 +174,38 @@ class _BladderWidgetState extends State<BladderWidget> {
                       vertical: 8,
                     ),
                   ),
+                  items: BladderDiagnostic.values
+                      .map(
+                        (d) => DropdownMenuItem(
+                          value: d,
+                          child: Text(d.toString()),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (value) => setState(() {
+                    widget.draft.bladder?.diagnosis = value;
+                  }),
                 ),
                 const SizedBox(height: 16),
 
                 // Diagnóstico ovarios
                 Text(
                   "DIAGNÓSTICO OVARIOS",
-                  style: TextStyle(
+                  style: theme.textTheme.titleSmall?.copyWith(
                     color: theme.colorScheme.primary.withValues(alpha: 0.7),
                     fontWeight: FontWeight.bold,
-                    fontSize: 12,
                   ),
                 ),
                 const SizedBox(height: 6),
                 Row(
-                  children: OvaryDiagnosis.values.map((diag) {
+                  children: OvaryDiagnostic.values.map((diag) {
                     final selected =
                         widget.draft.bladder?.ovaryDiagnosis == diag;
                     return Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
                         child: SelectedButton(
-                          label: diag.name.toUpperCase(),
+                          label: diag.toString(),
                           selected: selected,
                           selectedColor: kCafeVinoOscuro,
                           onTap: () {
@@ -258,51 +251,8 @@ class _BladderWidgetState extends State<BladderWidget> {
                 ),
               ),
               onPressed: () async {
-                debugPrint("Procesando reporte: ${widget.draft}");
-                // final report = widget.draft.toReport();
-                // final pdf = pw.Document();
-                // pdf.addPage(
-                //   pw.Page(
-                //     pageFormat: PdfPageFormat.a4,
-                //     build: (pw.Context context) {
-                //       return pw.Padding(
-                //         padding: const pw.EdgeInsets.all(32),
-                //         child: pw.Column(
-                //           crossAxisAlignment: pw.CrossAxisAlignment.start,
-                //           children: [
-                //             pw.Text(
-                //               "Reporte Médico",
-                //               style: pw.TextStyle(fontSize: 24),
-                //             ),
-                //             pw.Divider(),
-                //             pw.Text('Paciente: \\${report.patient.name}'),
-                //             pw.Text('Edad: \\${report.patient.age ?? '-'}'),
-                //             pw.Text('CI: \\${report.patient.ci ?? '-'}'),
-                //             pw.Text('Fecha: \\${report.createdAt.toString()}'),
-                //             pw.Divider(),
-                //             pw.Text('Doctor: \\${report.doctor ?? '-'}'),
-                //             pw.Text('Clínica: \\${report.clinic ?? '-'}'),
-                //             pw.Divider(),
-                //             pw.Text(
-                //               'Protocolo: \\${report.protocol.type.toString()}',
-                //             ),
-                //             pw.Divider(),
-                //             pw.Text(
-                //               'Hallazgos: \\${report.findings.toString()}',
-                //             ),
-                //             pw.Divider(),
-                //             pw.Text(
-                //               'Conclusión: \\${report.meta?['conclusion'] ?? '-'}',
-                //             ),
-                //           ],
-                //         ),
-                //       );
-                //     },
-                //   ),
-                // );
-                // await Printing.layoutPdf(
-                //   onLayout: (format) async => pdf.save(),
-                // );
+                final pdf = await generarReportePdf(widget.draft);
+                await guardarPdfEnDocumentos(pdf, "reporte_medico.pdf");
               },
               child: const Text(
                 "PROCESAR REPORTE",
@@ -317,5 +267,112 @@ class _BladderWidgetState extends State<BladderWidget> {
         ],
       ),
     );
+  }
+
+  Future<pw.Document> generarReportePdf(ReportDraft draft) async {
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return pw.Padding(
+            padding: const pw.EdgeInsets.all(32),
+            child: pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                pw.Text("Reporte Médico", style: pw.TextStyle(fontSize: 24)),
+                pw.SizedBox(height: 16),
+                pw.Text("Paciente: ${draft.patient?.name ?? '-'}"),
+                pw.Text("Edad: ${draft.patient?.age ?? '-'}"),
+                pw.Text("CI: ${draft.patient?.ci ?? '-'}"),
+                pw.Text("Tipo de Sangre: ${draft.patient?.bloodType ?? '-'}"),
+                pw.Text("FUR: ${draft.patient?.fur ?? '-'}"),
+                pw.Text("Gesta: ${draft.patient?.gesta ?? '-'}"),
+                pw.Text("Para: ${draft.patient?.para ?? '-'}"),
+                pw.Text("Cesárea: ${draft.patient?.cesarea ?? '-'}"),
+                pw.Text("Aborto: ${draft.patient?.aborto ?? '-'}"),
+                pw.Text("Ciclo: ${draft.patient?.period ?? '-'}"),
+                pw.Text("Referencia: ${draft.patient?.reference ?? '-'}"),
+                pw.Text("Motivo: ${draft.patient?.motivo ?? '-'}"),
+                pw.Divider(),
+                pw.Text("Protocolo: ${draft.protocol?.type.toString() ?? '-'}"),
+                pw.Text("Equipo: ${draft.protocol?.equipment ?? '-'}"),
+                pw.Divider(),
+                pw.Text("Hallazgos: ${draft.findings.toString()}"),
+                pw.Text("Útero: ${draft.uterineFindings?.toString() ?? '-'}"),
+                pw.Text(
+                  "Ovario Derecho: ${draft.rightOvary.toString() }",
+                ),
+                pw.Text(
+                  "Ovario Izquierdo: ${draft.leftOvary.toString() }",
+                ),
+                pw.Text("Nódulos: ${draft.nodules?.toString() ?? '-'}"),
+                pw.Text(
+                  "Estado Vaginal: ${draft.vaginalState?.toString() ?? '-'}",
+                ),
+                pw.Text(
+                  "Estado Cervical: ${draft.cervixState?.toString() ?? '-'}",
+                ),
+                pw.Divider(),
+                pw.Text("Vejiga:"),
+                pw.Text("  Regularidad: ${draft.bladder?.regularity ?? '-'}"),
+                pw.Text("  Pared (mm): ${draft.bladder?.wallMm ?? '-'}"),
+                pw.Text(
+                  "  Fondo de saco Douglas: ${draft.bladder?.douglasPouch ?? '-'}",
+                ),
+                pw.Text(
+                  "  Diagnóstico útero: ${draft.bladder?.diagnosis ?? '-'}",
+                ),
+                pw.Text(
+                  "  Diagnóstico ovarios: ${draft.bladder?.ovaryDiagnosis ?? '-'}",
+                ),
+                pw.Text("  Conclusión: ${draft.bladder?.conclusion ?? '-'}"),
+                pw.Divider(),
+                pw.Text("Doctor: ${draft.doctor ?? '-'}"),
+                pw.Text("Clínica: ${draft.clinic ?? '-'}"),
+                pw.Text("Fecha: ${draft.createdAt?.toString() ?? '-'}"),
+                pw.Divider(),
+                pw.Text("Meta: ${draft.meta?.toString() ?? '-'}"),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+
+    return pdf;
+  }
+
+  Future<void> guardarPdfEnDocumentos(
+    pw.Document pdf,
+    String nombreArchivo,
+  ) async {
+    try {
+      String? documentos;
+      if (Platform.isWindows) {
+        final userProfile = Platform.environment['UserProfile'];
+        documentos = '$userProfile\\Documents';
+      } else if (Platform.isMacOS) {
+        final home = Platform.environment['HOME'];
+        documentos = '$home/Documents';
+      } else {
+        // Otras plataformas: usa path_provider como fallback
+        final directory = await getApplicationDocumentsDirectory();
+        documentos = directory.path;
+      }
+
+      final directory = Directory(documentos);
+      if (!await directory.exists()) {
+        await directory.create(recursive: true);
+      }
+      final file = File('${directory.path}/$nombreArchivo');
+      debugPrint("Ruta absoluta: ${file.absolute.path}");
+      final bytes = await pdf.save();
+      await file.writeAsBytes(bytes);
+      debugPrint("PDF guardado en: ${file.path}");
+    } catch (e, st) {
+      debugPrint("Error guardando PDF: $e\n$st");
+    }
   }
 }

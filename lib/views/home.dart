@@ -27,12 +27,6 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(
-      "Vaginal state: ${draft.vaginalState?.status}, note: ${draft.vaginalState?.note}",
-    );
-    debugPrint(
-      "Cervical state: ${draft.cervixState?.status}, note: ${draft.cervixState?.note}",
-    );
     return Scaffold(
       backgroundColor: Theme.of(context).inputDecorationTheme.fillColor,
       body: SingleChildScrollView(

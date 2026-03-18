@@ -149,47 +149,68 @@ const _$OvaryTypeEnumMap = {
 };
 
 _Bladder _$BladderFromJson(Map<String, dynamic> json) => _Bladder(
-  regularity: $enumDecode(_$RegularityEnumMap, json['regularity']),
+  regularity:
+      $enumDecodeNullable(
+        _$RegularityEnumMap,
+        json['regularity'],
+        unknownValue: Regularity.regular,
+      ) ??
+      Regularity.regular,
+  douglasPouch:
+      $enumDecodeNullable(
+        _$DouglasPouchEnumMap,
+        json['douglasPouch'],
+        unknownValue: DouglasPouch.free,
+      ) ??
+      DouglasPouch.free,
+  diagnosis:
+      $enumDecodeNullable(
+        _$BladderDiagnosticEnumMap,
+        json['diagnosis'],
+        unknownValue: BladderDiagnostic.other,
+      ) ??
+      BladderDiagnostic.other,
+  ovaryDiagnosis:
+      $enumDecodeNullable(
+        _$OvaryDiagnosticEnumMap,
+        json['ovaryDiagnosis'],
+        unknownValue: OvaryDiagnostic.other,
+      ) ??
+      OvaryDiagnostic.other,
   wallMm: (json['wallMm'] as num?)?.toDouble(),
-  douglasPouch: $enumDecode(_$DouglasPouchEnumMap, json['douglasPouch']),
-  diagnosis: $enumDecodeNullable(_$BladderDiagnosisEnumMap, json['diagnosis']),
-  ovaryDiagnosis: $enumDecodeNullable(
-    _$OvaryDiagnosisEnumMap,
-    json['ovaryDiagnosis'],
-  ),
   conclusion: json['conclusion'] as String?,
 );
 
 Map<String, dynamic> _$BladderToJson(_Bladder instance) => <String, dynamic>{
   'regularity': _$RegularityEnumMap[instance.regularity]!,
-  'wallMm': instance.wallMm,
   'douglasPouch': _$DouglasPouchEnumMap[instance.douglasPouch]!,
-  'diagnosis': _$BladderDiagnosisEnumMap[instance.diagnosis],
-  'ovaryDiagnosis': _$OvaryDiagnosisEnumMap[instance.ovaryDiagnosis],
+  'diagnosis': _$BladderDiagnosticEnumMap[instance.diagnosis],
+  'ovaryDiagnosis': _$OvaryDiagnosticEnumMap[instance.ovaryDiagnosis],
+  'wallMm': instance.wallMm,
   'conclusion': instance.conclusion,
 };
 
 const _$RegularityEnumMap = {
-  Regularity.regular: 'regular',
-  Regularity.irregular: 'irregular',
+  Regularity.regular: 'REGULAR',
+  Regularity.irregular: 'IRREGULAR',
 };
 
 const _$DouglasPouchEnumMap = {
-  DouglasPouch.free: 'libre',
-  DouglasPouch.occupied: 'ocupado',
+  DouglasPouch.free: 'LIBRE',
+  DouglasPouch.occupied: 'OCUPADO',
 };
 
-const _$BladderDiagnosisEnumMap = {
-  BladderDiagnosis.normal: 'normal',
-  BladderDiagnosis.medio: 'medio',
-  BladderDiagnosis.alto: 'alto',
-  BladderDiagnosis.otro: 'otro',
+const _$BladderDiagnosticEnumMap = {
+  BladderDiagnostic.normal: 'NORMAL',
+  BladderDiagnostic.medio: 'MEDIO',
+  BladderDiagnostic.alto: 'ALTO',
+  BladderDiagnostic.other: 'OTRO',
 };
 
-const _$OvaryDiagnosisEnumMap = {
-  OvaryDiagnosis.normales: 'normales',
-  OvaryDiagnosis.poliquisticos: 'poliquisticos',
-  OvaryDiagnosis.otros: 'otros',
+const _$OvaryDiagnosticEnumMap = {
+  OvaryDiagnostic.normales: 'NORMALES',
+  OvaryDiagnostic.poliquisticos: 'POLIQUISTICOS',
+  OvaryDiagnostic.other: 'OTROS',
 };
 
 _Nodules _$NodulesFromJson(Map<String, dynamic> json) => _Nodules(
@@ -279,9 +300,6 @@ _ReportDraft _$ReportDraftFromJson(Map<String, dynamic> json) => _ReportDraft(
   findings: json['findings'] == null
       ? null
       : Findings.fromJson(json['findings'] as Map<String, dynamic>),
-  bladder: json['bladder'] == null
-      ? null
-      : Bladder.fromJson(json['bladder'] as Map<String, dynamic>),
   rightOvary: Ovary.fromJson(json['rightOvary'] as Map<String, dynamic>),
   leftOvary: Ovary.fromJson(json['leftOvary'] as Map<String, dynamic>),
   doctor: json['doctor'] as String?,
@@ -301,6 +319,9 @@ _ReportDraft _$ReportDraftFromJson(Map<String, dynamic> json) => _ReportDraft(
   cervixState: json['cervixState'] == null
       ? null
       : CervicalStatus.fromJson(json['cervixState'] as Map<String, dynamic>),
+  bladder: json['bladder'] == null
+      ? null
+      : Bladder.fromJson(json['bladder'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$ReportDraftToJson(_ReportDraft instance) =>
@@ -310,7 +331,6 @@ Map<String, dynamic> _$ReportDraftToJson(_ReportDraft instance) =>
       'patient': instance.patient,
       'protocol': instance.protocol,
       'findings': instance.findings,
-      'bladder': instance.bladder,
       'rightOvary': instance.rightOvary,
       'leftOvary': instance.leftOvary,
       'doctor': instance.doctor,
@@ -320,6 +340,7 @@ Map<String, dynamic> _$ReportDraftToJson(_ReportDraft instance) =>
       'nodules': instance.nodules,
       'vaginalState': instance.vaginalState,
       'cervixState': instance.cervixState,
+      'bladder': instance.bladder,
     };
 
 _UterineFindings _$UterineFindingsFromJson(Map<String, dynamic> json) =>
