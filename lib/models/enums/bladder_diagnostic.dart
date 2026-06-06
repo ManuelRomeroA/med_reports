@@ -1,5 +1,7 @@
 part of '../models.dart';
 
+/// Classification of bladder diagnostic findings.
+@JsonEnum(alwaysCreate: true)
 enum BladderDiagnostic {
   /// [normal]: Normal findings.
   @JsonValue('NORMAL')

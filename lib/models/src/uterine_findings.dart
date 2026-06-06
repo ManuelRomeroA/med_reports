@@ -6,6 +6,7 @@ All enums in this file are serialized using @JsonValue with their value in Spani
 part of '../models.dart';
 
 /// Describes the location of the uterus in the pelvis, relevant for gynecological diagnosis.
+@JsonEnum(alwaysCreate: true)
 enum UterusLocalization {
   /// Unknown or unspecified value; use when no data is available.
   @JsonValue('DESCONOCIDO')
@@ -28,6 +29,7 @@ enum UterusLocalization {
 }
 
 /// Describes the axis and usual position of the uterus within the pelvis.
+@JsonEnum(alwaysCreate: true)
 enum UterusPosition {
   /// Unknown or unspecified value.
   @JsonValue('DESCONOCIDO')
@@ -46,6 +48,7 @@ enum UterusPosition {
 }
 
 /// Describes the appearance of the uterine surface during ultrasound evaluation.
+@JsonEnum(alwaysCreate: true)
 enum UterusSurface {
   /// Unknown or unspecified value.
   @JsonValue('DESCONOCIDO')
@@ -64,6 +67,7 @@ enum UterusSurface {
 }
 
 /// Characterizes the ultrasound pattern of the myometrium, useful in uterine pathology.
+@JsonEnum(alwaysCreate: true)
 enum MyometriumType {
   /// Unknown or unspecified value.
   @JsonValue('DESCONOCIDO')
@@ -81,15 +85,15 @@ enum MyometriumType {
   String toString() => _$MyometriumTypeEnumMap[this] ?? 'DESCONOCIDO';
 }
 
-final endometrios = ['MENST', 'PROLI', 'SECRE', 'ATROF'];
 
 /// Describes the appearance of the endometrium in transvaginal or abdominal ultrasound.
+@JsonEnum(alwaysCreate: true)
 enum EndometriumAspect {
   /// Unknown or unspecified value.
   @JsonValue('DESCONOCIDO')
   unknown,
 
-  /// Thin or atrophic endometrium, often seen in postmenopausal
+  /// Thin or atrophic endometrium, often seen in postmenopausal patients with low estrogen.
   @JsonValue('MENST')
   menst,
 
@@ -101,7 +105,7 @@ enum EndometriumAspect {
   @JsonValue('SECRE')
   secre,
 
-  /// Atrophic endometrium, with a thin and hypoechoic appearance, common in postmenop
+  /// Atrophic endometrium, with a thin and hypoechoic appearance, common in postmenopausal patients.
   @JsonValue('ATROF')
   atrof;
 

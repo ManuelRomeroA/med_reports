@@ -46,11 +46,10 @@ class _NodulesWidgetState extends State<NodulesWidget> {
                 ),
               ),
               _NodulesSelector(
-                value: widget.draft.nodules?.has ?? false,
+                value: widget.draft.nodules?.hasNodules ?? false,
                 onChanged: (value) {
-                  widget.draft.nodules?.has = value;
-                  if (value) widget.draft.nodules?.detail = null;
-
+                  widget.draft.nodules?.hasNodules = value;
+                  if (!value) widget.draft.nodules?.detail = null;
                   setState(() {});
                 },
               ),
@@ -62,9 +61,9 @@ class _NodulesWidgetState extends State<NodulesWidget> {
             color: theme.colorScheme.primary.withValues(alpha: 0.15),
           ),
           // Si quieres mostrar condiciones dependientes del draft, consulta draft directamente.
-          if ((widget.draft.nodules?.has ?? false) == false) ...[
+          if (widget.draft.nodules?.hasNodules ?? false) ...[
             const SizedBox(height: 18),
-            NodulesContent(),
+            NodulesContent(draft: widget.draft),
           ],
         ],
       ),
@@ -135,7 +134,7 @@ class _NoduleOption extends StatelessWidget {
               : null,
         ),
         child: Text(
-          value ? "SIN NÓDULOS" : "CON NÓDULOS",
+          value ? "CON NÓDULOS" : "SIN NÓDULOS",
           style: TextStyle(color: kCafeVinoOscuro, fontWeight: FontWeight.bold),
         ),
       ),

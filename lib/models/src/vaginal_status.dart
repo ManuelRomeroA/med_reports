@@ -1,9 +1,14 @@
 part of '../models.dart';
 
-/// Model representing the vaginal status of a patient, including menstrual history and obstetric information.
+/// Model representing the vaginal status of a patient.
+/// Contains the current vaginal state (normal, other, or unknown) and optional descriptive notes.
+/// [status]: Current state of the vagina during examination.
+/// [note]: Additional descriptive notes if status is not normal.
+///
+/// Implements [StateModel] to work with the generic StateSelector widget.
 @unfreezed
 abstract class VaginalStatus with _$VaginalStatus {
-  /// Main reason for the medical visit or exam (optional).
+  /// Default factory constructor for vaginal status.
   factory VaginalStatus({
     /// [status] represents the current vaginal status of the patient
     @JsonKey(unknownEnumValue: StateValue.unknown)

@@ -131,12 +131,16 @@ class _UteroWidgetState extends State<UteroWidget> {
                           ),
                           const SizedBox(width: 20),
 
-                          /// TODO: ASK this
                           Expanded(
                             child: ThemedTextInput(
-                              value: '50',
-                              onChanged: (_) {},
-                              labelText: "",
+                              value: widget.draft.uterineFindings?.other
+                                  ?.toString(),
+                              labelText: "Otros",
+                              keyboardType: TextInputType.number,
+                              onChanged: (v) => setState(
+                                () => widget.draft.uterineFindings?.other =
+                                    double.tryParse(v),
+                              ),
                             ),
                           ),
                         ],

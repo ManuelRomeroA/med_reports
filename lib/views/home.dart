@@ -22,7 +22,12 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    draft = ReportDraft.initObject();
+    draft = ReportDraft(
+      rightOvary: Ovary(side: OvarySide.right, measures: OvaryMeasurement()),
+      leftOvary: Ovary(side: OvarySide.left, measures: OvaryMeasurement()),
+      doctor: 'Dra. Gisemar Gutiérrez González',
+      clinic: 'Maternidad Privada Gonzalez Mendoza — Av. 24 entre calles 2 y 4. Telf.: (0414) 556.09.53',
+    );
   }
 
   @override

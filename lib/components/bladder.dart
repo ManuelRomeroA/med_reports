@@ -272,72 +272,487 @@ class _BladderWidgetState extends State<BladderWidget> {
   Future<pw.Document> generarReportePdf(ReportDraft draft) async {
     final pdf = pw.Document();
 
+    const vino = PdfColor.fromInt(0xFF8B5A63);
+    const vinoClaro = PdfColor.fromInt(0xFFF5ECED);
+    const grisTexto = PdfColor.fromInt(0xFF333333);
+    const grisClaro = PdfColor.fromInt(0xFFF8F8F8);
+
+    // --- Helpers ---
+
+    pw.Widget sectionHeader(String title) => pw.Container(
+      decoration: const pw.BoxDecoration(
+        color: vino,
+        borderRadius: pw.BorderRadius.only(
+          topLeft: pw.Radius.circular(4),
+          topRight: pw.Radius.circular(4),
+        ),
+      ),
+      padding: const pw.EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: pw.Align(
+        alignment: pw.Alignment.centerLeft,
+        child: pw.Text(
+          title,
+          style: pw.TextStyle(
+            color: PdfColors.white,
+            fontWeight: pw.FontWeight.bold,
+            fontSize: 9,
+          ),
+        ),
+      ),
+    );
+
+    pw.Widget field(String label, String value) => pw.Padding(
+      padding: const pw.EdgeInsets.symmetric(vertical: 2),
+      child: pw.Row(
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        children: [
+          pw.SizedBox(
+            width: 130,
+            child: pw.Text(
+              label,
+              style: pw.TextStyle(
+                fontWeight: pw.FontWeight.bold,
+                fontSize: 8,
+                color: grisTexto,
+              ),
+            ),
+          ),
+          pw.Expanded(
+            child: pw.Text(
+              value,
+              style: const pw.TextStyle(fontSize: 8, color: grisTexto),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    pw.Widget fieldGrid(List<(String, String)> pairs) => pw.Table(
+      columnWidths: {
+        0: const pw.FlexColumnWidth(1),
+        1: const pw.FlexColumnWidth(1),
+      },
+      children: [
+        for (int i = 0; i < pairs.length; i += 2)
+          pw.TableRow(
+            children: [
+              pw.Padding(
+                padding: const pw.EdgeInsets.symmetric(
+                  vertical: 2,
+                  horizontal: 4,
+                ),
+                child: field(pairs[i].$1, pairs[i].$2),
+              ),
+              pw.Padding(
+                padding: const pw.EdgeInsets.symmetric(
+                  vertical: 2,
+                  horizontal: 4,
+                ),
+                child: i + 1 < pairs.length
+                    ? field(pairs[i + 1].$1, pairs[i + 1].$2)
+                    : pw.SizedBox(),
+              ),
+            ],
+          ),
+      ],
+    );
+
+    pw.Widget card(pw.Widget child) => pw.Container(
+      margin: const pw.EdgeInsets.only(bottom: 10),
+      decoration: pw.BoxDecoration(
+        border: pw.Border.all(color: vinoClaro, width: 1),
+        borderRadius: pw.BorderRadius.circular(4),
+      ),
+      child: child,
+    );
+
+    pw.Widget cardSection(String title, pw.Widget content) => card(
+      pw.Column(
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        children: [
+          sectionHeader(title),
+          pw.Padding(padding: const pw.EdgeInsets.all(8), child: content),
+        ],
+      ),
+    );
+
+    // --- Fecha formateada (momento exacto de generación) ---
+    final now = DateTime.now();
+    final fecha =
+        '${now.day.toString().padLeft(2, '0')}/'
+        '${now.month.toString().padLeft(2, '0')}/'
+        '${now.year}';
+
+    // --- Ovario helper ---
+    pw.Widget ovarySection(String title, Ovary ovary) {
+      final m = ovary.measures;
+      return cardSection(
+        title,
+        fieldGrid([
+          ('Tipo:', ovary.type.toString()),
+          ('AP (mm):', m.ap?.toString() ?? '-'),
+          ('TR (mm):', m.tr?.toString() ?? '-'),
+          ('LO (mm):', m.lo?.toString() ?? '-'),
+          ('Volumen (mm³):', m.volume?.toStringAsFixed(2) ?? '-'),
+          ('Notas:', ovary.notes ?? '-'),
+        ]),
+      );
+    }
+
     pdf.addPage(
-      pw.Page(
+      pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
-        build: (pw.Context context) {
-          return pw.Padding(
-            padding: const pw.EdgeInsets.all(32),
-            child: pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
+        margin: const pw.EdgeInsets.symmetric(horizontal: 32, vertical: 28),
+        header: (context) => pw.Column(
+          children: [
+            // Header institucional
+            pw.Container(
+              padding: const pw.EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: 10,
+              ),
+              decoration: const pw.BoxDecoration(
+                color: vino,
+                borderRadius: pw.BorderRadius.all(pw.Radius.circular(4)),
+              ),
+              child: pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: pw.CrossAxisAlignment.center,
+                children: [
+                  // Logo placeholder (círculo — reemplazar con SVG a futuro)
+                  pw.Container(
+                    width: 48,
+                    height: 48,
+                    margin: const pw.EdgeInsets.only(right: 12),
+                    decoration: pw.BoxDecoration(
+                      shape: pw.BoxShape.circle,
+                      border: pw.Border.all(color: PdfColors.white, width: 1.5),
+                    ),
+                    child: pw.Center(
+                      child: pw.Text(
+                        'GG',
+                        style: pw.TextStyle(
+                          color: PdfColors.white,
+                          fontWeight: pw.FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // Izquierda: identidad de la doctora
+                  pw.Expanded(
+                    child: pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.center,
+                      mainAxisAlignment: pw.MainAxisAlignment.center,
+                      children: [
+                        pw.Text(
+                          'Dra. Gisemar Gutiérrez González',
+                          style: pw.TextStyle(
+                            color: PdfColors.white,
+                            fontWeight: pw.FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                        pw.SizedBox(height: 3),
+                        pw.Text(
+                          'Ginecología · Obstetricia · Ecosonogramas · Cirugía Estética',
+                          style: const pw.TextStyle(
+                            color: PdfColors.white,
+                            fontSize: 7.5,
+                          ),
+                          textAlign: pw.TextAlign.center,
+                        ),
+                        pw.Text(
+                          'Plasma rico en plaquetas · Rejuvenecimiento vaginal · Partos y Cesáreas',
+                          style: const pw.TextStyle(
+                            color: PdfColors.white,
+                            fontSize: 7.5,
+                          ),
+                          textAlign: pw.TextAlign.center,
+                        ),
+                        pw.SizedBox(height: 4),
+                        pw.Text(
+                          'Maternidad Privada Gonzalez Mendoza — Av. 24 entre calles 2 y 4',
+                          style: const pw.TextStyle(
+                            color: PdfColors.white,
+                            fontSize: 7.5,
+                          ),
+                          textAlign: pw.TextAlign.center,
+                        ),
+                        pw.Text(
+                          'Telf.: (0414) 556.09.53',
+                          style: const pw.TextStyle(
+                            color: PdfColors.white,
+                            fontSize: 7.5,
+                          ),
+                          textAlign: pw.TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Derecha: protocolo y fecha
+                  pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.end,
+                    children: [
+                      pw.Text(
+                        draft.protocol?.type.toString() ?? 'ECOSONOGRAMA',
+                        style: pw.TextStyle(
+                          color: PdfColors.white,
+                          fontWeight: pw.FontWeight.bold,
+                          fontSize: 10,
+                        ),
+                      ),
+                      pw.SizedBox(height: 4),
+                      pw.Text(
+                        'Fecha: $fecha',
+                        style: const pw.TextStyle(
+                          color: PdfColors.white,
+                          fontSize: 8,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            pw.SizedBox(height: 10),
+          ],
+        ),
+        footer: (context) => pw.Column(
+          children: [
+            pw.Divider(color: vinoClaro),
+            pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
               children: [
-                pw.Text("Reporte Médico", style: pw.TextStyle(fontSize: 24)),
-                pw.SizedBox(height: 16),
-                pw.Text("Paciente: ${draft.patient?.name ?? '-'}"),
-                pw.Text("Edad: ${draft.patient?.age ?? '-'}"),
-                pw.Text("CI: ${draft.patient?.ci ?? '-'}"),
-                pw.Text("Tipo de Sangre: ${draft.patient?.bloodType ?? '-'}"),
-                pw.Text("FUR: ${draft.patient?.fur ?? '-'}"),
-                pw.Text("Gesta: ${draft.patient?.gesta ?? '-'}"),
-                pw.Text("Para: ${draft.patient?.para ?? '-'}"),
-                pw.Text("Cesárea: ${draft.patient?.cesarea ?? '-'}"),
-                pw.Text("Aborto: ${draft.patient?.aborto ?? '-'}"),
-                pw.Text("Ciclo: ${draft.patient?.period ?? '-'}"),
-                pw.Text("Referencia: ${draft.patient?.reference ?? '-'}"),
-                pw.Text("Motivo: ${draft.patient?.motivo ?? '-'}"),
-                pw.Divider(),
-                pw.Text("Protocolo: ${draft.protocol?.type.toString() ?? '-'}"),
-                pw.Text("Equipo: ${draft.protocol?.equipment ?? '-'}"),
-                pw.Divider(),
-                pw.Text("Hallazgos: ${draft.findings.toString()}"),
-                pw.Text("Útero: ${draft.uterineFindings?.toString() ?? '-'}"),
                 pw.Text(
-                  "Ovario Derecho: ${draft.rightOvary.toString() }",
+                  draft.clinic ?? '',
+                  style: const pw.TextStyle(fontSize: 7, color: grisTexto),
                 ),
                 pw.Text(
-                  "Ovario Izquierdo: ${draft.leftOvary.toString() }",
+                  'Pág. ${context.pageNumber} / ${context.pagesCount}',
+                  style: const pw.TextStyle(fontSize: 7, color: grisTexto),
                 ),
-                pw.Text("Nódulos: ${draft.nodules?.toString() ?? '-'}"),
-                pw.Text(
-                  "Estado Vaginal: ${draft.vaginalState?.toString() ?? '-'}",
-                ),
-                pw.Text(
-                  "Estado Cervical: ${draft.cervixState?.toString() ?? '-'}",
-                ),
-                pw.Divider(),
-                pw.Text("Vejiga:"),
-                pw.Text("  Regularidad: ${draft.bladder?.regularity ?? '-'}"),
-                pw.Text("  Pared (mm): ${draft.bladder?.wallMm ?? '-'}"),
-                pw.Text(
-                  "  Fondo de saco Douglas: ${draft.bladder?.douglasPouch ?? '-'}",
-                ),
-                pw.Text(
-                  "  Diagnóstico útero: ${draft.bladder?.diagnosis ?? '-'}",
-                ),
-                pw.Text(
-                  "  Diagnóstico ovarios: ${draft.bladder?.ovaryDiagnosis ?? '-'}",
-                ),
-                pw.Text("  Conclusión: ${draft.bladder?.conclusion ?? '-'}"),
-                pw.Divider(),
-                pw.Text("Doctor: ${draft.doctor ?? '-'}"),
-                pw.Text("Clínica: ${draft.clinic ?? '-'}"),
-                pw.Text("Fecha: ${draft.createdAt?.toString() ?? '-'}"),
-                pw.Divider(),
-                pw.Text("Meta: ${draft.meta?.toString() ?? '-'}"),
               ],
             ),
-          );
-        },
+          ],
+        ),
+        build: (context) => [
+          // 1. DATOS DEL PACIENTE
+          cardSection(
+            'DATOS DEL PACIENTE',
+            pw.Column(
+              children: [
+                fieldGrid([
+                  ('Paciente:', draft.patient?.name ?? '-'),
+                  ('Edad:', draft.patient?.age?.toString() ?? '-'),
+                  ('CI:', draft.patient?.ci ?? '-'),
+                  (
+                    'Tipo de Sangre:',
+                    draft.patient?.bloodType.toString() ?? '-',
+                  ),
+                  ('FUR:', draft.patient?.fur?.toString() ?? '-'),
+                  ('Ciclo:', draft.patient?.period.toString() ?? '-'),
+                  ('Gesta:', draft.patient?.gesta ?? '-'),
+                  ('Para:', draft.patient?.para ?? '-'),
+                  ('Cesárea:', draft.patient?.cesarea ?? '-'),
+                  ('Abortos:', draft.patient?.aborto ?? '-'),
+                  ('Referencia:', draft.patient?.reference ?? '-'),
+                  ('Motivo:', draft.patient?.motivo ?? '-'),
+                ]),
+              ],
+            ),
+          ),
+
+          // 2. PROTOCOLO
+          cardSection(
+            'PROTOCOLO DE ESTUDIO',
+            fieldGrid([
+              ('Protocolo:', draft.protocol?.type.toString() ?? '-'),
+              ('Equipo:', draft.protocol?.equipment ?? '-'),
+            ]),
+          ),
+
+          // 3. VEJIGA Y DIAGNÓSTICO
+          cardSection(
+            'VEJIGA',
+            fieldGrid([
+              ('Regularidad:', draft.bladder?.regularity.toString() ?? '-'),
+              ('Pared (mm):', draft.bladder?.wallMm?.toString() ?? '-'),
+              (
+                'Fondo de saco Douglas:',
+                draft.bladder?.douglasPouch.toString() ?? '-',
+              ),
+              ('', ''),
+            ]),
+          ),
+
+          cardSection(
+            'DIAGNÓSTICO',
+            fieldGrid([
+              (
+                'Diagnóstico Útero:',
+                draft.bladder?.diagnosis?.toString() ?? '-',
+              ),
+              (
+                'Diagnóstico Ovarios:',
+                draft.bladder?.ovaryDiagnosis?.toString() ?? '-',
+              ),
+            ]),
+          ),
+
+          // 4. ÚTERO + NÓDULOS
+          if (draft.uterineFindings != null)
+            cardSection(
+              'ÚTERO',
+              pw.Column(
+                children: [
+                  fieldGrid([
+                    (
+                      'Longitud (mm):',
+                      draft.uterineFindings!.longitud?.toString() ?? '-',
+                    ),
+                    ('AP (mm):', draft.uterineFindings!.ap?.toString() ?? '-'),
+                    (
+                      'Transverso (mm):',
+                      draft.uterineFindings!.transverse?.toString() ?? '-',
+                    ),
+                    (
+                      'Otro (mm):',
+                      draft.uterineFindings!.other?.toString() ?? '-',
+                    ),
+                    (
+                      'Localización:',
+                      draft.uterineFindings!.localization.toString(),
+                    ),
+                    ('Posición:', draft.uterineFindings!.position.toString()),
+                    ('Superficie:', draft.uterineFindings!.surface.toString()),
+                    (
+                      'Miometrio:',
+                      draft.uterineFindings!.myometrium.toString(),
+                    ),
+                    (
+                      'Endometrio:',
+                      draft.uterineFindings!.endometrium.toString(),
+                    ),
+                    (
+                      'Volumen (mm³):',
+                      draft.uterineFindings!.volume?.toStringAsFixed(2) ?? '-',
+                    ),
+                  ]),
+                  if (draft.nodules?.hasNodules == true &&
+                      draft.nodules?.detail != null) ...[
+                    pw.SizedBox(height: 8),
+                    pw.Container(
+                      color: vinoClaro,
+                      padding: const pw.EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      child: pw.Text(
+                        'NÓDULOS',
+                        style: pw.TextStyle(
+                          fontWeight: pw.FontWeight.bold,
+                          fontSize: 8,
+                          color: vino,
+                        ),
+                      ),
+                    ),
+                    pw.SizedBox(height: 6),
+                    fieldGrid([
+                      (
+                        'Localización:',
+                        draft.nodules!.detail!.location.toString(),
+                      ),
+                      (
+                        'Longitud (mm):',
+                        draft.nodules!.detail!.longitud.toString(),
+                      ),
+                      ('AP (mm):', draft.nodules!.detail!.ap.toString()),
+                      ('T (mm):', draft.nodules!.detail!.t.toString()),
+                      (
+                        'Descripción:',
+                        draft.nodules!.detail!.description ?? '-',
+                      ),
+                      ('', ''),
+                    ]),
+                  ],
+                ],
+              ),
+            ),
+
+          // 5. OVARIOS
+          ovarySection('OVARIO DERECHO', draft.rightOvary),
+          // Salto de página automático si el contenido no cabe
+          pw.NewPage(),
+          ovarySection('OVARIO IZQUIERDO', draft.leftOvary),
+
+          // 6. ESTADO VAGINAL Y CERVICAL
+          cardSection(
+            'ESTADO VAGINAL Y CERVICAL',
+            fieldGrid([
+              ('Estado Vaginal:', draft.vaginalState?.status.toString() ?? '-'),
+              ('Nota Vaginal:', draft.vaginalState?.note ?? '-'),
+              ('Estado Cervical:', draft.cervixState?.status.toString() ?? '-'),
+              ('Nota Cervical:', draft.cervixState?.note ?? '-'),
+            ]),
+          ),
+
+          // 8. CONCLUSIÓN
+          if (draft.bladder?.conclusion?.isNotEmpty == true)
+            card(
+              pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  sectionHeader('CONCLUSIÓN'),
+                  pw.Container(
+                    width: double.infinity,
+                    color: grisClaro,
+                    padding: const pw.EdgeInsets.all(10),
+                    child: pw.Text(
+                      draft.bladder!.conclusion!,
+                      style: const pw.TextStyle(fontSize: 9, color: grisTexto),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+          // 9. FIRMA
+          pw.SizedBox(height: 20),
+          pw.Row(
+            mainAxisAlignment: pw.MainAxisAlignment.end,
+            children: [
+              pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.center,
+                children: [
+                  pw.Container(
+                    width: 160,
+                    decoration: const pw.BoxDecoration(
+                      border: pw.Border(
+                        bottom: pw.BorderSide(color: grisTexto, width: 0.5),
+                      ),
+                    ),
+                    height: 30,
+                  ),
+                  pw.SizedBox(height: 4),
+                  pw.Text(
+                    draft.doctor?.isNotEmpty == true ? draft.doctor! : '-',
+                    style: pw.TextStyle(
+                      fontWeight: pw.FontWeight.bold,
+                      fontSize: 8,
+                      color: grisTexto,
+                    ),
+                  ),
+                  pw.Text(
+                    draft.clinic?.isNotEmpty == true ? draft.clinic! : '',
+                    style: const pw.TextStyle(fontSize: 7, color: grisTexto),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
 

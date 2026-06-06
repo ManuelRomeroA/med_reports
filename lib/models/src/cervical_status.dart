@@ -1,9 +1,14 @@
 part of '../models.dart';
 
-/// Model representing the cervical status of a patient, including menstrual history and obstetric information.
+/// Model representing the cervical status of a patient.
+/// Contains the current cervical state (normal, other, or unknown) and optional descriptive notes.
+/// [status]: Current state of the cervix during examination.
+/// [note]: Additional descriptive notes if status is not normal.
+///
+/// Implements [StateModel] to work with the generic StateSelector widget.
 @unfreezed
 abstract class CervicalStatus with _$CervicalStatus {
-  /// Main reason for the medical visit or exam (optional).
+  /// Default factory constructor for cervical status.
   factory CervicalStatus({
     /// [status] represents the current cervical status of the patient
     @JsonKey(unknownEnumValue: StateValue.unknown)

@@ -1,147 +1,260 @@
+# Freezed Skill Documentation
+
+This skill covers all conventions for using [Freezed](https://pub.dev/packages/freezed) with Dart 3 and Freezed 3+, including: required docStrings, models, enums, custom converters, directory structuring, additive-only evolution, ambiguity handling, and modern best practices. Examples are concise and self-contained.
+
 ---
-name: freezed
-description: >
-  Defines project-wide conventions for generating Dart Freezed/unfreezed models, enums, and converters for Flutter. All generated artifacts must strictly adhere to field-level doc comment and structure conventions, ensuring consistency and code quality.
-license: MIT
-author: Manuel Romero
-version: "1.2"
-updated: 2026-03
+
+## 1. Directory Structure
+
+Organize code by feature or domain, typically under `lib/`. Public Freezed models should be grouped under `/models` at the feature or root level.
+
+**Sample of structure:**
+```
+lib/
+  models/
+    enum/
+      status.dart
+      type.dart
+    src/
+      user.dart
+      command.dart
+    models.dart
+
+```
+*Never* put Freezed models in barrel files that cause circular imports. Prefer fine-grained file organization.
+
 ---
-# Freezed Skill — Conventions and Best Practices
-This skill defines mandatory conventions for generating Freezed/unfreezed Dart models, enums, and value converters.  
-It must be referenced by any code generator, subagent, or contributor handling these artifacts.
----
-## Usage
-- **Directory structure:** Models and enums must reside in `lib/models/`; converters in `lib/models/converters/`.
-- **Dart directives:** Always use `part`, `part of`, and `library` as appropriate. Notify on inconsistencies; never auto-modify without explicit permission.
-- **Additive changes only:** Never overwrite existing functioning code or artifacts unless the user consents.
-- **Converters:** Only generate for types not handled by Freezed/json_serializable. For Freezed/unfreezed models, rely solely on package code generation.
-- **Validation:** On generation/init, always validate the target folders. Warn if non-standard layouts are found; scripts or fixes can be suggested but never auto-applied.
-- **Ambiguity handling:** If unusual patterns (custom annotations, mixed conventions, etc.) are detected, warn—never guess or auto-fix without user review.
----
-## Purpose
-To standardize and enforce a consistent, readable, and maintainable style for all Freezed/unfreezed models, enums, and converters,  
-so that generated Dart code is always production-ready, self-documented, and resilient to future changes.
----
-## Conventions
-- **Class/Enum/Converter docstrings:** Always place a 1-2 line DartDoc (`///`) above each class, enum, or converter definition—explaining briefly what it is.
-- **Field documentation:** Every field in a Freezed factory must have a single-line `///` DartDoc immediately above the field.
-    - **Do not use:** single block DartDocs above the factory with docs for all fields.
-    - **Do not use:** inline `//` comments for field documentation.
-- **Freezed class:** Use `sealed` keyword and private unnamed constructor for full Dart 3 compatibility.
-- **Enums:** Always include an `unknown` value for forward compatibility. Handle deserialization with `@JsonKey(unknownEnumValue: EnumType.unknown)`.
-- **Converters:** Place all in `lib/models/converters/`; never overwrite without confirmation.
----
-## Workflow (Summary)
-1. Validate target directories and naming.
-2. On generation request, prepare only "additive" changes (never remove/modify functioning code).
-3. All artifacts (class, fields, enums, converters) require full DartDoc as described.
-4. Prompt user on any nonstandard scenario or ambiguity.
-5. Update central barrel file (e.g. `models.dart`) when adding models/enums/converters.
-6. Warn and suggest fixes for missing `unknown` enum members or documentation gaps.
-7. Document all architectural and convention changes in project memory.
----
-## Examples
-### ✅ Freezed Model (Best Practice, Dart 3+)
+
+## 2. Model Declarations
+
+- Every public model **MUST** use Freezed (`@freezed`) and include the `part '../models.dart'`
+- **Always** annotate the class and all fields with a clear docString.
+
 ```dart
+/// Represents an app user with minimal profile info.
 @freezed
-sealed class User with _$User {
-  /// Transport company user model.
-  const User._();
+class User with _$User {
+  /// Default constructor.
   const factory User({
-    /// CNPJ identifier
-    String? id,
-    /// Transport company name
-    String? name,
-    /// Full address
-    String? address,
-    /// State registration number
-    String? stateRegistration,
+    /// [id] Unique user identifier (UUID).
+    required String id,
+    /// [email]  address of the user.
+    required String email,
+    /// [name] is the name to use de user
+    required String name,
+    /// [avatarUrl] is the image/icon/etc 
+    String? avatarUrl,
   }) = _User;
+
+  /// JSON constructor for serialization.
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }
-⛔️ Anti-example: Docblock instead of per-field
-/// Person data, with docs for all fields in a block.
-/// name: person's name
-/// age: person's age
-class Person {
-  final String name;
-  final int age;
-  Person({required this.name, required this.age});
-}
-⛔️ Anti-example: Inline "field" comment
-class Person {
-  final String name; // Name
-  final int age; // Age
-  Person({required this.name, required this.age});
-}
-⛔️ Anti-example: Missing "sealed" (Dart 3+)
+```
+---
+## 3. Policy for Mutable Models and `@unfreezed` Usage
 
-@freezed
-class Person with _$Person { ... }
-✅ Enum With "unknown" Value
-/// Status of a command execution.
+- **Always ask the developer:** Before modeling a class, explicitly ask if the data structure needs to be mutable.
+  - If the answer is "no", use a standard Freezed class (immutable by default).
+  - If "yes", proceed with `@unfreezed` and apply the following rules.
+
+- **Rules for using `@unfreezed`:**
+  - The class **must** also be declared as `sealed` or `abstract`.
+  - The `factory` constructor must **not** use `const` (i.e. write just `factory`, not `const factory`).
+  - All docString, naming, and structuring conventions remain required.
+  - Only use `@unfreezed` when immutability cannot serve the business need.
+
+- **Example:** Mutable model with `@unfreezed` (safe pattern):
+
+```dart
+/// Mutable model example (use only when justification exists).
+@unfreezed
+sealed class MutableModel with _$MutableModel {
+  factory MutableModel({
+    /// Unique identifier.
+    required String id,
+    /// Optional property.
+    String? label,
+  }) = _MutableModel;
+}
+```
+
+> In summary: Always clarify with the developer if mutability is required. Only use `@unfreezed` with `sealed` or `abstract`, never use `const factory`, and default to immutable (standard Freezed) models whenever possible.
+
+
+---
+
+## 4. Enum Conventions
+
+- Use `@JsonEnum(alwaysCreate: true)` for **all** externally visible enums. **NOTE**: `@FreezedEnum` does NOT exist — it's not a real annotation. The correct one is `@JsonEnum(alwaysCreate: true)` from `json_annotation`.
+- Always document the enum and all values; use `@JsonValue` for wire-safe serialization.
+
+```dart
+/// User roles in the system.
 @JsonEnum(alwaysCreate: true)
-enum CommandStatus {
-  /// Pending
-  @JsonValue('PENDING')
-  pending,
-  /// Failed
-  @JsonValue('FAILED')
-  failed,
-  /// Succeeded
-  @JsonValue('SUCCESS')
-  success,
-  /// Unknown status (for forward compatibility)
-  @JsonValue('UNKNOWN')
-  unknown;
-  @override
-  String toString() => _$CommandStatusEnumMap[this] ?? 'UNKNOWN';
-}
+enum UserRole with _$UserRole {
+  /// Unknown role (default/fallback).
+  @JsonValue('unknown')
+  unknown,
 
-✅ Enum Use in Freezed Model
+  /// App administrator.
+  @JsonValue('admin')
+  admin,
+
+  /// Ordinary user.
+  @JsonValue('user')
+  user,
+}
+```
+
+---
+
+## 5. Converters
+
+For non-primitive or custom types (e.g., nested models, custom DateTime formats):
+
+- Implement a `JsonConverter`.
+- Document every converter.
+- Place converters in `converters/` subfolder.
+
+**Example: DateTime w/ISO8601**
+```dart
+/// Converts DateTime to/from ISO8601 string.
+class DateTimeIsoConverter implements JsonConverter<DateTime, String> {
+  const DateTimeIsoConverter();
+  @override
+  DateTime fromJson(String json) => DateTime.parse(json);
+  @override
+  String toJson(DateTime object) => object.toIso8601String();
+}
+```
+
+**Usage in a model:**
+```dart
+/// User settings.
 @freezed
-sealed class CommandExecution with _$CommandExecution {
-  /// Represents a command execution.
-  const CommandExecution._();
-  const factory CommandExecution({
-    /// ATS command execution status.
-    @JsonKey(unknownEnumValue: CommandStatus.unknown)
-    @Default(CommandStatus.unknown)
-    CommandStatus status,
-  }) = _CommandExecution;
-  factory CommandExecution.fromJson(Map<String, dynamic> json) => _$CommandExecutionFromJson(json);
+class Settings with _$Settings {
+  const factory Settings({
+    /// [updatedAt] Timestamp when settings were updated.
+    @DateTimeIsoConverter() required DateTime updatedAt,
+  }) = _Settings;
+
+  factory Settings.fromJson(Map<String, dynamic> json) => _$SettingsFromJson(json);
+}
+```
+
+---
+
+## 6. Required docStrings
+
+- Every model class, field, enum, and enum value **must** have a docString.
+- DocStrings are always triple-slash (`///`) comments.
+- Be concise, business-relevant, and unambiguous.
+
+---
+
+## 7. Additive-Only Model Evolution
+
+- Evolve models **only by adding** (fields, enum values); never remove/retype/rename existing fields.
+- To deprecate: add a docString noting `@deprecated` and document replacement.
+
+**Example:**
+```dart
+/// @deprecated Use `username` instead.
+@Deprecated('Use `username` instead.')
+String? oldUserName,
+```
+
+---
+
+## 8. Ambiguity Handling
+
+- Make all "optional" or possibly-missing fields nullable (`Type?`).
+- For default values, set explicitly in factory constructor, e.g. `@Default([]) List<String> tags`.
+- Always document "nullable if absent" or "nullable for future-proofing" contract.
+
+---
+
+## 9. Best Practices (Dart 3 / Freezed 3+)
+
+- Use `@Default` for default values—not constructor `=` for compatibility with serialization.
+- Avoid dynamic types; only use `dynamic` in truly polymorphic contexts.
+- Favor sealed unions for variant models.
+- Always run `dart pub run build_runner build` after changes.
+- Regenerate `.freezed.dart` and `.g.dart` files as needed, never hand-edit.
+- Add `toJson`/`fromJson` for all wire types (API, storage).
+
+---
+
+## 10. Example: Sealed Union
+
+```dart
+/// State for user authentication.
+@freezed
+class AuthState with _$AuthState {
+  /// Not authenticated.
+  const factory AuthState.unsigned() = Unsigned;
+
+  /// User is signed in.
+  const factory AuthState.signed(User user) = Signed;
+
+  /// Authentication error state.
+  const factory AuthState.error(String message) = Error;
+}
+```
+
+---
+
+## 11. Example: Enum + Converter + Nullable
+
+```dart
+/// Theme preference.
+enum AppTheme with _$AppTheme {
+  /// Uses device setting.
+  @JsonValue('system')
+  system,
+
+  /// Light theme.
+  @JsonValue('light')
+  light,
+
+  /// Dark theme.
+  @JsonValue('dark')
+  dark,
 }
 
-✅ Converter Example
-/// Converts between a [DateTime] and a Unix timestamp (seconds).
-class TimestampOrNullConverter implements JsonConverter<DateTime?, num?> {
-  /// Creates a new TimestampOrNullConverter.
-  const TimestampOrNullConverter();
+/// Converts [AppTheme] to/from string.
+class AppThemeConverter implements JsonConverter<AppTheme?, String?> {
+  const AppThemeConverter();
   @override
-  DateTime? fromJson(num? json) {
-    if (json == null) return null;
-    return DateTime.fromMillisecondsSinceEpoch((json * 1000).toInt());
-  }
+  AppTheme? fromJson(String? json) => 
+      _$AppThemeEnumMap.entries.singleWhere(
+        (e) => e.value == json,
+        orElse: () => MapEntry(AppTheme.system, 'system'),
+      ).key;
   @override
-  num? toJson(DateTime? object) {
-    if (object == null) return null;
-    return object.millisecondsSinceEpoch / 1000;
-  }
+  String? toJson(AppTheme? object) => object == null ? null : _$AppThemeEnumMap[object];
 }
-Use in model:
-/// Time the entity was created.
-@TimestampOrNullConverter()
-DateTime? createdAt,
+
+// In your model:
+@AppThemeConverter() AppTheme? preferredTheme,
+```
 ---
-## Rules
-- All artifacts must follow: brief class docstring above, `///` above every factory field (never mass DocBlocks).
-- "sealed" is required on all Freezed models (unless justified).
-- Only generate on explicit request.
-- Prevent duplicates; always check for existing files first.
-- Add new entries strictly additively; never modify or remove others' work automatically.
-- Prompt and warn on missing docstrings, sealed, unknown enum member, or abnormal structure.
-- All team and agent learnings related to these conventions should be documented in persistent memory.
+
+## 12. Other Minor Conventions
+
+- CamelCase for field names, PascalCase for type names.
+- Place all converters, enums, and models in folders
+- No business logic/methods in Freezed models (keep pure data).
+- Use `required` everywhere unless truly optional.
+
 ---
-Last updated: March 2026. Strict docstring and sealed enforcement active.
----
+
+
+# References
+
+- [Freezed package](https://pub.dev/packages/freezed)
+- [Freezed Wiki](https://github.com/rrousselGit/freezed/wiki)
+- [JsonSerializable](https://pub.dev/packages/json_serializable)
+
+
+Follow the SDD orchestrator workflow for starting a new change named "Tengo un formulario que tengo que agregar. Consta de un formulario de un Usuario que tiene una mascota. el usuario tendra una lista de mascota y datos comunes. y la mascota tambien tendra datos comunes pero solo atajaremos 3 razas, Yorkie, Poddle y chau chau. Me puedes hacer las clases correspondiente en freezed?".

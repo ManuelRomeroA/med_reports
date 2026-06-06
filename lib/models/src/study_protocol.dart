@@ -25,6 +25,8 @@ enum StudyType {
 
 /// Metadata for ultrasound study protocol configuration.
 /// Contains study type and equipment model.
+/// [type]: Specifies the ultrasound protocol used (pelvic, transvaginal, transrectal, etc.).
+/// [equipment]: Optional description or model of the ultrasound equipment.
 @unfreezed
 abstract class StudyProtocol with _$StudyProtocol {
   factory StudyProtocol({

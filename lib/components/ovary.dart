@@ -20,16 +20,29 @@ class _OvaryWidgetState extends State<OvaryWidget> {
   void initState() {
     super.initState();
     ovary = widget.ovary;
+    _updateVolume();
   }
 
   @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+  void didUpdateWidget(OvaryWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.ovary != widget.ovary) {
+      ovary = widget.ovary;
+      _updateVolume();
+    }
+  }
+
+  void _updateVolume() {
     widget.ovary.measures.volume = calculateVolume(
       widget.ovary.measures.ap,
       widget.ovary.measures.tr,
       widget.ovary.measures.lo,
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
 
     return Container(
       margin: const EdgeInsets.all(8),
@@ -94,6 +107,7 @@ class _OvaryWidgetState extends State<OvaryWidget> {
                   onChanged: (value) {
                     if (value == null) return;
                     widget.ovary.measures.ap = value.toDouble();
+                    _updateVolume();
                     setState(() {});
                   },
                 ),
@@ -108,6 +122,7 @@ class _OvaryWidgetState extends State<OvaryWidget> {
                   onChanged: (value) {
                     if (value == null) return;
                     widget.ovary.measures.tr = value.toDouble();
+                    _updateVolume();
                     setState(() {});
                   },
                 ),
@@ -122,6 +137,7 @@ class _OvaryWidgetState extends State<OvaryWidget> {
                   onChanged: (value) {
                     if (value == null) return;
                     widget.ovary.measures.lo = value.toDouble();
+                    _updateVolume();
                     setState(() {});
                   },
                 ),

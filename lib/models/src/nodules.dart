@@ -2,23 +2,23 @@ part of '../models.dart';
 
 /// Ubicación anatómica posible para un nódulo.
 /// Incluye opción 'desconocido' para valores no mapeados/serializados.
-@JsonEnum()
+@JsonEnum(alwaysCreate: true)
 enum NoduleLocation {
   /// Valor desconocido/por defecto
   @JsonValue('DESCONOCIDO')
   unknown,
 
-  /// Fondo
+  /// Fondo uterino
   @JsonValue('FONDO')
-  background,
+  fondo,
 
   /// Pared anterior
   @JsonValue('PARED ANTERIOR')
-  anteriorWall,
+  paredAnterior,
 
   /// Pared posterior
   @JsonValue('PARED POSTERIOR')
-  posteriorWall,
+  paredPosterior,
 
   /// Lateral
   @JsonValue('LATERAL')
@@ -26,21 +26,33 @@ enum NoduleLocation {
 
   /// Otros
   @JsonValue('OTROS')
-  others,
+  otros;
+
+  @override
+  String toString() => _$NoduleLocationEnumMap[this] ?? 'DESCONOCIDO';
 }
 
+/// Represents the presence and details of nodules in the myometrium.
+/// [has]: Indicates whether nodules are present.
+/// [detail]: Contains detailed information about the nodule if present.
 @unfreezed
 abstract class Nodules with _$Nodules {
-  factory Nodules({@Default(false) bool has, NoduleDetail? detail}) = _Nodules;
+  factory Nodules({
+    /// Whether the patient has nodules in the myometrium.
+    @Default(false) bool hasNodules,
+    /// Detailed measurements and location of the nodule, if present.
+    NoduleDetail? detail,
+  }) = _Nodules;
   factory Nodules.fromJson(Map<String, dynamic> json) =>
       _$NodulesFromJson(json);
 }
 
+/// Detailed information about a single nodule in the myometrium.
+/// Contains location, dimensions (L, AP, T), and descriptive notes.
 @unfreezed
 abstract class NoduleDetail with _$NoduleDetail {
   factory NoduleDetail({
     @Default(NoduleLocation.unknown)
-    @JsonKey(defaultValue: NoduleLocation.unknown)
     NoduleLocation location,
     @Default(0.0) double longitud,
     @Default(0.0) double ap,

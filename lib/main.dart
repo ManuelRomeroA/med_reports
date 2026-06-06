@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:layrz_theme/layrz_theme.dart';
 import 'views/home.dart';
 
-const Color kRosaVieja = Color(0xFFb57a84);
+const Color kRosaVieja = Color(0xFF8B5A63);
 const Color kCafeVinoOscuro = Color(0xFF4a3a3d);
 
 void main() {

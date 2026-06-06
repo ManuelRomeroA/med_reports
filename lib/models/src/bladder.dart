@@ -2,6 +2,12 @@ part of '../models.dart';
 
 /// Bladder data model for imaging reports.
 /// Stores wall regularity, Douglas pouch status, wall thickness, and diagnosis fields.
+/// [regularity]: Describes the texture and uniformity of the bladder wall.
+/// [douglasPouch]: Status indicating if the Pouch of Douglas is free or occupied.
+/// [diagnosis]: Associated bladder-specific diagnosis if applicable.
+/// [ovaryDiagnosis]: Related ovary diagnosis in the context of the bladder evaluation.
+/// [wallMm]: Measured thickness of the bladder wall in millimeters.
+/// [conclusion]: Free-text clinical conclusion or additional imaging notes.
 @unfreezed
 abstract class Bladder with _$Bladder {
   factory Bladder({

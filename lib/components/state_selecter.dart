@@ -3,6 +3,9 @@ import 'package:layrz_theme/layrz_theme.dart';
 import 'package:med_reports/models/models.dart';
 import 'package:med_reports/components/general/selected_button.dart';
 
+/// Generic widget for selecting and displaying a clinical state.
+/// T must be a mutable @unfreezed model with [status] (StateValue) and [note] (String?) fields.
+/// Supported types: VaginalStatus, CervicalStatus.
 class StateSelector<T> extends StatefulWidget {
   final String titulo;
   final ReportDraft draft;
@@ -16,10 +19,35 @@ class StateSelector<T> extends StatefulWidget {
   });
 
   @override
-  State<StateSelector> createState() => _StateSelectorState();
+  State<StateSelector> createState() => _StateSelectorState<T>();
 }
 
-class _StateSelectorState extends State<StateSelector> {
+class _StateSelectorState<T> extends State<StateSelector<T>> {
+  StateValue _getStatus() {
+    final obj = widget.object;
+    if (obj is VaginalStatus) return obj.status;
+    if (obj is CervicalStatus) return obj.status;
+    return StateValue.unknown;
+  }
+
+  String? _getNote() {
+    final obj = widget.object;
+    if (obj is VaginalStatus) return obj.note;
+    if (obj is CervicalStatus) return obj.note;
+    return null;
+  }
+
+  void _setStatus(StateValue value) {
+    final obj = widget.object;
+    if (obj is VaginalStatus) obj.status = value;
+    if (obj is CervicalStatus) obj.status = value;
+  }
+
+  void _setNote(String? value) {
+    final obj = widget.object;
+    if (obj is VaginalStatus) obj.note = value;
+    if (obj is CervicalStatus) obj.note = value;
+  }
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -54,12 +82,12 @@ class _StateSelectorState extends State<StateSelector> {
                   return Expanded(
                     child: SelectedButton(
                       label: value.toString(),
-                      selected: value == widget.object.status,
+                      selected: value == _getStatus(),
                       selectedColor: theme.colorScheme.primary,
                       onTap: () {
-                        widget.object.status = value;
+                        _setStatus(value);
                         if (value == StateValue.normal) {
-                          widget.object.note = null;
+                          _setNote(null);
                         }
                         setState(() {});
                       },
@@ -68,14 +96,13 @@ class _StateSelectorState extends State<StateSelector> {
                 })
                 .toList(),
           ),
-          if (widget.object.status == StateValue.other) ...[
+          if (_getStatus() == StateValue.other) ...[
             const SizedBox(height: 12),
             ThemedTextInput(
-              value: widget.object.note ?? "",
+              value: _getNote() ?? "",
               labelText: "Describa hallazgo...",
               onChanged: (value) {
-                if (widget.object.note == null) widget.object.note = "";
-                widget.object.note = value;
+                _setNote(value);
                 setState(() {});
               },
             ),

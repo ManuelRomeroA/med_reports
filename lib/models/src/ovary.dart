@@ -2,7 +2,7 @@ part of '../models.dart';
 
 /// Indicates laterality of ovary: right, left, or unknown.
 /// Use [unknown] for unclassified cases.
-@JsonEnum()
+@JsonEnum(alwaysCreate: true)
 enum OvarySide {
   /// Ovario derecho
   @JsonValue('DERECHA')
@@ -22,7 +22,7 @@ enum OvarySide {
 
 /// Classification of ovarian morphology.
 /// Use [unknown] for unclassified cases.
-@JsonEnum()
+@JsonEnum(alwaysCreate: true)
 enum OvaryType {
   /// Ovario morfológicamente normal
   @JsonValue('NORMAL')
@@ -46,10 +46,9 @@ enum OvaryType {
 
 /// Contains ovary measurements (diameters in mm, computed volume).
 /// Medición ovárica: diámetros y volumen calculado (mm, mm³).
-
 @unfreezed
 abstract class OvaryMeasurement with _$OvaryMeasurement {
-  /// Main reason for the medical visit or exam (optional).
+  /// Default factory constructor for ovary diameter measurements (AP, TR, LO) and computed volume.
   factory OvaryMeasurement({
     /// Diámetro antero-posterior del ovario en mm.
     double? ap,
@@ -69,9 +68,10 @@ abstract class OvaryMeasurement with _$OvaryMeasurement {
       _$OvaryMeasurementFromJson(json);
 }
 
+/// Represents an ovary with its morphological classification and measurements.
+/// Contains side laterality, morphological type, measurements, and clinical notes.
 @unfreezed
 abstract class Ovary with _$Ovary {
-  /// Main reason for the medical visit or exam (optional).
   factory Ovary({
     /// Lateralidad del ovario (derecha, izquierda, desconocido)
     @JsonKey(unknownEnumValue: OvarySide.unknown) required OvarySide side,

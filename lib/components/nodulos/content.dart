@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:layrz_theme/layrz_theme.dart';
 import 'package:med_reports/components/general/selected_button.dart';
 import 'package:med_reports/main.dart';
+import 'package:med_reports/models/models.dart';
 
 class NodulesContent extends StatefulWidget {
-  const NodulesContent({super.key});
+  final ReportDraft draft;
+  const NodulesContent({super.key, required this.draft});
 
   @override
   State<NodulesContent> createState() => _NodulesContentState();
 }
 
 class _NodulesContentState extends State<NodulesContent> {
-  // Estado de los selectores
-  bool tieneNodulos = true;
-  String ubicacion = "PARED ANTERIOR";
   final ubicaciones = [
     "FONDO",
     "PARED ANTERIOR",
@@ -22,23 +21,34 @@ class _NodulesContentState extends State<NodulesContent> {
     "OTROS",
   ];
 
-  // Campos de entrada como String
-  String lValue = "";
-  String apValue = "";
-  String tValue = "";
-  String detallesValue = "";
+  @override
+  void initState() {
+    super.initState();
+    _ensureDetailExists();
+  }
 
-  double calcularVolumen() {
+  void _ensureDetailExists() {
+    if (widget.draft.nodules?.detail == null) {
+      widget.draft.nodules?.detail = NoduleDetail();
+    }
+  }
+
+  double _calcularVolumen(double? l, double? ap, double? t) {
     // Volumen = L * AP * T * 0.523
-    final l = double.tryParse(lValue) ?? 0;
-    final ap = double.tryParse(apValue) ?? 0;
-    final t = double.tryParse(tValue) ?? 0;
-    return l * ap * t * 0.523;
+    final lVal = l ?? 0;
+    final apVal = ap ?? 0;
+    final tVal = t ?? 0;
+    return lVal * apVal * tVal * 0.523;
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final detail = widget.draft.nodules?.detail;
+
+    if (detail == null) {
+      return const SizedBox.shrink();
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,17 +68,21 @@ class _NodulesContentState extends State<NodulesContent> {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Row(
             spacing: 8,
-            children: ubicaciones.map((u) {
-              final selected = ubicacion == u;
-              return Expanded(
-                child: SelectedButton(
-                  label: u,
-                  selected: selected,
-                  selectedColor: kCafeVinoOscuro,
-                  onTap: () => setState(() => ubicacion = u),
-                ),
-              );
-            }).toList(),
+            children: [
+              for (final loc in NoduleLocation.values)
+                if (loc != NoduleLocation.unknown)
+                  Expanded(
+                    child: SelectedButton(
+                      label: loc.toString(),
+                      selected: detail.location == loc,
+                      selectedColor: kCafeVinoOscuro,
+                      onTap: () {
+                        detail.location = loc;
+                        setState(() {});
+                      },
+                    ),
+                  ),
+            ],
           ),
         ),
         const SizedBox(height: 18),
@@ -78,28 +92,37 @@ class _NodulesContentState extends State<NodulesContent> {
           children: [
             Expanded(
               child: ThemedTextInput(
-                value: lValue,
+                value: detail.longitud.toString(),
                 labelText: "L (mm)",
                 keyboardType: TextInputType.number,
-                onChanged: (value) => setState(() => lValue = value),
+                onChanged: (value) {
+                  detail.longitud = double.tryParse(value) ?? 0;
+                  setState(() {});
+                },
               ),
             ),
             const SizedBox(width: 12),
             Expanded(
               child: ThemedTextInput(
-                value: apValue,
+                value: detail.ap.toString(),
                 labelText: "AP (mm)",
                 keyboardType: TextInputType.number,
-                onChanged: (value) => setState(() => apValue = value),
+                onChanged: (value) {
+                  detail.ap = double.tryParse(value) ?? 0;
+                  setState(() {});
+                },
               ),
             ),
             const SizedBox(width: 12),
             Expanded(
               child: ThemedTextInput(
-                value: tValue,
+                value: detail.t.toString(),
                 labelText: "T (mm)",
                 keyboardType: TextInputType.number,
-                onChanged: (value) => setState(() => tValue = value),
+                onChanged: (value) {
+                  detail.t = double.tryParse(value) ?? 0;
+                  setState(() {});
+                },
               ),
             ),
             const SizedBox(width: 12),
@@ -121,7 +144,7 @@ class _NodulesContentState extends State<NodulesContent> {
                     ),
                   ),
                   Text(
-                    "${calcularVolumen().toStringAsFixed(0)} cc",
+                    "${_calcularVolumen(detail.longitud, detail.ap, detail.t).toStringAsFixed(0)} cc",
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -137,10 +160,13 @@ class _NodulesContentState extends State<NodulesContent> {
 
         // Detalles del nódulo
         ThemedTextInput(
-          value: detallesValue,
+          value: detail.description ?? "",
           labelText: "Detalles del nódulo (Máximo 2 líneas descriptivas)...",
           maxLines: 2,
-          onChanged: (value) => setState(() => detallesValue = value),
+          onChanged: (value) {
+            detail.description = value;
+            setState(() {});
+          },
         ),
       ],
     );

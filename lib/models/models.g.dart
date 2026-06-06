@@ -214,14 +214,14 @@ const _$OvaryDiagnosticEnumMap = {
 };
 
 _Nodules _$NodulesFromJson(Map<String, dynamic> json) => _Nodules(
-  has: json['has'] as bool? ?? false,
+  hasNodules: json['hasNodules'] as bool? ?? false,
   detail: json['detail'] == null
       ? null
       : NoduleDetail.fromJson(json['detail'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$NodulesToJson(_Nodules instance) => <String, dynamic>{
-  'has': instance.has,
+  'hasNodules': instance.hasNodules,
   'detail': instance.detail,
 };
 
@@ -247,11 +247,11 @@ Map<String, dynamic> _$NoduleDetailToJson(_NoduleDetail instance) =>
 
 const _$NoduleLocationEnumMap = {
   NoduleLocation.unknown: 'DESCONOCIDO',
-  NoduleLocation.background: 'FONDO',
-  NoduleLocation.anteriorWall: 'PARED ANTERIOR',
-  NoduleLocation.posteriorWall: 'PARED POSTERIOR',
+  NoduleLocation.fondo: 'FONDO',
+  NoduleLocation.paredAnterior: 'PARED ANTERIOR',
+  NoduleLocation.paredPosterior: 'PARED POSTERIOR',
   NoduleLocation.lateral: 'LATERAL',
-  NoduleLocation.others: 'OTROS',
+  NoduleLocation.otros: 'OTROS',
 };
 
 _Findings _$FindingsFromJson(Map<String, dynamic> json) => _Findings(
@@ -270,6 +270,25 @@ _Report _$ReportFromJson(Map<String, dynamic> json) => _Report(
   patient: Patient.fromJson(json['patient'] as Map<String, dynamic>),
   protocol: StudyProtocol.fromJson(json['protocol'] as Map<String, dynamic>),
   findings: Findings.fromJson(json['findings'] as Map<String, dynamic>),
+  rightOvary: Ovary.fromJson(json['rightOvary'] as Map<String, dynamic>),
+  leftOvary: Ovary.fromJson(json['leftOvary'] as Map<String, dynamic>),
+  uterineFindings: json['uterineFindings'] == null
+      ? null
+      : UterineFindings.fromJson(
+          json['uterineFindings'] as Map<String, dynamic>,
+        ),
+  nodules: json['nodules'] == null
+      ? null
+      : Nodules.fromJson(json['nodules'] as Map<String, dynamic>),
+  vaginalState: json['vaginalState'] == null
+      ? null
+      : VaginalStatus.fromJson(json['vaginalState'] as Map<String, dynamic>),
+  cervixState: json['cervixState'] == null
+      ? null
+      : CervicalStatus.fromJson(json['cervixState'] as Map<String, dynamic>),
+  bladder: json['bladder'] == null
+      ? null
+      : Bladder.fromJson(json['bladder'] as Map<String, dynamic>),
   doctor: json['doctor'] as String?,
   clinic: json['clinic'] as String?,
   meta: json['meta'] as Map<String, dynamic>?,
@@ -281,6 +300,13 @@ Map<String, dynamic> _$ReportToJson(_Report instance) => <String, dynamic>{
   'patient': instance.patient,
   'protocol': instance.protocol,
   'findings': instance.findings,
+  'rightOvary': instance.rightOvary,
+  'leftOvary': instance.leftOvary,
+  'uterineFindings': instance.uterineFindings,
+  'nodules': instance.nodules,
+  'vaginalState': instance.vaginalState,
+  'cervixState': instance.cervixState,
+  'bladder': instance.bladder,
   'doctor': instance.doctor,
   'clinic': instance.clinic,
   'meta': instance.meta,

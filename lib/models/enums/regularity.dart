@@ -1,6 +1,7 @@
 part of '../models.dart';
 
 /// Represents bladder and Douglas pouch findings in an imaging report.
+@JsonEnum(alwaysCreate: true)
 enum Regularity {
   /// [regular]: Bladder wall is smooth and uniform.
   @JsonValue('REGULAR')
@@ -14,6 +15,8 @@ enum Regularity {
   String toString() => _$RegularityEnumMap[this] ?? 'REGULAR';
 }
 
+/// Status of the Pouch of Douglas in the pelvis.
+@JsonEnum(alwaysCreate: true)
 enum DouglasPouch {
   /// [free]: Pouch of Douglas free, no pathological content.
   @JsonValue('LIBRE')

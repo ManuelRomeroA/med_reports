@@ -3,6 +3,17 @@ part of '../models.dart';
 /// Temporary, editable draft for a medical imaging report.
 @unfreezed
 abstract class ReportDraft with _$ReportDraft {
+  ReportDraft._() {
+    patient ??= Patient();
+    protocol ??= StudyProtocol();
+    findings ??= Findings();
+    uterineFindings ??= UterineFindings();
+    nodules ??= Nodules();
+    vaginalState ??= VaginalStatus();
+    cervixState ??= CervicalStatus();
+    bladder ??= Bladder();
+  }
+
   factory ReportDraft({
     /// [id]: Draft unique identifier (optional).
     String? id,
@@ -53,19 +64,4 @@ abstract class ReportDraft with _$ReportDraft {
   /// Creates ReportDraft from JSON.
   factory ReportDraft.fromJson(Map<String, dynamic> json) =>
       _$ReportDraftFromJson(json);
-
-  static ReportDraft initObject() {
-    return ReportDraft(
-      rightOvary: Ovary(side: OvarySide.right, measures: OvaryMeasurement()),
-      leftOvary: Ovary(side: OvarySide.left, measures: OvaryMeasurement()),
-      protocol: StudyProtocol(),
-      patient: Patient(),
-      findings: Findings(),
-      nodules: Nodules(),
-      uterineFindings: UterineFindings(),
-      vaginalState: VaginalStatus(),
-      cervixState: CervicalStatus(),
-      bladder: Bladder(),
-    );
-  }
 }

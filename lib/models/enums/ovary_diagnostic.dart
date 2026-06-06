@@ -1,5 +1,7 @@
 part of '../models.dart';
 
+/// Classification of ovary diagnostic findings.
+@JsonEnum(alwaysCreate: true)
 enum OvaryDiagnostic {
   /// [normales]: Normal ovarian findings.
   @JsonValue('NORMALES')
