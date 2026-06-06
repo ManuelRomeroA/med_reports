@@ -620,10 +620,10 @@ packages:
     dependency: "direct main"
     description:
       name: layrz_theme
-      sha256: abafb47cf5576d45003491e6840b34687a2ca06e3e037606bf24ff47a29fe1c0
+      sha256: "5352c6ee78774b441b8e7934be972275704a87e84bfa445f1932fb5420207357"
       url: "https://pub.dev"
     source: hosted
-    version: "7.5.17"
+    version: "7.5.33"
   leak_tracker:
     dependency: transitive
     description:

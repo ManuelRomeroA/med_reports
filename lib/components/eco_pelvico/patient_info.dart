@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:layrz_theme/layrz_theme.dart';
-import 'package:med_reports/components/general/selected_button.dart';
-import 'package:med_reports/main.dart';
+import 'package:med_reports/components/shared/selected_button.dart';
+import 'package:med_reports/theme/med_theme.dart';
 import 'package:med_reports/models/models.dart';
 
 class PatientInfoWidget extends StatefulWidget {
@@ -137,7 +137,7 @@ class _PatientInfoWidgetState extends State<PatientInfoWidget> {
                         (type) => SelectedButton(
                           label: type.name.toUpperCase(),
                           selected: widget.draft.patient?.period == type,
-                          selectedColor: kCafeVinoOscuro,
+                          selectedColor: MedTheme.cafeVinoOscuro,
                           onTap: () => setState(
                             () => widget.draft.patient?.period = type,
                           ),

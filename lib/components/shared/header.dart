@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
+/// App-level brand header. Renders the doctor's identity above the tab bar.
+/// Report identity belongs in the tab label, NOT here.
+/// The optional [subtitle] parameter allows future contextual text below the brand row.
 class HeaderWidget extends StatelessWidget {
-  const HeaderWidget({super.key});
+  /// Optional subtitle shown below the brand row (default: null — no subtitle rendered).
+  final String? subtitle;
+
+  const HeaderWidget({super.key, this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +19,10 @@ class HeaderWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24),
-        // Only bottom borders
         border: Border(
           bottom: BorderSide(
             color: theme.colorScheme.primary,
-            width: 8, // Ajusta el grosor que desees
+            width: 8,
           ),
         ),
       ),
@@ -27,7 +32,6 @@ class HeaderWidget extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Información principal
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,44 +80,17 @@ class HeaderWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              // Estudio actual
-              Container(
-                margin: const EdgeInsets.only(left: 24, top: 8),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 18,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  border: Border(
-                    left: BorderSide(color: Colors.grey[200]!, width: 1),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'ESTUDIO ACTUAL',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey[500],
-                        fontSize: 12,
-                        letterSpacing: 1,
+                    if (subtitle != null) ...[
+                      const SizedBox(height: 6),
+                      Text(
+                        subtitle!,
+                        style: TextStyle(
+                          color: theme.colorScheme.primary,
+                          fontSize: 13,
+                          fontStyle: FontStyle.italic,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'ECO PÉLVICO',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontStyle: FontStyle.italic,
-                        color: theme.colorScheme.primary,
-                        fontSize: 17,
-                        letterSpacing: 1,
-                      ),
-                    ),
+                    ],
                   ],
                 ),
               ),

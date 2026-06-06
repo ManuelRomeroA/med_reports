@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:layrz_theme/layrz_theme.dart';
-import 'views/home.dart';
-
-const Color kRosaVieja = Color(0xFF8B5A63);
-const Color kCafeVinoOscuro = Color(0xFF4a3a3d);
+import 'package:med_reports/theme/med_theme.dart';
+import 'package:med_reports/views/app_shell.dart';
 
 void main() {
   runApp(const EcoReportApp());
@@ -21,16 +19,16 @@ class EcoReportApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme(
           brightness: Brightness.light,
-          primary: kRosaVieja,
+          primary: MedTheme.rosaVieja,
           onPrimary: Colors.white,
-          secondary: kCafeVinoOscuro,
+          secondary: MedTheme.cafeVinoOscuro,
           onSecondary: Colors.white,
           surface: Colors.white,
           onSurface: Colors.black87,
           error: Colors.red.shade700,
           onError: Colors.white,
         ),
-        scaffoldBackgroundColor: const Color(0xFFf8f1f2),
+        scaffoldBackgroundColor: MedTheme.background,
         fontFamily: 'Inter',
         inputDecorationTheme: InputDecorationTheme(
           contentPadding: const EdgeInsets.all(10),
@@ -38,26 +36,26 @@ class EcoReportApp extends StatelessWidget {
           fillColor: const Color(0xFFF8FAFC),
           border: const ThemedInputBorder(),
           labelStyle: TextStyle(color: Colors.grey.shade600),
-          suffixIconColor: kRosaVieja,
+          suffixIconColor: MedTheme.rosaVieja,
           suffixStyle: TextStyle(color: Colors.grey.shade600, fontSize: 15),
           prefixIconColor: Colors.grey.shade500,
           prefixStyle: TextStyle(color: Colors.grey.shade600, fontSize: 15),
         ),
-        iconTheme: const IconThemeData(color: kRosaVieja),
+        iconTheme: const IconThemeData(color: MedTheme.rosaVieja),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFFf8f1f2),
-          foregroundColor: kCafeVinoOscuro,
+          backgroundColor: MedTheme.background,
+          foregroundColor: MedTheme.cafeVinoOscuro,
           elevation: 0,
-          iconTheme: IconThemeData(color: kRosaVieja),
+          iconTheme: IconThemeData(color: MedTheme.rosaVieja),
         ),
         textTheme: const TextTheme(
-          bodyLarge: TextStyle(color: kCafeVinoOscuro),
-          bodyMedium: TextStyle(color: kCafeVinoOscuro),
-          bodySmall: TextStyle(color: kCafeVinoOscuro),
-          titleLarge: TextStyle(color: kRosaVieja),
+          bodyLarge: TextStyle(color: MedTheme.cafeVinoOscuro),
+          bodyMedium: TextStyle(color: MedTheme.cafeVinoOscuro),
+          bodySmall: TextStyle(color: MedTheme.cafeVinoOscuro),
+          titleLarge: TextStyle(color: MedTheme.rosaVieja),
         ),
       ),
-      home: const HomeView(),
+      home: const AppShell(),
     );
   }
 }

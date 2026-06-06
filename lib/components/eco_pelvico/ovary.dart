@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:layrz_theme/layrz_theme.dart';
-import 'package:med_reports/components/general/selected_button.dart';
-import 'package:med_reports/main.dart';
+import 'package:med_reports/components/shared/selected_button.dart';
+import 'package:med_reports/theme/med_theme.dart';
 import 'package:med_reports/models/models.dart';
 
 class OvaryWidget extends StatefulWidget {
@@ -20,7 +20,7 @@ class _OvaryWidgetState extends State<OvaryWidget> {
   void initState() {
     super.initState();
     ovary = widget.ovary;
-    _updateVolume();
+    updateVolume();
   }
 
   @override
@@ -28,11 +28,11 @@ class _OvaryWidgetState extends State<OvaryWidget> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.ovary != widget.ovary) {
       ovary = widget.ovary;
-      _updateVolume();
+      updateVolume();
     }
   }
 
-  void _updateVolume() {
+  void updateVolume() {
     widget.ovary.measures.volume = calculateVolume(
       widget.ovary.measures.ap,
       widget.ovary.measures.tr,
@@ -82,7 +82,7 @@ class _OvaryWidgetState extends State<OvaryWidget> {
                     child: SelectedButton(
                       label: type.toString(),
                       selected: widget.ovary.type == type,
-                      selectedColor: kCafeVinoOscuro,
+                      selectedColor: MedTheme.cafeVinoOscuro,
                       onTap: () {
                         widget.ovary.type = type;
 
@@ -107,7 +107,7 @@ class _OvaryWidgetState extends State<OvaryWidget> {
                   onChanged: (value) {
                     if (value == null) return;
                     widget.ovary.measures.ap = value.toDouble();
-                    _updateVolume();
+                    updateVolume();
                     setState(() {});
                   },
                 ),
@@ -122,7 +122,7 @@ class _OvaryWidgetState extends State<OvaryWidget> {
                   onChanged: (value) {
                     if (value == null) return;
                     widget.ovary.measures.tr = value.toDouble();
-                    _updateVolume();
+                    updateVolume();
                     setState(() {});
                   },
                 ),
@@ -137,7 +137,7 @@ class _OvaryWidgetState extends State<OvaryWidget> {
                   onChanged: (value) {
                     if (value == null) return;
                     widget.ovary.measures.lo = value.toDouble();
-                    _updateVolume();
+                    updateVolume();
                     setState(() {});
                   },
                 ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:layrz_theme/layrz_theme.dart';
 import 'package:med_reports/models/models.dart';
-import 'package:med_reports/components/general/selected_button.dart';
+import 'package:med_reports/components/shared/selected_button.dart';
 
 /// Generic widget for selecting and displaying a clinical state.
 /// T must be a mutable @unfreezed model with [status] (StateValue) and [note] (String?) fields.
@@ -23,31 +23,32 @@ class StateSelector<T> extends StatefulWidget {
 }
 
 class _StateSelectorState<T> extends State<StateSelector<T>> {
-  StateValue _getStatus() {
+  StateValue getStatus() {
     final obj = widget.object;
     if (obj is VaginalStatus) return obj.status;
     if (obj is CervicalStatus) return obj.status;
     return StateValue.unknown;
   }
 
-  String? _getNote() {
+  String? getNote() {
     final obj = widget.object;
     if (obj is VaginalStatus) return obj.note;
     if (obj is CervicalStatus) return obj.note;
     return null;
   }
 
-  void _setStatus(StateValue value) {
+  void setStatus(StateValue value) {
     final obj = widget.object;
     if (obj is VaginalStatus) obj.status = value;
     if (obj is CervicalStatus) obj.status = value;
   }
 
-  void _setNote(String? value) {
+  void setNote(String? value) {
     final obj = widget.object;
     if (obj is VaginalStatus) obj.note = value;
     if (obj is CervicalStatus) obj.note = value;
   }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -82,12 +83,12 @@ class _StateSelectorState<T> extends State<StateSelector<T>> {
                   return Expanded(
                     child: SelectedButton(
                       label: value.toString(),
-                      selected: value == _getStatus(),
+                      selected: value == getStatus(),
                       selectedColor: theme.colorScheme.primary,
                       onTap: () {
-                        _setStatus(value);
+                        setStatus(value);
                         if (value == StateValue.normal) {
-                          _setNote(null);
+                          setNote(null);
                         }
                         setState(() {});
                       },
@@ -96,13 +97,13 @@ class _StateSelectorState<T> extends State<StateSelector<T>> {
                 })
                 .toList(),
           ),
-          if (_getStatus() == StateValue.other) ...[
+          if (getStatus() == StateValue.other) ...[
             const SizedBox(height: 12),
             ThemedTextInput(
-              value: _getNote() ?? "",
+              value: getNote() ?? "",
               labelText: "Describa hallazgo...",
               onChanged: (value) {
-                _setNote(value);
+                setNote(value);
                 setState(() {});
               },
             ),

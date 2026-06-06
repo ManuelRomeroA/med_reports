@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:med_reports/components/general/selected_button.dart';
+import 'package:med_reports/components/shared/selected_button.dart';
 import 'package:layrz_theme/layrz_theme.dart';
-import 'package:med_reports/main.dart';
+import 'package:med_reports/theme/med_theme.dart';
 import 'package:med_reports/models/models.dart';
 
 class UteroWidget extends StatefulWidget {
@@ -231,7 +231,7 @@ class _UteroWidgetState extends State<UteroWidget> {
                                             .uterineFindings
                                             ?.localization ==
                                         loc
-                                    ? kCafeVinoOscuro
+                                    ? MedTheme.cafeVinoOscuro
                                     : theme.inputDecorationTheme.fillColor ??
                                           const Color(0xFFF8FAFC),
                                 onTap: () => setState(
@@ -277,7 +277,7 @@ class _UteroWidgetState extends State<UteroWidget> {
                                 selectedColor:
                                     widget.draft.uterineFindings?.position ==
                                         pos
-                                    ? kCafeVinoOscuro
+                                    ? MedTheme.cafeVinoOscuro
                                     : theme.inputDecorationTheme.fillColor ??
                                           const Color(0xFFF8FAFC),
                                 onTap: () => setState(
@@ -317,7 +317,7 @@ class _UteroWidgetState extends State<UteroWidget> {
                                     sup,
                                 selectedColor:
                                     widget.draft.uterineFindings?.surface == sup
-                                    ? kCafeVinoOscuro
+                                    ? MedTheme.cafeVinoOscuro
                                     : theme.inputDecorationTheme.fillColor ??
                                           const Color(0xFFF8FAFC),
                                 onTap: () => setState(
@@ -375,7 +375,7 @@ class _UteroWidgetState extends State<UteroWidget> {
                                               .uterineFindings
                                               ?.myometrium ==
                                           mio
-                                      ? kRosaVieja
+                                      ? MedTheme.rosaVieja
                                       : theme.inputDecorationTheme.fillColor ??
                                             const Color(0xFFF8FAFC),
                                   onTap: () => setState(
@@ -430,7 +430,7 @@ class _UteroWidgetState extends State<UteroWidget> {
                                               .uterineFindings
                                               ?.endometrium ==
                                           endo
-                                      ? kRosaVieja
+                                      ? MedTheme.rosaVieja
                                       : theme.inputDecorationTheme.fillColor ??
                                             const Color(0xFFF8FAFC),
                                   onTap: () => setState(

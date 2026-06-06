@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:med_reports/components/nodulos/content.dart';
+import 'package:med_reports/components/eco_pelvico/nodulos/content.dart';
 import 'package:med_reports/models/models.dart';
-import 'package:med_reports/main.dart';
+import 'package:med_reports/theme/med_theme.dart';
 
 class NodulesWidget extends StatefulWidget {
   final ReportDraft draft;
@@ -130,12 +130,15 @@ class _NoduleOption extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
           border: selected
-              ? Border.all(color: kCafeVinoOscuro, width: 2)
+              ? Border.all(color: MedTheme.cafeVinoOscuro, width: 2)
               : null,
         ),
         child: Text(
           value ? "CON NÓDULOS" : "SIN NÓDULOS",
-          style: TextStyle(color: kCafeVinoOscuro, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            color: MedTheme.cafeVinoOscuro,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );

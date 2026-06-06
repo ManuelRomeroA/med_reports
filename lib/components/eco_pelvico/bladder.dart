@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:layrz_theme/layrz_theme.dart';
-import 'package:med_reports/components/general/selected_button.dart';
-import 'package:med_reports/main.dart';
+import 'package:med_reports/components/shared/selected_button.dart';
+import 'package:med_reports/theme/med_theme.dart';
 import 'package:med_reports/models/models.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -63,7 +63,7 @@ class _BladderWidgetState extends State<BladderWidget> {
                   child: SelectedButton(
                     label: reg.toString(),
                     selected: selected,
-                    selectedColor: kCafeVinoOscuro,
+                    selectedColor: MedTheme.cafeVinoOscuro,
                     onTap: () {
                       setState(() => widget.draft.bladder?.regularity = reg);
                     },
@@ -109,7 +109,7 @@ class _BladderWidgetState extends State<BladderWidget> {
                   child: SelectedButton(
                     label: pouch.toString(),
                     selected: selected,
-                    selectedColor: kCafeVinoOscuro,
+                    selectedColor: MedTheme.cafeVinoOscuro,
                     onTap: () {
                       setState(
                         () => widget.draft.bladder?.douglasPouch = pouch,
@@ -207,7 +207,7 @@ class _BladderWidgetState extends State<BladderWidget> {
                         child: SelectedButton(
                           label: diag.toString(),
                           selected: selected,
-                          selectedColor: kCafeVinoOscuro,
+                          selectedColor: MedTheme.cafeVinoOscuro,
                           onTap: () {
                             setState(
                               () => widget.draft.bladder?.ovaryDiagnosis = diag,
@@ -272,10 +272,11 @@ class _BladderWidgetState extends State<BladderWidget> {
   Future<pw.Document> generarReportePdf(ReportDraft draft) async {
     final pdf = pw.Document();
 
-    const vino = PdfColor.fromInt(0xFF8B5A63);
-    const vinoClaro = PdfColor.fromInt(0xFFF5ECED);
-    const grisTexto = PdfColor.fromInt(0xFF333333);
-    const grisClaro = PdfColor.fromInt(0xFFF8F8F8);
+    // PDF palette from MedTheme (single color source — Phase 1 task 1.10)
+    const vino = PdfColor.fromInt(0xFF8B5A63); // MedTheme.vino
+    const vinoClaro = PdfColor.fromInt(0xFFF5ECED); // MedTheme.vinoClaro
+    const grisTexto = PdfColor.fromInt(0xFF333333); // MedTheme.grisTexto
+    const grisClaro = PdfColor.fromInt(0xFFF8F8F8); // MedTheme.grisClaro
 
     // --- Helpers ---
 

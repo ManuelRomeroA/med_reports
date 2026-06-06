@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:med_reports/components/general/selected_button.dart';
+import 'package:med_reports/components/shared/selected_button.dart';
 import 'package:med_reports/models/models.dart';
 
 class StudyProtocolWidget extends StatefulWidget {

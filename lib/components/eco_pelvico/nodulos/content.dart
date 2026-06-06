@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:layrz_theme/layrz_theme.dart';
-import 'package:med_reports/components/general/selected_button.dart';
-import 'package:med_reports/main.dart';
+import 'package:med_reports/components/shared/selected_button.dart';
+import 'package:med_reports/theme/med_theme.dart';
 import 'package:med_reports/models/models.dart';
 
 class NodulesContent extends StatefulWidget {
@@ -24,16 +24,16 @@ class _NodulesContentState extends State<NodulesContent> {
   @override
   void initState() {
     super.initState();
-    _ensureDetailExists();
+    ensureDetailExists();
   }
 
-  void _ensureDetailExists() {
+  void ensureDetailExists() {
     if (widget.draft.nodules?.detail == null) {
       widget.draft.nodules?.detail = NoduleDetail();
     }
   }
 
-  double _calcularVolumen(double? l, double? ap, double? t) {
+  double calcularVolumen(double? l, double? ap, double? t) {
     // Volumen = L * AP * T * 0.523
     final lVal = l ?? 0;
     final apVal = ap ?? 0;
@@ -75,7 +75,7 @@ class _NodulesContentState extends State<NodulesContent> {
                     child: SelectedButton(
                       label: loc.toString(),
                       selected: detail.location == loc,
-                      selectedColor: kCafeVinoOscuro,
+                      selectedColor: MedTheme.cafeVinoOscuro,
                       onTap: () {
                         detail.location = loc;
                         setState(() {});
@@ -144,7 +144,7 @@ class _NodulesContentState extends State<NodulesContent> {
                     ),
                   ),
                   Text(
-                    "${_calcularVolumen(detail.longitud, detail.ap, detail.t).toStringAsFixed(0)} cc",
+                    "${calcularVolumen(detail.longitud, detail.ap, detail.t).toStringAsFixed(0)} cc",
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
